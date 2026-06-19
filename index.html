@@ -1,0 +1,797 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pine Country Landscape — Flagstaff yard work, booked in 60 seconds</title>
+<meta name="description" content="Flagstaff's small-job specialists. Book yard cleanups, mowing, snow removal, irrigation repair and more — online, in about a minute. No job too small." />
+
+<!--
+================================================================
+  PINE COUNTRY LANDSCAPE — prototype homepage
+  Single file. Host free on Netlify or GitHub Pages, point pinecountrylandscape.com at it.
+
+  >> EDIT YOUR PRICES: search "data-price" below (or the SERVICES array in <script>).
+     Prices shown are SAMPLES — replace before launch.
+  >> SWAP IN PHOTOS: every dashed box is an <div class="ph"> with the exact shot
+     described inside. Replace it with <img src="your-photo.jpg" alt="..."> when ready.
+  >> TAKE REAL BOOKINGS: the "Book" buttons open a PREVIEW flow. To go live, embed
+     Square Appointments (free tier) where marked "SQUARE EMBED GOES HERE".
+================================================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --pine:#1E3A2B;        /* deep forest green */
+    --pine-soft:#274C39;
+    --bark:#4A3526;        /* park-sign brown */
+    --birch:#F4EEDF;       /* warm paper */
+    --birch-dim:#E9E1CC;
+    --fresh:#8BAE5D;       /* fresh-cut green */
+    --gold:#E0A12E;        /* aspen gold — signature accent */
+    --gold-deep:#C2851A;
+    --snow:#E7EFF2;        /* cool near-white, winter accent */
+    --sky:#3E6E84;         /* winter blue */
+    --ink:#211B10;         /* warm near-black */
+    --ink-soft:#52473a;
+    --line:rgba(33,27,16,.16);
+
+    --font-display:"Bricolage Grotesque", system-ui, sans-serif;
+    --font-body:"Hanken Grotesk", system-ui, sans-serif;
+    --font-mono:"Space Mono", ui-monospace, monospace;
+
+    --maxw:1140px;
+    --r:14px;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} *{animation:none!important;transition:none!important} }
+
+  body{
+    margin:0;
+    font-family:var(--font-body);
+    color:var(--ink);
+    background:var(--birch);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:var(--font-display);line-height:1.04;margin:0;letter-spacing:-.01em}
+  p{margin:0}
+  a{color:inherit}
+  img{max-width:100%;display:block}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+
+  .eyebrow{
+    font-family:var(--font-mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--gold-deep);margin:0 0 14px;
+  }
+  .eyebrow.on-dark{color:var(--gold)}
+
+  /* ---------- buttons ---------- */
+  .btn{
+    font-family:var(--font-body);font-weight:700;font-size:1rem;
+    border:none;border-radius:999px;padding:14px 26px;cursor:pointer;
+    display:inline-flex;align-items:center;gap:9px;text-decoration:none;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+  .btn-primary{background:var(--gold);color:var(--ink)}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 26px -8px rgba(192,133,26,.6)}
+  .btn-ghost{background:transparent;color:var(--birch);border:1.5px solid rgba(244,238,223,.45)}
+  .btn-ghost:hover{background:rgba(244,238,223,.1)}
+  .btn-dark{background:var(--pine);color:var(--birch)}
+  .btn-dark:hover{transform:translateY(-2px);background:var(--pine-soft)}
+  .btn-sm{padding:10px 18px;font-size:.92rem}
+
+  /* ---------- header ---------- */
+  header{position:sticky;top:0;z-index:50;background:rgba(244,238,223,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .brand{display:flex;align-items:center;gap:11px;text-decoration:none;font-family:var(--font-display);font-weight:800;font-size:1.16rem;color:var(--pine);letter-spacing:-.02em}
+  .brand .tree{width:30px;height:30px;flex:none}
+  .nav-links{display:flex;align-items:center;gap:28px}
+  .nav-links a{text-decoration:none;font-weight:600;font-size:.95rem;color:var(--ink-soft)}
+  .nav-links a:hover{color:var(--pine)}
+  .nav-cta{display:flex;align-items:center;gap:14px}
+  .menu-btn{display:none;background:none;border:none;cursor:pointer;padding:8px}
+  .menu-btn svg{width:26px;height:26px;stroke:var(--pine)}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;background:var(--pine);color:var(--birch);overflow:hidden}
+  .hero .contours{position:absolute;inset:0;opacity:.18;pointer-events:none}
+  .hero-inner{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:46px;align-items:center;padding:74px 0 84px}
+  .hero h1{font-size:clamp(2.5rem,5.4vw,4.2rem);font-weight:800;margin-bottom:18px}
+  .hero h1 .accent{color:var(--gold)}
+  .hero p.lead{font-size:1.18rem;color:rgba(244,238,223,.85);max-width:30ch;margin-bottom:28px}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+  .hero-meta{display:flex;gap:22px;flex-wrap:wrap;font-family:var(--font-mono);font-size:.74rem;letter-spacing:.08em;color:rgba(244,238,223,.6)}
+  .hero-meta span{display:flex;align-items:center;gap:7px}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--fresh)}
+
+  /* season toggle */
+  .season{display:inline-flex;background:rgba(0,0,0,.22);border:1px solid rgba(244,238,223,.22);border-radius:999px;padding:5px;margin-bottom:26px;gap:4px}
+  .season button{font-family:var(--font-body);font-weight:700;font-size:.86rem;border:none;background:none;color:rgba(244,238,223,.7);padding:8px 16px;border-radius:999px;cursor:pointer;display:flex;align-items:center;gap:7px;transition:.18s}
+  .season button svg{width:16px;height:16px}
+  .season button[aria-pressed="true"]{background:var(--gold);color:var(--ink)}
+  .season button.winter[aria-pressed="true"]{background:var(--snow);color:var(--sky)}
+
+  /* placeholders */
+  .ph{
+    border:2px dashed rgba(244,238,223,.4);border-radius:var(--r);
+    background:repeating-linear-gradient(45deg,rgba(255,255,255,.03) 0 12px,transparent 12px 24px);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+    padding:26px;color:rgba(244,238,223,.78);min-height:340px;gap:10px;
+  }
+  .ph.light{border-color:var(--bark);color:var(--bark);background:repeating-linear-gradient(45deg,rgba(74,53,38,.04) 0 12px,transparent 12px 24px)}
+  .ph svg{width:34px;height:34px;opacity:.7}
+  .ph .ph-title{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase}
+  .ph .ph-desc{font-size:.93rem;max-width:30ch;line-height:1.4}
+  .ph .ph-ratio{font-family:var(--font-mono);font-size:.66rem;opacity:.6}
+  .hero-media{position:relative}
+  .hero-photo{width:100%;height:100%;min-height:360px;max-height:460px;object-fit:cover;border-radius:var(--r);box-shadow:0 18px 50px -18px rgba(0,0,0,.55);display:block}
+
+  /* ---------- wedge strip ---------- */
+  .wedge{background:var(--gold);color:var(--ink)}
+  .wedge .wrap{display:flex;align-items:center;justify-content:center;gap:16px;padding:15px 22px;text-align:center;flex-wrap:wrap}
+  .wedge strong{font-family:var(--font-display);font-weight:800;font-size:1.06rem}
+  .wedge span{font-size:.95rem;font-weight:500}
+
+  /* ---------- sections ---------- */
+  section{padding:78px 0}
+  .sec-head{max-width:60ch;margin-bottom:42px}
+  .sec-head h2{font-size:clamp(1.9rem,3.6vw,2.7rem);font-weight:700;margin-bottom:14px}
+  .sec-head p{font-size:1.1rem;color:var(--ink-soft)}
+
+  /* how it works */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .step{position:relative;padding:30px 26px;background:#fff;border:1px solid var(--line);border-radius:var(--r)}
+  .step .num{font-family:var(--font-mono);font-size:.78rem;color:var(--gold-deep);letter-spacing:.1em}
+  .step .ic{width:42px;height:42px;margin:14px 0 16px;color:var(--pine)}
+  .step h3{font-size:1.22rem;margin-bottom:8px}
+  .step p{color:var(--ink-soft);font-size:.98rem}
+
+  /* services */
+  #services{background:var(--birch-dim)}
+  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .svc{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:26px;display:flex;flex-direction:column;transition:transform .16s ease, box-shadow .16s ease;position:relative;overflow:hidden}
+  .svc:hover{transform:translateY(-3px);box-shadow:0 16px 40px -22px rgba(33,27,16,.5)}
+  .svc .ic{width:40px;height:40px;color:var(--pine);margin-bottom:14px}
+  .svc h3{font-size:1.25rem;margin-bottom:7px}
+  .svc p{color:var(--ink-soft);font-size:.95rem;flex-grow:1;margin-bottom:18px}
+  .svc .price{font-family:var(--font-display);font-weight:700;font-size:1.05rem;color:var(--pine)}
+  .svc .price small{font-family:var(--font-body);font-weight:500;color:var(--ink-soft);font-size:.8rem}
+  .svc .row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:6px}
+  .svc .dur{font-family:var(--font-mono);font-size:.7rem;color:var(--ink-soft);letter-spacing:.05em}
+  .tag{position:absolute;top:16px;right:-34px;transform:rotate(45deg);background:var(--sky);color:#fff;font-size:.66rem;font-weight:700;letter-spacing:.08em;padding:4px 40px;font-family:var(--font-mono);text-transform:uppercase;opacity:0;transition:.2s}
+  .svc.in-season .tag{opacity:1}
+  .svc.in-season{border-color:var(--fresh)}
+  body.is-winter .svc.snow .tag{background:var(--sky)}
+  .svc.in-season .ic{color:var(--gold-deep)}
+
+  /* why us */
+  .why{display:grid;grid-template-columns:.95fr 1.05fr;gap:46px;align-items:center}
+  .why ul{list-style:none;padding:0;margin:22px 0 28px;display:grid;gap:14px}
+  .why li{display:flex;gap:12px;align-items:flex-start;font-size:1.02rem}
+  .why li svg{width:22px;height:22px;color:var(--fresh);flex:none;margin-top:3px}
+
+  /* before/after */
+  #gallery{background:var(--pine);color:var(--birch)}
+  #gallery .sec-head h2{color:var(--birch)}
+  #gallery .sec-head p{color:rgba(244,238,223,.8)}
+  .ba{position:relative;border-radius:var(--r);overflow:hidden;user-select:none;aspect-ratio:16/10;max-width:760px;margin:0 auto;border:1px solid rgba(244,238,223,.25)}
+  .ba .side{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;text-align:center;padding:24px}
+  .ba-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .ba-after{clip-path:inset(0 0 0 50%)}
+  .ba-tag{position:absolute;top:12px;font-family:var(--font-mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;background:rgba(20,15,8,.62);color:#fff;padding:5px 11px;border-radius:6px;z-index:2}
+  .tag-before{left:12px}
+  .tag-after{right:12px}
+  .ba .lbl{font-family:var(--font-mono);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;opacity:.85}
+  .ba .ph-desc{font-size:.92rem;max-width:26ch}
+  .ba .handle{position:absolute;top:0;bottom:0;left:50%;width:3px;background:var(--gold);transform:translateX(-50%);cursor:ew-resize;z-index:3}
+  .ba .handle::after{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:42px;height:42px;border-radius:50%;background:var(--gold);box-shadow:0 4px 14px rgba(0,0,0,.4)}
+  .ba .handle .arrows{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:4;font-size:1rem;color:var(--ink);font-weight:700;letter-spacing:-2px}
+  .ba-cap{text-align:center;margin-top:16px;font-family:var(--font-mono);font-size:.74rem;letter-spacing:.08em;color:rgba(244,238,223,.6)}
+  .ba-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:34px;max-width:760px;margin-left:auto;margin-right:auto}
+  .ba-mini{border:1px solid rgba(244,238,223,.2);border-radius:10px;aspect-ratio:1/1;width:100%;object-fit:cover;display:block}
+
+  /* reviews */
+  .reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .review{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:24px}
+  .stars{color:var(--gold);letter-spacing:2px;margin-bottom:10px;font-size:1.05rem}
+  .review p{font-size:.98rem;margin-bottom:16px}
+  .review .who{display:flex;align-items:center;gap:11px}
+  .review .av{width:38px;height:38px;border-radius:50%;background:var(--fresh);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-family:var(--font-display)}
+  .review .who b{font-size:.92rem}
+  .review .who span{font-size:.78rem;color:var(--ink-soft);font-family:var(--font-mono)}
+  .sample-note{text-align:center;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.08em;color:var(--ink-soft);margin-top:24px;opacity:.8}
+
+  /* area */
+  #area{background:var(--birch-dim)}
+  .area-grid{display:grid;grid-template-columns:1fr 1fr;gap:46px;align-items:center}
+  .area-list{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+  .area-list span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-size:.9rem;font-weight:600}
+  .map{aspect-ratio:4/3;border-radius:var(--r);background:var(--pine);position:relative;overflow:hidden;border:1px solid var(--line)}
+
+  /* faq */
+  .faq{max-width:780px;margin:0 auto}
+  .q{border-bottom:1px solid var(--line)}
+  .q button{width:100%;text-align:left;background:none;border:none;padding:22px 0;font-family:var(--font-display);font-weight:700;font-size:1.12rem;color:var(--ink);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px}
+  .q button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+  .q .plus{flex:none;width:24px;height:24px;position:relative;transition:transform .25s}
+  .q .plus::before,.q .plus::after{content:"";position:absolute;background:var(--gold-deep);border-radius:2px}
+  .q .plus::before{top:11px;left:2px;right:2px;height:2px}
+  .q .plus::after{left:11px;top:2px;bottom:2px;width:2px;transition:opacity .25s}
+  .q.open .plus{transform:rotate(180deg)}
+  .q.open .plus::after{opacity:0}
+  .q .a{max-height:0;overflow:hidden;transition:max-height .3s ease}
+  .q .a p{padding:0 0 22px;color:var(--ink-soft);font-size:1rem}
+
+  /* footer */
+  footer{background:var(--pine);color:rgba(244,238,223,.8);padding:60px 0 120px}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;margin-bottom:40px}
+  footer h4{font-family:var(--font-display);color:var(--birch);font-size:1rem;margin-bottom:16px}
+  footer a{color:rgba(244,238,223,.8);text-decoration:none;display:block;margin-bottom:9px;font-size:.94rem}
+  footer a:hover{color:var(--gold)}
+  .foot-brand .brand{color:var(--birch);margin-bottom:14px}
+  .foot-brand p{font-size:.92rem;max-width:34ch;color:rgba(244,238,223,.65)}
+  .legal{border-top:1px solid rgba(244,238,223,.18);padding-top:24px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:.82rem;color:rgba(244,238,223,.55);font-family:var(--font-mono);letter-spacing:.04em}
+  .disclaimer{color:var(--gold)}
+
+  /* sticky mobile book bar */
+  .book-bar{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--pine);border-top:1px solid rgba(244,238,223,.2);padding:12px 16px;display:none;align-items:center;justify-content:space-between;gap:14px;transform:translateY(110%);transition:transform .3s ease}
+  .book-bar.show{transform:translateY(0)}
+  .book-bar span{color:var(--birch);font-weight:700;font-family:var(--font-display);font-size:.98rem}
+
+  /* booking modal */
+  .modal{position:fixed;inset:0;z-index:100;display:none;align-items:flex-end;justify-content:center}
+  .modal.open{display:flex}
+  .modal-bg{position:absolute;inset:0;background:rgba(20,15,8,.62);backdrop-filter:blur(3px)}
+  .sheet{position:relative;background:var(--birch);width:100%;max-width:560px;border-radius:20px 20px 0 0;max-height:92vh;overflow-y:auto;padding:28px 26px 34px;animation:slideUp .3s ease}
+  @media(min-width:600px){.modal{align-items:center}.sheet{border-radius:20px}}
+  @keyframes slideUp{from{transform:translateY(40px);opacity:.4}to{transform:translateY(0);opacity:1}}
+  .sheet h3{font-size:1.5rem;margin-bottom:4px}
+  .sheet .sub{color:var(--ink-soft);font-size:.95rem;margin-bottom:22px}
+  .close{position:absolute;top:18px;right:18px;background:none;border:none;cursor:pointer;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+  .close:hover{background:var(--birch-dim)}
+  .close svg{width:20px;height:20px;stroke:var(--ink)}
+  .field{margin-bottom:16px}
+  .field label{display:block;font-weight:700;font-size:.86rem;margin-bottom:7px}
+  .field select,.field input,.field textarea{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;font-family:var(--font-body);font-size:1rem;background:#fff;color:var(--ink)}
+  .field select:focus,.field input:focus,.field textarea:focus{outline:none;border-color:var(--gold)}
+  .slots{display:flex;flex-wrap:wrap;gap:8px}
+  .slot{padding:9px 14px;border:1.5px solid var(--line);border-radius:999px;background:#fff;cursor:pointer;font-size:.88rem;font-weight:600}
+  .slot[aria-pressed="true"]{background:var(--pine);color:var(--birch);border-color:var(--pine)}
+  .embed-note{background:var(--birch-dim);border:1px dashed var(--bark);border-radius:10px;padding:14px;font-size:.84rem;color:var(--bark);margin-top:6px;font-family:var(--font-mono);line-height:1.5}
+  .confirm{background:var(--pine);color:var(--birch);border-radius:12px;padding:22px;text-align:center}
+  .confirm svg{width:46px;height:46px;color:var(--gold);margin-bottom:10px}
+  .confirm h4{font-family:var(--font-display);font-size:1.3rem;margin-bottom:8px}
+  .confirm p{color:rgba(244,238,223,.82);font-size:.92rem}
+
+  /* reveal animation */
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease, transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  /* responsive */
+  @media(max-width:880px){
+    .hero-inner,.why,.area-grid{grid-template-columns:1fr;gap:32px}
+    .hero .ph{min-height:240px}
+    .steps,.svc-grid,.reviews,.foot-grid{grid-template-columns:1fr}
+    .ba-grid{grid-template-columns:1fr 1fr}
+    .nav-links{display:none}
+    .nav-links.open{display:flex;position:absolute;top:68px;left:0;right:0;background:var(--birch);flex-direction:column;gap:0;padding:8px 22px 18px;border-bottom:1px solid var(--line)}
+    .nav-links.open a{padding:13px 0;border-bottom:1px solid var(--line)}
+    .menu-btn{display:block}
+    .nav-cta .btn{display:none}
+    .book-bar{display:flex}
+    section{padding:58px 0}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="#top" class="brand" aria-label="Pine Country Landscape home">
+      <svg class="tree" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <path d="M16 2 L23 13 H19 L25 22 H7 L13 13 H9 Z" fill="#1E3A2B"/>
+        <rect x="14.5" y="22" width="3" height="7" fill="#4A3526"/>
+      </svg>
+      Pine Country
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#services">Services</a>
+      <a href="#how">How it works</a>
+      <a href="#gallery">Our work</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#area">Area</a>
+    </nav>
+    <div class="nav-cta">
+      <button class="btn btn-dark btn-sm" data-book>Book a service</button>
+      <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top" style="padding:0">
+  <svg class="contours" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g fill="none" stroke="#F4EEDF" stroke-width="1.4">
+      <path d="M-50 480 Q300 380 600 440 T1250 400"/>
+      <path d="M-50 520 Q320 420 640 480 T1250 440"/>
+      <path d="M-50 560 Q340 460 680 520 T1250 480"/>
+      <path d="M-50 240 Q260 160 560 210 T1250 170"/>
+      <path d="M-50 280 Q280 200 580 250 T1250 210"/>
+      <path d="M-50 120 Q300 60 600 100 T1250 70"/>
+    </g>
+  </svg>
+  <div class="wrap hero-inner">
+    <div>
+      <div class="season" role="group" aria-label="Choose season">
+        <button id="seasonGreen" aria-pressed="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v18M12 8c-3-4-8-3-8-3s0 5 3 6M12 12c3-4 8-3 8-3s0 5-3 6"/></svg>
+          Green season
+        </button>
+        <button id="seasonWinter" class="winter" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M2 12h20M5 5l14 14M19 5 5 19"/></svg>
+          Winter
+        </button>
+      </div>
+      <p class="eyebrow on-dark">Flagstaff, AZ · 7,000 ft · Locally owned</p>
+      <h1 id="heroTitle">Yard work, handled.<br><span class="accent">Booked in 60 seconds.</span></h1>
+      <p class="lead" id="heroLead">Pick a service, choose a time, and we show up. No phone tag, no three-day wait for a quote.</p>
+      <div class="hero-cta">
+        <button class="btn btn-primary" data-book>Book a service →</button>
+        <a class="btn btn-ghost" href="sms:+19288638198">Text us a question</a>
+      </div>
+      <div class="hero-meta">
+        <span><i class="dot"></i> Same-week scheduling</span>
+        <span><i class="dot"></i> Pay on the spot</span>
+        <span><i class="dot"></i> No job too small</span>
+      </div>
+    </div>
+    <div class="hero-media">
+      <img id="heroPhoto" class="hero-photo" src="hero-green.jpg" alt="Freshly mowed Flagstaff lawn lined with ponderosa pines at golden hour, with rock-edged mulch beds and craftsman homes">
+      <div class="ph" id="heroImgWinter" aria-hidden="true" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+        <div class="ph-title">Hero photo — Winter</div>
+        <div class="ph-desc">A driveway &amp; walk cleanly cleared of snow, fresh powder piled to the sides. Bright morning light.</div>
+        <div class="ph-ratio">drop your winter photo here · ~3:2</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WEDGE STRIP ============ -->
+<div class="wedge">
+  <div class="wrap">
+    <strong>The small-job specialists.</strong>
+    <span>We do the cleanups, repairs, and one-off jobs the big crews turn down.</span>
+  </div>
+</div>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">How it works</p>
+      <h2>Three taps from "ugh, my yard" to done.</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="num">STEP 01</div>
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M9 11l3 3 8-8"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        <h3>Pick your service</h3>
+        <p>Cleanup, mowing, snow, irrigation — choose what you need and see a starting price.</p>
+      </div>
+      <div class="step reveal">
+        <div class="num">STEP 02</div>
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        <h3>Choose a time</h3>
+        <p>Grab a slot that works for you and drop your address. Takes about a minute.</p>
+      </div>
+      <div class="step reveal">
+        <div class="num">STEP 03</div>
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M5 17h14M6 17l1-9h10l1 9M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+        <h3>We show up</h3>
+        <p>Two locals, your gear handled right, pay by card when we're done. That's it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section id="services">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Services &amp; pricing</p>
+      <h2>Book any of these online.</h2>
+      <p>Flip the season toggle up top — the work that's in season right now is highlighted.</p>
+    </div>
+    <div class="svc-grid" id="svcGrid"><!-- injected by JS --></div>
+    <p class="sample-note">↑ Starting prices — your final quote depends on yard size, scope, and materials.</p>
+  </div>
+</section>
+
+<!-- ============ WHY US ============ -->
+<section id="why">
+  <div class="wrap why">
+    <div class="ph light reveal" aria-hidden="true" style="min-height:380px">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+      <div class="ph-title">The trust shot</div>
+      <div class="ph-desc">The two of you with the truck &amp; trailer — real faces, in front of the logo. This is the single most important photo on the site.</div>
+      <div class="ph-ratio">~4:5 portrait or square</div>
+    </div>
+    <div class="reveal">
+      <p class="eyebrow">Why us</p>
+      <h2 style="font-size:clamp(1.8rem,3.4vw,2.5rem);margin-bottom:8px">Two locals who actually show up.</h2>
+      <ul>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> No job too small — the $60 sprinkler fix the big companies won't drive out for? That's our bread and butter.</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Book online in a minute. No voicemail purgatory, no waiting days for a callback.</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Born-and-raised pine country. We know what high-desert yards and Flagstaff winters actually need.</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Up-front pricing and card payment on site. No surprises.</li>
+      </ul>
+      <button class="btn btn-dark" data-book>Book a service</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BEFORE / AFTER ============ -->
+<section id="gallery">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow on-dark">Our work</p>
+      <h2>The drag-the-slider proof.</h2>
+      <p>Every job, before and after. Drag to see the difference.</p>
+    </div>
+    <div class="ba reveal" id="ba">
+      <img class="ba-img" src="before.jpg" alt="Overgrown Flagstaff front yard before — patchy weedy lawn and pine-needle debris">
+      <img class="ba-img ba-after" id="baAfter" src="after.jpg" alt="The same Flagstaff front yard after — freshly mowed striped green lawn with crisp edging">
+      <span class="ba-tag tag-before">Before</span>
+      <span class="ba-tag tag-after">After</span>
+      <div class="handle" id="baHandle"><span class="arrows">‹ ›</span></div>
+    </div>
+    <p class="ba-cap">Drag the slider to see the transformation.</p>
+    <div class="ba-grid reveal">
+      <img class="ba-mini" src="cleanup.jpg" alt="Yard cleanup result — bagged debris and a cleared, raked yard">
+      <img class="ba-mini" src="snow.jpg" alt="Snow removal result — a cleanly cleared front walkway">
+      <img class="ba-mini" src="bed.jpg" alt="Freshly planted and mulched flower and shrub bed">
+    </div>
+  </div>
+</section>
+
+<!-- ============ REVIEWS ============ -->
+<section id="reviews">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Reviews</p>
+      <h2>Neighbors who'd hire us again.</h2>
+    </div>
+    <div class="reviews" id="reviewGrid"><!-- injected --></div>
+    <p class="sample-note">Sample reviews shown — connect your Google Business Profile to pull in real ones.</p>
+  </div>
+</section>
+
+<!-- ============ AREA ============ -->
+<section id="area">
+  <div class="wrap area-grid">
+    <div class="reveal">
+      <p class="eyebrow">Service area</p>
+      <h2 style="font-size:clamp(1.8rem,3.4vw,2.5rem);margin-bottom:8px">Flagstaff and the surrounding pines.</h2>
+      <p style="color:var(--ink-soft)">If you're within about 25 minutes of downtown, we've got you. Not sure? Just ask when you book.</p>
+      <div class="area-list">
+        <span>Downtown Flagstaff</span><span>Doney Park</span><span>Kachina Village</span>
+        <span>Mountainaire</span><span>Fort Valley</span><span>Continental</span>
+        <span>Cheshire</span><span>Williams</span><span>Bellemont</span>
+      </div>
+    </div>
+    <div class="map reveal" aria-hidden="true">
+      <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%">
+        <rect width="400" height="300" fill="#1E3A2B"/>
+        <g fill="none" stroke="#F4EEDF" stroke-width="1" opacity=".22">
+          <circle cx="200" cy="150" r="50"/><circle cx="200" cy="150" r="95"/><circle cx="200" cy="150" r="140"/>
+        </g>
+        <!-- peaks -->
+        <path d="M120 120 L155 60 L185 120 Z" fill="#F4EEDF" opacity=".85"/>
+        <path d="M165 120 L205 50 L245 120 Z" fill="#E7EFF2" opacity=".9"/>
+        <path d="M205 130 L235 75 L268 130 Z" fill="#F4EEDF" opacity=".7"/>
+        <circle cx="200" cy="200" r="9" fill="#E0A12E"/>
+        <text x="200" y="232" fill="#F4EEDF" font-family="Space Mono, monospace" font-size="11" text-anchor="middle" opacity=".85">YOU + US, COVERED</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head reveal" style="text-align:center;margin-left:auto;margin-right:auto">
+      <p class="eyebrow">Good to know</p>
+      <h2>Questions, answered.</h2>
+    </div>
+    <div class="faq">
+      <div class="q"><button>How does pricing work?<span class="plus"></span></button><div class="a"><p>Each service has a starting price you'll see when you book. The final price depends on yard size and scope — for anything bigger, we'll confirm before any work starts. No surprise charges, ever.</p></div></div>
+      <div class="q"><button>How do I pay?<span class="plus"></span></button><div class="a"><p>Card on the spot when the job's done — tap, swipe, or chip. Quick and easy, no invoicing chase.</p></div></div>
+      <div class="q"><button>How does snow removal scheduling work?<span class="plus"></span></button><div class="a"><p>Snow is storm-driven, so it's a little different: get on the Snow List once and we clear you automatically when it dumps, or send a one-off "I need it now" request after a storm.</p></div></div>
+      <div class="q"><button>What areas do you cover?<span class="plus"></span></button><div class="a"><p>Flagstaff and roughly 25 minutes out — Doney Park, Kachina, Mountainaire, Fort Valley, Williams and more. If you're not sure, ask when you book and we'll let you know.</p></div></div>
+      <div class="q"><button>Are you licensed?<span class="plus"></span></button><div class="a"><p>We're not a licensed contractor — we focus on maintenance, cleanups, and smaller jobs under Arizona's handyman limit. For larger installs that need a licensed contractor, we'll point you in the right direction.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="brand">
+          <svg class="tree" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 2 L23 13 H19 L25 22 H7 L13 13 H9 Z" fill="#8BAE5D"/><rect x="14.5" y="22" width="3" height="7" fill="#E0A12E"/></svg>
+          Pine Country Landscape
+        </div>
+        <p>Flagstaff's small-job specialists. Cleanups, mowing, snow removal, irrigation and more — booked online in about a minute.</p>
+      </div>
+      <div>
+        <h4>Get in touch</h4>
+        <a href="tel:+19288638198">Call (928) 863-8198</a>
+        <a href="sms:+19288638198">Text (928) 863-8198</a>
+        <a href="#" data-book>Book online</a>
+        <a href="#">Instagram</a>
+        <a href="#">Facebook</a>
+      </div>
+      <div>
+        <h4>Hours</h4>
+        <a style="cursor:default">Mon–Sat · 7am–6pm</a>
+        <a style="cursor:default">Snow: on call after storms</a>
+        <h4 style="margin-top:20px">Services in Flagstaff</h4>
+        <a style="cursor:default;font-size:.84rem;opacity:.7">Yard cleanup · Snow removal · Mowing · Irrigation repair · Winter watering</a>
+      </div>
+    </div>
+    <div class="legal">
+      <span>© 2026 Pine Country Landscape, LLC · Flagstaff, AZ</span>
+      <span class="disclaimer">Not a licensed contractor.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ STICKY MOBILE BOOK BAR ============ -->
+<div class="book-bar" id="bookBar">
+  <span>Ready when you are</span>
+  <button class="btn btn-primary btn-sm" data-book>Book a service →</button>
+</div>
+
+<!-- ============ BOOKING MODAL ============ -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-bg" id="modalBg"></div>
+  <div class="sheet">
+    <button class="close" id="modalClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    <div id="bookForm">
+      <h3 id="modalTitle">Book a service</h3>
+      <p class="sub">Takes about a minute. We'll confirm by text.</p>
+      <div class="field">
+        <label for="svcSelect">What do you need?</label>
+        <select id="svcSelect"></select>
+      </div>
+      <div class="field">
+        <label>Pick a time</label>
+        <div class="slots" id="slots">
+          <button class="slot" aria-pressed="false">Tomorrow AM</button>
+          <button class="slot" aria-pressed="false">Tomorrow PM</button>
+          <button class="slot" aria-pressed="false">This week</button>
+          <button class="slot" aria-pressed="false">Next week</button>
+          <button class="slot" aria-pressed="false">ASAP</button>
+        </div>
+      </div>
+      <div class="field"><label for="bName">Your name</label><input id="bName" type="text" placeholder="First & last"></div>
+      <div class="field"><label for="bAddr">Service address</label><input id="bAddr" type="text" placeholder="Street, Flagstaff AZ"></div>
+      <div class="field"><label for="bPhone">Phone</label><input id="bPhone" type="tel" placeholder="(928) 555-0123"></div>
+      <button class="btn btn-primary" id="bSubmit" style="width:100%;justify-content:center">Request booking</button>
+      <div class="embed-note"><!-- SQUARE EMBED GOES HERE -->
+        PROTOTYPE: this preview doesn't send. To take real bookings, paste your free <b>Square Appointments</b> embed in place of this form.
+      </div>
+    </div>
+    <div id="bookDone" style="display:none">
+      <div class="confirm">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>
+        <h4>That's the whole flow!</h4>
+        <p id="doneSummary"></p>
+        <p style="margin-top:12px;font-family:var(--font-mono);font-size:.76rem;opacity:.7">Wire in Square Appointments and this becomes a real, paid booking.</p>
+      </div>
+      <button class="btn btn-dark" id="bookReset" style="width:100%;justify-content:center;margin-top:16px">↺ Run it again</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------- SERVICES (edit names, prices, durations here) ---------- */
+const SERVICES = [
+  {id:'cleanup', name:'Yard Cleanup',        desc:'Leaves, debris, weeds, hauling. The big spring & fall reset. $75 minimum.', price:'100', unit:'per hour', dur:'2–4 hrs', season:'green',
+    icon:'<path d="M16 3v6M19 5l-3 3M21 9l-7 7-3-3M3 21l6-6"/><path d="M14 19l-2 2H5l-1-4 5-1"/>'},
+  {id:'mowing', name:'Mowing & Maintenance', desc:'Mow, edge, blow, and tidy. One-time or on a schedule.', price:'45', unit:'per visit', dur:'45–90 min', season:'green',
+    icon:'<path d="M3 17h7l1-4h6M3 17v2a1 1 0 0 0 1 1h2M17 13a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/><path d="M11 13V7h3l3 3"/>'},
+  {id:'irrigation', name:'Irrigation Repair', desc:'Broken heads, leaks, zones, spring startup. Head swaps from $25.', price:'75', unit:'service call', dur:'1–2 hrs', season:'green',
+    icon:'<path d="M12 3s5 5 5 9a5 5 0 0 1-10 0c0-4 5-9 5-9Z"/>'},
+  {id:'plants', name:'Plant & Shrub Installs', desc:'Trees, shrubs, beds — planted right for high-desert soil.', price:'35', unit:'per plant', dur:'varies', season:'green',
+    icon:'<path d="M12 22V10M12 10c0-3 2-5 5-5 0 3-2 5-5 5ZM12 13c0-3-2-5-5-5 0 3 2 5 5 5Z"/>'},
+  {id:'snow', name:'Snow Removal', desc:'Driveways & walks cleared fast. Get on the Snow List or request after a storm.', price:'50', unit:'per visit', dur:'30–60 min', season:'winter',
+    icon:'<path d="M12 2v20M2 12h20M5 5l14 14M19 5 5 19"/>'},
+  {id:'winter', name:'Winter Watering', desc:'Keeps young trees & plants alive through dry Flagstaff winters.', price:'50', unit:'per visit', dur:'30–45 min', season:'winter',
+    icon:'<path d="M12 3s5 5 5 9a5 5 0 0 1-10 0c0-4 5-9 5-9Z"/><path d="M9 21h6"/>'},
+];
+
+const REVIEWS = [
+  {t:"Texted them about a sprinkler I'd been ignoring for a month. Booked online that night, fixed by Thursday. Easiest thing I've done all year.", n:"Marisol R.", a:"Doney Park"},
+  {t:"They cleared my driveway at 6am after the big storm without me even calling — I was on the Snow List. Worth every penny.", n:"Dale K.", a:"Kachina Village"},
+  {t:"Two solid guys, showed up when they said, cleaned up a yard three other companies wouldn't even quote. Hiring them again.", n:"Jenna P.", a:"Cheshire"},
+];
+
+/* ---------- render services ---------- */
+const grid = document.getElementById('svcGrid');
+grid.innerHTML = SERVICES.map(s => `
+  <article class="svc ${s.id} ${s.season}" data-season="${s.season}">
+    <div class="tag">In season</div>
+    <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${s.icon}</svg>
+    <h3>${s.name}</h3>
+    <p>${s.desc}</p>
+    <div class="price" data-price>$${s.price} <small>${s.unit}</small></div>
+    <div class="row">
+      <span class="dur">⏱ ${s.dur}</span>
+      <button class="btn btn-dark btn-sm" data-book data-svc="${s.id}">Book →</button>
+    </div>
+  </article>`).join('');
+
+/* ---------- reviews ---------- */
+document.getElementById('reviewGrid').innerHTML = REVIEWS.map(r => `
+  <div class="review">
+    <div class="stars">★★★★★</div>
+    <p>"${r.t}"</p>
+    <div class="who"><div class="av">${r.n[0]}</div><div><b>${r.n}</b><br><span>${r.a}</span></div></div>
+  </div>`).join('');
+
+/* ---------- season toggle ---------- */
+const gBtn = document.getElementById('seasonGreen');
+const wBtn = document.getElementById('seasonWinter');
+const heroTitle = document.getElementById('heroTitle');
+const heroLead = document.getElementById('heroLead');
+const heroPhoto = document.getElementById('heroPhoto');
+const heroImgWinter = document.getElementById('heroImgWinter');
+
+const COPY = {
+  green:{
+    title:'Yard work, handled.<br><span class="accent">Booked in 60 seconds.</span>',
+    lead:'Pick a service, choose a time, and we show up. No phone tag, no three-day wait for a quote.',
+    imgT:'Hero photo — Green season',
+    imgD:'Freshly mowed, edged Flagstaff yard with ponderosa pines in frame. Daylight or golden hour.'
+  },
+  winter:{
+    title:'Snowed in?<br><span class="accent">Cleared before coffee.</span>',
+    lead:'Get on the Snow List and we plow you automatically after every storm — or request a one-time clear.',
+    imgT:'Hero photo — Winter',
+    imgD:'A driveway & walk cleanly cleared of snow, fresh powder piled to the sides. Bright morning light.'
+  }
+};
+function setSeason(season){
+  const isWinter = season==='winter';
+  document.body.classList.toggle('is-winter', isWinter);
+  gBtn.setAttribute('aria-pressed', String(!isWinter));
+  wBtn.setAttribute('aria-pressed', String(isWinter));
+  const c = COPY[season];
+  heroTitle.innerHTML = c.title; heroLead.textContent = c.lead;
+  heroPhoto.style.display = isWinter ? 'none' : 'block';
+  heroImgWinter.style.display = isWinter ? 'flex' : 'none';
+  // highlight in-season services and float them up
+  [...document.querySelectorAll('.svc')].forEach(el=>{
+    const match = el.dataset.season === season;
+    el.classList.toggle('in-season', match);
+    el.style.order = match ? '0' : '1';
+  });
+  grid.style.display='grid';
+}
+gBtn.addEventListener('click', ()=>setSeason('green'));
+wBtn.addEventListener('click', ()=>setSeason('winter'));
+// default by current month (Nov–Mar = winter)
+const m = new Date().getMonth();
+setSeason((m>=10 || m<=2) ? 'winter' : 'green');
+
+/* ---------- mobile menu ---------- */
+const menuBtn = document.getElementById('menuBtn');
+const navLinks = document.getElementById('navLinks');
+menuBtn.addEventListener('click', ()=>{
+  const open = navLinks.classList.toggle('open');
+  menuBtn.setAttribute('aria-expanded', String(open));
+});
+navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{navLinks.classList.remove('open');menuBtn.setAttribute('aria-expanded','false')}));
+
+/* ---------- FAQ accordion ---------- */
+document.querySelectorAll('.q button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const q = btn.parentElement;
+    const a = q.querySelector('.a');
+    const open = q.classList.toggle('open');
+    a.style.maxHeight = open ? a.scrollHeight + 'px' : '0';
+  });
+});
+
+/* ---------- before/after slider ---------- */
+const ba = document.getElementById('ba');
+const baAfter = document.getElementById('baAfter');
+const baHandle = document.getElementById('baHandle');
+let dragging = false;
+function moveTo(clientX){
+  const rect = ba.getBoundingClientRect();
+  let pct = ((clientX - rect.left)/rect.width)*100;
+  pct = Math.max(4, Math.min(96, pct));
+  baAfter.style.clipPath = `inset(0 0 0 ${pct}%)`;
+  baHandle.style.left = pct + '%';
+}
+baHandle.addEventListener('mousedown', ()=>dragging=true);
+baHandle.addEventListener('touchstart', ()=>dragging=true, {passive:true});
+window.addEventListener('mouseup', ()=>dragging=false);
+window.addEventListener('touchend', ()=>dragging=false);
+window.addEventListener('mousemove', e=>{if(dragging) moveTo(e.clientX)});
+window.addEventListener('touchmove', e=>{if(dragging) moveTo(e.touches[0].clientX)}, {passive:true});
+ba.addEventListener('click', e=>moveTo(e.clientX));
+
+/* ---------- sticky book bar ---------- */
+const bookBar = document.getElementById('bookBar');
+const heroEl = document.querySelector('.hero');
+new IntersectionObserver(([e])=>{
+  bookBar.classList.toggle('show', !e.isIntersecting && window.innerWidth<=880);
+},{threshold:0}).observe(heroEl);
+
+/* ---------- reveal on scroll ---------- */
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target);} });
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ---------- booking modal ---------- */
+const modal = document.getElementById('modal');
+const svcSelect = document.getElementById('svcSelect');
+svcSelect.innerHTML = SERVICES.map(s=>`<option value="${s.id}">${s.name} — from $${s.price} ${s.unit}</option>`).join('');
+const bookForm = document.getElementById('bookForm');
+const bookDone = document.getElementById('bookDone');
+
+function openModal(svcId){
+  if(svcId) svcSelect.value = svcId;
+  bookForm.style.display='block'; bookDone.style.display='none';
+  modal.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){ modal.classList.remove('open'); document.body.style.overflow=''; }
+document.querySelectorAll('[data-book]').forEach(b=>{
+  b.addEventListener('click', e=>{ e.preventDefault(); openModal(b.dataset.svc); });
+});
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('modalBg').addEventListener('click', closeModal);
+window.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
+
+// time slots
+let chosenSlot = null;
+document.querySelectorAll('#slots .slot').forEach(s=>{
+  s.addEventListener('click', ()=>{
+    document.querySelectorAll('#slots .slot').forEach(x=>x.setAttribute('aria-pressed','false'));
+    s.setAttribute('aria-pressed','true'); chosenSlot = s.textContent;
+  });
+});
+
+document.getElementById('bSubmit').addEventListener('click', ()=>{
+  const svc = SERVICES.find(x=>x.id===svcSelect.value);
+  const name = document.getElementById('bName').value.trim() || 'You';
+  const when = chosenSlot || 'a time that works';
+  document.getElementById('doneSummary').textContent =
+    `${name} → ${svc.name}, ${when}. In the live version, this lands on your calendar and texts a confirmation.`;
+  bookForm.style.display='none'; bookDone.style.display='block';
+});
+document.getElementById('bookReset').addEventListener('click', ()=>{
+  bookForm.style.display='block'; bookDone.style.display='none';
+});
+</script>
+</body>
+</html>
