@@ -306,6 +306,7 @@
     </a>
     <nav class="nav-links" id="navLinks">
       <a href="#services">Services</a>
+      <a href="#estimate">Estimate</a>
       <a href="#how">How it works</a>
       <a href="#gallery">Our work</a>
       <a href="#reviews">Reviews</a>
@@ -419,6 +420,184 @@
     <p class="sample-note">↑ Starting prices — your final quote depends on yard size, scope, and materials.</p>
   </div>
 </section>
+
+<!-- ============ INSTANT ESTIMATE ============ -->
+<style>
+  #estimate{background:var(--birch-dim);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  #estimate .est-card{background:var(--birch);border:1px solid var(--line);border-radius:var(--r);max-width:640px;margin:26px auto 0;box-shadow:0 6px 28px rgba(33,27,16,.08);overflow:hidden}
+  #estimate .est-pad{padding:20px 22px}
+  #estimate .est-step{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--bark);margin:0 0 12px}
+  #estimate .est-chips{display:flex;flex-wrap:wrap;gap:8px}
+  #estimate .est-chip{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:9px 14px;font-family:var(--font-body);font-weight:600;font-size:.86rem;color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:8px;transition:.14s;min-height:42px}
+  #estimate .est-chip:hover{border-color:var(--pine)}
+  #estimate .est-chip.on{background:var(--pine);border-color:var(--pine);color:var(--birch)}
+  #estimate .est-chip .d{width:7px;height:7px;border-radius:50%;background:var(--line)}
+  #estimate .est-chip.on .d{background:var(--gold)}
+  #estimate .est-qs{margin-top:14px;display:flex;flex-direction:column;gap:10px}
+  #estimate .est-q{background:var(--birch-dim);border:1px solid var(--line);border-radius:12px;padding:13px 14px}
+  #estimate .est-q label{display:block;font-weight:700;font-size:.9rem;color:var(--pine);margin-bottom:9px}
+  #estimate .est-seg{display:flex;gap:7px;flex-wrap:wrap}
+  #estimate .est-seg button{flex:1;min-width:84px;border:1.5px solid var(--line);background:#fff;border-radius:9px;padding:9px;font-family:var(--font-body);font-weight:600;font-size:.82rem;color:var(--ink);cursor:pointer;min-height:42px;transition:.12s}
+  #estimate .est-seg button.on{background:var(--gold);border-color:var(--gold-deep);color:var(--ink)}
+  #estimate .est-qty{display:flex;border:1.5px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;width:160px}
+  #estimate .est-qty button{width:46px;border:none;background:var(--birch-dim);color:var(--pine);font-size:1.4rem;cursor:pointer;min-height:44px}
+  #estimate .est-qty input{flex:1;border:none;text-align:center;font-family:var(--font-mono);font-size:1rem;width:100%;min-width:0;background:#fff}
+  #estimate .est-qty input:focus{outline:none}
+  #estimate .est-read{background:var(--pine);color:var(--birch);padding:18px 22px;text-align:center}
+  #estimate .est-read .l{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(244,238,223,.6)}
+  #estimate .est-read .amt{font-family:var(--font-display);font-weight:800;font-size:2rem;color:var(--gold);margin:5px 0 2px;letter-spacing:-.01em}
+  #estimate .est-read .amt.empty{color:rgba(244,238,223,.5);font-size:1.15rem}
+  #estimate .est-read .n{font-size:.82rem;color:rgba(244,238,223,.85);margin-top:6px}
+  #estimate .est-read .n b{color:var(--gold)}
+  #estimate .est-pkg{display:flex;gap:10px;align-items:flex-start;margin:14px 22px 0;padding:12px 14px;background:#FBF3DD;border:1px solid #E6CF94;border-radius:12px;cursor:pointer}
+  #estimate .est-pkg input{width:19px;height:19px;margin-top:2px;accent-color:var(--gold-deep)}
+  #estimate .est-pkg span{font-size:.83rem;color:var(--bark)}
+  #estimate .est-pkg b{color:var(--pine)}
+  #estimate .est-cta{display:block;width:calc(100% - 44px);margin:16px 22px 4px;background:var(--gold);color:var(--ink);border:none;border-radius:12px;font-family:var(--font-display);font-weight:800;font-size:1.05rem;padding:15px;cursor:pointer;transition:.14s}
+  #estimate .est-cta:hover{background:var(--gold-deep);color:#fff}
+  #estimate .est-cta:disabled{background:var(--birch-dim);color:var(--ink-soft);cursor:not-allowed}
+  #estimate .est-foot{padding:12px 22px 18px}
+  #estimate .est-fine{font-size:.72rem;color:var(--ink-soft);line-height:1.5}
+  #estimate .est-fine b{color:var(--bark)}
+  #estimate .est-owner{background:none;border:none;color:var(--ink-soft);font-size:.72rem;text-decoration:underline;cursor:pointer;padding:8px 0 0;font-family:var(--font-body)}
+  #estimate .est-op{display:none;margin:0 22px 14px;border:1.5px dashed var(--bark);border-radius:12px;background:#fff;overflow:hidden}
+  #estimate.owner .est-op{display:block}
+  #estimate .est-ophd{background:var(--bark);color:var(--birch);font-family:var(--font-mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;padding:9px 14px;display:flex;justify-content:space-between;align-items:center}
+  #estimate .est-ophd button{background:none;border:1px solid rgba(244,238,223,.4);color:var(--birch);border-radius:6px;font-size:.66rem;padding:3px 8px;cursor:pointer}
+  #estimate .est-optbl{width:100%;border-collapse:collapse;font-size:.8rem}
+  #estimate .est-optbl td{padding:7px 14px;border-bottom:1px solid var(--line);font-family:var(--font-mono)}
+  #estimate .est-optbl td:last-child{text-align:right}
+  #estimate .est-optbl .s td{color:var(--pine);font-weight:700;background:var(--birch-dim);font-family:var(--font-body)}
+  #estimate .est-optbl .t td{font-family:var(--font-display);font-weight:800;font-size:.95rem;border-top:2px solid var(--bark);border-bottom:none}
+  #estimate .est-mn{padding:9px 14px;font-size:.76rem;background:#E6F0E8;color:#2E6B4F}
+</style>
+<section id="estimate">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Instant estimate</p>
+      <h2>Ballpark your job in 30 seconds.</h2>
+      <p>Pick what you need and get a rough range — no waiting on a callback. Your exact price is confirmed on a quick, free visit.</p>
+    </div>
+    <div class="est-card">
+      <div class="est-pad">
+        <p class="est-step">1 · What do you need?</p>
+        <div class="est-chips" id="estChips"></div>
+        <div class="est-qs" id="estQs"></div>
+      </div>
+      <div class="est-read" id="estRead">
+        <div class="l">Estimated range</div>
+        <div class="amt empty" id="estAmt">Pick a service to start</div>
+        <div class="n" id="estNudge"></div>
+      </div>
+      <label class="est-pkg" id="estPkg" style="display:none">
+        <input type="checkbox" id="estPkgCk">
+        <span><b>Save 10–15% with a seasonal plan.</b> Bundle your recurring work — winterization, winter watering, snow — onto one agreement. Check here and we'll include plan pricing in your quote.</span>
+      </label>
+      <div class="est-op">
+        <div class="est-ophd"><span>Owner view — itemized</span><button id="estOpClose" type="button">hide</button></div>
+        <table class="est-optbl"><tbody id="estOpBody"></tbody></table>
+        <div class="est-mn" id="estMn"></div>
+      </div>
+      <button class="est-cta" id="estCta" type="button" disabled>See available times →</button>
+      <div class="est-foot">
+        <div class="est-fine"><b>This is a ballpark.</b> Final price is confirmed on a quick, free site visit — rock, slope, access, and overgrowth can move it. Pine Country Landscape LLC · <b>Not a Licensed Contractor.</b></div>
+        <button class="est-owner" id="estOwner" type="button">Owner view</button>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  var CFG={CREW_RATE:140,TRIP_MIN:140,MARKUP:1.5,OWNER_PIN:"1234"};
+  var R=CFG.CREW_RATE,MK=CFG.MARKUP;
+  var SV={
+    cleanup:{label:"Yard Cleanup",seasonal:true,q:{t:"size",label:"Yard size",opts:["Small","Medium","Large"]},
+      calc:function(s){var H={Small:[1,2],Medium:[2.5,4],Large:[4.5,7]}[s||"Medium"],M={Small:[0,30],Medium:[20,60],Large:[40,120]}[s||"Medium"];
+        return{low:H[0]*R+M[0]*MK,high:H[1]*R+M[1]*MK,lines:[{l:"Labor "+H[0]+"–"+H[1]+"h",a:[H[0]*R,H[1]*R]},{l:"Haul/materials",a:[M[0]*MK,M[1]*MK]}]};}},
+    plantdelivery:{label:"Plant & Delivery",q:{t:"size",label:"Project size",opts:["Small","Medium","Large"]},
+      calc:function(s){var V={Small:[150,300],Medium:[300,600],Large:[600,1000]}[s||"Medium"];
+        return{low:V[0],high:V[1],capped:true,lines:[{l:"Plants + delivery + planting",a:[V[0],V[1]]}]};}},
+    irrigation:{label:"Irrigation Install / Repair",q:{t:"qty",label:"Roughly how many heads/zones need work?",def:2},
+      calc:function(n){n=n||0;var f=110;return{low:Math.min(f+n*45,1000),high:Math.min(f+n*70,1000),capped:true,lines:[{l:"Service call",a:[f,f]},{l:n+" head/zone",a:[n*45,n*70]}]};}},
+    timer:{label:"Timer Install",q:{t:"size",label:"Controller type",opts:["Standard","Smart Wi-Fi"]},
+      calc:function(s){var V={"Standard":[120,200],"Smart Wi-Fi":[180,320]}[s||"Standard"];return{low:V[0],high:V[1],lines:[{l:(s||"Standard")+" controller installed",a:[V[0],V[1]]}]};}},
+    pruning:{label:"Pruning",seasonal:true,q:{t:"size",label:"How much?",opts:["A few shrubs","Many shrubs","Shrubs + small trees"]},
+      calc:function(s){var H={"A few shrubs":[1,2],"Many shrubs":[2,3.5],"Shrubs + small trees":[3.5,6]}[s||"Many shrubs"];return{low:Math.max(H[0]*R,95),high:H[1]*R,lines:[{l:"Labor "+H[0]+"–"+H[1]+"h (ground-level)",a:[Math.max(H[0]*R,95),H[1]*R]}]};}},
+    diagnosis:{label:"Tree & Shrub Diagnosis",seasonal:true,calc:function(){return{low:95,high:125,lines:[{l:"Health assessment (credited if you hire us)",a:[95,125]}]};}},
+    consult:{label:"Yard Design Consult",calc:function(){return{low:95,high:175,lines:[{l:"On-site consult (credited toward work)",a:[95,175]}]};}},
+    winterize:{label:"Irrigation Winterization",seasonal:true,q:{t:"qty",label:"How many zones? (a guess is fine)",def:6},
+      calc:function(n){n=n||6;var e=Math.max(0,n-6);return{low:95+e*13,high:95+e*15,lines:[{l:"Base (up to 6 zones)",a:[95,95]},{l:e+" extra zone",a:[e*13,e*15]}]};}},
+    winter:{label:"Winter Watering",seasonal:true,q:{t:"qty",label:"How many trees / shrubs?",def:5},
+      calc:function(n){n=n||0;return{low:90+n*6,high:90+n*10,lines:[{l:"Trip charge",a:[90,90]},{l:n+" tree/shrub",a:[n*6,n*10]}]};}},
+    snow:{label:"Snow Removal",seasonal:true,q:{t:"size",label:"Driveway / area",opts:["Small","Medium","Large"]},
+      calc:function(s){var V={Small:[55,90],Medium:[90,150],Large:[150,250]}[s||"Medium"];return{low:V[0],high:V[1],perVisit:true,lines:[{l:"Per visit",a:[V[0],V[1]]}]};}}
+  };
+  var order=["cleanup","plantdelivery","irrigation","timer","pruning","diagnosis","consult","winterize","winter","snow"];
+  var sel={};
+  var $=function(id){return document.getElementById(id);};
+  var money=function(n){return "$"+Math.round(n).toLocaleString("en-US");};
+  var chips=$("estChips");
+  order.forEach(function(id){
+    var b=document.createElement("button");b.className="est-chip";b.type="button";b.dataset.id=id;
+    b.innerHTML='<span class="d"></span>'+SV[id].label;
+    b.addEventListener("click",function(){
+      if(sel[id]===undefined){sel[id]=SV[id].q?(SV[id].q.t==="qty"?(SV[id].q.def||1):SV[id].q.opts[Math.min(1,SV[id].q.opts.length-1)]):true;b.classList.add("on");}
+      else{delete sel[id];b.classList.remove("on");}
+      renderQs();recalc();
+    });
+    chips.appendChild(b);
+  });
+  function renderQs(){
+    var w=$("estQs");w.innerHTML="";
+    order.forEach(function(id){
+      if(sel[id]===undefined)return;var svc=SV[id];if(!svc.q)return;
+      var q=document.createElement("div");q.className="est-q";
+      var lab=document.createElement("label");lab.textContent=svc.label+" — "+svc.q.label;q.appendChild(lab);
+      if(svc.q.t==="size"){
+        var seg=document.createElement("div");seg.className="est-seg";
+        svc.q.opts.forEach(function(o){var bb=document.createElement("button");bb.type="button";bb.textContent=o;if(sel[id]===o)bb.classList.add("on");bb.addEventListener("click",function(){sel[id]=o;renderQs();recalc();});seg.appendChild(bb);});
+        q.appendChild(seg);
+      }else{
+        var st=document.createElement("div");st.className="est-qty";
+        st.innerHTML='<button type="button">–</button><input type="number" inputmode="numeric" value="'+(sel[id]||0)+'"><button type="button">+</button>';
+        var inp=st.querySelector("input");
+        st.children[0].addEventListener("click",function(){sel[id]=Math.max(0,(parseInt(inp.value)||0)-1);inp.value=sel[id];recalc();});
+        st.children[2].addEventListener("click",function(){sel[id]=(parseInt(inp.value)||0)+1;inp.value=sel[id];recalc();});
+        inp.addEventListener("input",function(){sel[id]=Math.max(0,parseInt(inp.value)||0);recalc();});
+        q.appendChild(st);
+      }
+      w.appendChild(q);
+    });
+  }
+  function recalc(){
+    var ids=order.filter(function(id){return sel[id]!==undefined;});
+    var low=0,high=0,seas=false,pv=false,opv=[];
+    ids.forEach(function(id){var r=SV[id].calc(sel[id]);low+=r.low;high+=r.high;if(SV[id].seasonal)seas=true;if(r.perVisit)pv=true;opv.push({n:SV[id].label,r:r});});
+    if(ids.length){low=Math.max(low,CFG.TRIP_MIN);high=Math.max(high,CFG.TRIP_MIN);}
+    var amt=$("estAmt"),nud=$("estNudge");
+    if(!ids.length){amt.className="amt empty";amt.textContent="Pick a service to start";nud.innerHTML="";}
+    else{amt.className="amt";amt.textContent=money(low)+" – "+money(high)+(pv&&ids.length===1?" / visit":"");nud.innerHTML=seas?'Most jobs land in the middle. <b>Ask about a seasonal plan to save.</b>':"Most jobs land in the middle.";}
+    $("estPkg").style.display=seas?"flex":"none";
+    var ob=$("estOpBody");ob.innerHTML="";
+    opv.forEach(function(o){
+      var tr=document.createElement("tr");tr.className="s";tr.innerHTML="<td>"+o.n+"</td><td>"+money(o.r.low)+"–"+money(o.r.high)+"</td>";ob.appendChild(tr);
+      o.r.lines.forEach(function(l){var a=Array.isArray(l.a)?money(l.a[0])+"–"+money(l.a[1]):money(l.a);var rr=document.createElement("tr");rr.innerHTML="<td style='color:var(--ink-soft)'>&nbsp;&nbsp;"+l.l+"</td><td>"+a+"</td>";ob.appendChild(rr);});
+    });
+    if(ids.length){var t=document.createElement("tr");t.className="t";t.innerHTML="<td>Quote to customer</td><td>"+money(low)+"–"+money(high)+"</td>";ob.appendChild(t);$("estMn").innerHTML="Floor "+money(CFG.CREW_RATE)+"/crew-hr · trip min "+money(CFG.TRIP_MIN)+". Clears the floor — bump hours if the property fights back (rock, slope, access).";}
+    else $("estMn").innerHTML="";
+    $("estCta").disabled=!ids.length;
+    window._estIds=ids;
+  }
+  $("estCta").addEventListener("click",function(){
+    var ids=window._estIds||[];if(!ids.length)return;
+    if(typeof window.openModal==="function"){window.openModal(ids[0]);}
+    else{var m=document.getElementById("modal");if(m){m.classList.add("open");document.body.style.overflow="hidden";}}
+  });
+  $("estOwner").addEventListener("click",function(){var p=prompt("Owner PIN:");if(p===CFG.OWNER_PIN)document.getElementById("estimate").classList.add("owner");else if(p!==null)alert("Incorrect PIN.");});
+  $("estOpClose").addEventListener("click",function(){document.getElementById("estimate").classList.remove("owner");});
+  recalc();
+})();
+</script>
 
 <!-- ============ WHY US ============ -->
 <section id="why">
@@ -611,18 +790,26 @@
 <script>
 /* ---------- SERVICES (edit names, prices, durations here) ---------- */
 const SERVICES = [
-  {id:'cleanup', name:'Yard Cleanup',        desc:'Leaves, debris, weeds, hauling. The big spring & fall reset. $75 minimum.', price:'100', unit:'per hour', dur:'2–4 hrs', season:'green',
+  {id:'cleanup', name:'Yard Cleanups', desc:'Leaves, debris, weeds, hauling — the big spring & fall reset.', price:'150', unit:'starting', dur:'2–4 hrs', season:'green',
     icon:'<path d="M16 3v6M19 5l-3 3M21 9l-7 7-3-3M3 21l6-6"/><path d="M14 19l-2 2H5l-1-4 5-1"/>'},
-  {id:'mowing', name:'Mowing & Maintenance', desc:'Mow, edge, blow, and tidy. One-time or on a schedule.', price:'45', unit:'per visit', dur:'45–90 min', season:'green',
-    icon:'<path d="M3 17h7l1-4h6M3 17v2a1 1 0 0 0 1 1h2M17 13a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/><path d="M11 13V7h3l3 3"/>'},
-  {id:'irrigation', name:'Irrigation Repair', desc:'Broken heads, leaks, zones, spring startup. Head swaps from $25.', price:'75', unit:'service call', dur:'1–2 hrs', season:'green',
+  {id:'plantdelivery', name:'Plant & Delivery', desc:'We source, deliver, and plant for high-desert soil. Delivery fee applies.', price:'45', unit:'per plant', dur:'varies', season:'green',
+    icon:'<path d="M3 9l9-5 9 5-9 5-9-5Z"/><path d="M3 9v6l9 5 9-5V9"/>'},
+  {id:'irrigation', name:'Irrigation Install / Repair', desc:'Head swaps, leaks, zones, and small installs — jobs kept under $1,000.', price:'110', unit:'service call', dur:'1–2 hrs', season:'green',
     icon:'<path d="M12 3s5 5 5 9a5 5 0 0 1-10 0c0-4 5-9 5-9Z"/>'},
-  {id:'plants', name:'Plant & Shrub Installs', desc:'Trees, shrubs, beds — planted right for high-desert soil.', price:'35', unit:'per plant', dur:'varies', season:'green',
-    icon:'<path d="M12 22V10M12 10c0-3 2-5 5-5 0 3-2 5-5 5ZM12 13c0-3-2-5-5-5 0 3 2 5 5 5Z"/>'},
-  {id:'snow', name:'Snow Removal', desc:'Driveways & walks cleared fast. Get on the Snow List or request after a storm.', price:'50', unit:'per visit', dur:'30–60 min', season:'winter',
-    icon:'<path d="M12 2v20M2 12h20M5 5l14 14M19 5 5 19"/>'},
-  {id:'winter', name:'Winter Watering', desc:'Keeps young trees & plants alive through dry Flagstaff winters.', price:'50', unit:'per visit', dur:'30–45 min', season:'winter',
+  {id:'timer', name:'Timer Installs', desc:'Standard or smart Wi-Fi controllers, installed and dialed in.', price:'120', unit:'installed', dur:'~1 hr', season:'green',
+    icon:'<circle cx="12" cy="13" r="7"/><path d="M12 13V9M9 2h6"/>'},
+  {id:'pruning', name:'Pruning', desc:'Shrubs and small trees, shaped and cleaned up — ground-level work.', price:'95', unit:'starting', dur:'1–3 hrs', season:'green',
+    icon:'<circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M8.5 7.5 20 16M8.5 16.5 20 8"/>'},
+  {id:'diagnosis', name:'Tree & Shrub Diagnosis', desc:'We assess plant health and tell you what it needs. Credited if you hire us.', price:'95', unit:'flat', dur:'30–45 min', season:'green',
+    icon:'<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>'},
+  {id:'consult', name:'Yard Design Consult', desc:'New to Flagstaff? We plan a yard that survives at 7,000 ft. Credited toward work.', price:'95', unit:'flat', dur:'~1 hr', season:'green',
+    icon:'<path d="M9 3h6v3H9zM5 6h14v15H5zM9 12h6M9 16h4"/>'},
+  {id:'winterize', name:'Irrigation Winterization', desc:'Blow-out before the first hard freeze. Base covers up to 6 zones.', price:'95', unit:'starting', dur:'30–60 min', season:'winter',
+    icon:'<path d="M12 3s5 5 5 9a5 5 0 0 1-10 0c0-4 5-9 5-9Z"/><path d="M4 4l16 16"/>'},
+  {id:'winter', name:'Winter Watering', desc:'Trip charge plus per tree — keeps young trees alive through dry winters.', price:'90', unit:'per visit', dur:'30–45 min', season:'winter',
     icon:'<path d="M12 3s5 5 5 9a5 5 0 0 1-10 0c0-4 5-9 5-9Z"/><path d="M9 21h6"/>'},
+  {id:'snow', name:'Snow Removal', desc:'Driveways & walks cleared fast. Get on the Snow List or request after a storm.', price:'55', unit:'per visit', dur:'30–60 min', season:'winter',
+    icon:'<path d="M12 2v20M2 12h20M5 5l14 14M19 5 5 19"/>'},
 ];
 
 const REVIEWS = [
