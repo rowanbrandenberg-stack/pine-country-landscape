@@ -360,12 +360,7 @@
     </div>
     <div class="hero-media">
       <img id="heroPhoto" class="hero-photo" src="hero-green.jpg" alt="Freshly mowed Flagstaff lawn lined with ponderosa pines at golden hour, with rock-edged mulch beds and craftsman homes">
-      <div class="ph" id="heroImgWinter" aria-hidden="true" style="display:none">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
-        <div class="ph-title">Hero photo — Winter</div>
-        <div class="ph-desc">A driveway &amp; walk cleanly cleared of snow, fresh powder piled to the sides. Bright morning light.</div>
-        <div class="ph-ratio">drop your winter photo here · ~3:2</div>
-      </div>
+      <img id="heroImgWinter" class="hero-photo" src="hero-winter.jpg" alt="Pine Country Landscape crew with their plow-equipped truck and spreader after clearing a snowy Flagstaff driveway" style="display:none">
     </div>
   </div>
 </section>
@@ -866,7 +861,7 @@ function setSeason(season){
   const c = COPY[season];
   heroTitle.innerHTML = c.title; heroLead.textContent = c.lead;
   heroPhoto.style.display = isWinter ? 'none' : 'block';
-  heroImgWinter.style.display = isWinter ? 'flex' : 'none';
+  heroImgWinter.style.display = isWinter ? 'block' : 'none';
   // highlight in-season services and float them up
   [...document.querySelectorAll('.svc')].forEach(el=>{
     const match = el.dataset.season === season;
