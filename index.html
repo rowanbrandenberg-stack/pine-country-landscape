@@ -15,8 +15,9 @@
      Prices shown are SAMPLES — replace before launch.
   >> SWAP IN PHOTOS: every dashed box is an <div class="ph"> with the exact shot
      described inside. Replace it with <img src="your-photo.jpg" alt="..."> when ready.
-  >> TAKE REAL BOOKINGS: the "Book" buttons open a PREVIEW flow. To go live, embed
-     Square Appointments (free tier) where marked "SQUARE EMBED GOES HERE".
+  >> BOOKINGS ARE LIVE: every "Book" button opens a modal with the Square Appointments
+     booking flow embedded (#sqBookFrame). To point at a different Square account, swap the
+     merchant/location ids in the iframe data-src and the fallback link (search "squareup.com/appointments").
 ================================================================
 -->
 
@@ -714,40 +715,16 @@
   <div class="modal-bg" id="modalBg"></div>
   <div class="sheet">
     <button class="close" id="modalClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
-    <div id="bookForm">
-      <h3 id="modalTitle">Book a service</h3>
-      <p class="sub">Takes about a minute. We'll confirm by text.</p>
-      <div class="field">
-        <label for="svcSelect">What do you need?</label>
-        <select id="svcSelect"></select>
-      </div>
-      <div class="field">
-        <label>Pick a time</label>
-        <div class="slots" id="slots">
-          <button class="slot" aria-pressed="false">Tomorrow AM</button>
-          <button class="slot" aria-pressed="false">Tomorrow PM</button>
-          <button class="slot" aria-pressed="false">This week</button>
-          <button class="slot" aria-pressed="false">Next week</button>
-          <button class="slot" aria-pressed="false">ASAP</button>
-        </div>
-      </div>
-      <div class="field"><label for="bName">Your name</label><input id="bName" type="text" placeholder="First & last"></div>
-      <div class="field"><label for="bAddr">Service address</label><input id="bAddr" type="text" placeholder="Street, Flagstaff AZ"></div>
-      <div class="field"><label for="bPhone">Phone</label><input id="bPhone" type="tel" placeholder="(928) 555-0123"></div>
-      <button class="btn btn-primary" id="bSubmit" style="width:100%;justify-content:center">Request booking</button>
-      <div class="embed-note"><!-- SQUARE EMBED GOES HERE -->
-        PROTOTYPE: this preview doesn't send. To take real bookings, paste your free <b>Square Appointments</b> embed in place of this form.
-      </div>
-    </div>
-    <div id="bookDone" style="display:none">
-      <div class="confirm">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>
-        <h4>That's the whole flow!</h4>
-        <p id="doneSummary"></p>
-        <p style="margin-top:12px;font-family:var(--font-mono);font-size:.76rem;opacity:.7">Wire in Square Appointments and this becomes a real, paid booking.</p>
-      </div>
-      <button class="btn btn-dark" id="bookReset" style="width:100%;justify-content:center;margin-top:16px">↺ Run it again</button>
-    </div>
+    <h3 id="modalTitle">Book a service</h3>
+    <p class="sub">Pick your service and time below — confirmed instantly through Square.</p>
+    <!-- Square Appointments booking flow, embedded (same iframe the square.site embed widget injects). -->
+    <iframe id="sqBookFrame"
+            data-src="https://app.squareup.com/appointments/buyer/widget/nak6l6jo4giy3h/LENX1RW6CSPMR"
+            title="Book an appointment with Pine Country Landscape"
+            allow="payment app.squareup.com"
+            loading="lazy"
+            style="width:100%;height:70vh;min-height:520px;border:0;border-radius:12px;background:#fff;display:block"></iframe>
+    <p style="font-size:.8rem;color:var(--ink-soft);margin-top:12px;text-align:center">Trouble loading? <a href="https://app.squareup.com/appointments/book/nak6l6jo4giy3h/LENX1RW6CSPMR/start" target="_blank" rel="noopener" style="color:var(--pine);font-weight:600">Open booking in a new tab →</a></p>
   </div>
 </div>
 
@@ -902,47 +879,23 @@ const io = new IntersectionObserver((entries)=>{
 },{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-/* ---------- booking modal ---------- */
+/* ---------- booking modal (Square Appointments embed) ---------- */
 const modal = document.getElementById('modal');
-const svcSelect = document.getElementById('svcSelect');
-svcSelect.innerHTML = SERVICES.map(s=>`<option value="${s.id}">${s.name} — from $${s.price} ${s.unit}</option>`).join('');
-const bookForm = document.getElementById('bookForm');
-const bookDone = document.getElementById('bookDone');
+const sqFrame = document.getElementById('sqBookFrame');
 
-function openModal(svcId){
-  if(svcId) svcSelect.value = svcId;
-  bookForm.style.display='block'; bookDone.style.display='none';
+function openModal(){
+  // lazy-load the Square booking flow the first time the modal opens
+  if(sqFrame && !sqFrame.src) sqFrame.src = sqFrame.dataset.src;
   modal.classList.add('open');
   document.body.style.overflow='hidden';
 }
 function closeModal(){ modal.classList.remove('open'); document.body.style.overflow=''; }
 document.querySelectorAll('[data-book]').forEach(b=>{
-  b.addEventListener('click', e=>{ e.preventDefault(); openModal(b.dataset.svc); });
+  b.addEventListener('click', e=>{ e.preventDefault(); openModal(); });
 });
 document.getElementById('modalClose').addEventListener('click', closeModal);
 document.getElementById('modalBg').addEventListener('click', closeModal);
 window.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
-
-// time slots
-let chosenSlot = null;
-document.querySelectorAll('#slots .slot').forEach(s=>{
-  s.addEventListener('click', ()=>{
-    document.querySelectorAll('#slots .slot').forEach(x=>x.setAttribute('aria-pressed','false'));
-    s.setAttribute('aria-pressed','true'); chosenSlot = s.textContent;
-  });
-});
-
-document.getElementById('bSubmit').addEventListener('click', ()=>{
-  const svc = SERVICES.find(x=>x.id===svcSelect.value);
-  const name = document.getElementById('bName').value.trim() || 'You';
-  const when = chosenSlot || 'a time that works';
-  document.getElementById('doneSummary').textContent =
-    `${name} → ${svc.name}, ${when}. In the live version, this lands on your calendar and texts a confirmation.`;
-  bookForm.style.display='none'; bookDone.style.display='block';
-});
-document.getElementById('bookReset').addEventListener('click', ()=>{
-  bookForm.style.display='block'; bookDone.style.display='none';
-});
 </script>
 </body>
 </html>
