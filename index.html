@@ -454,17 +454,6 @@
   #estimate .est-foot{padding:12px 22px 18px}
   #estimate .est-fine{font-size:.72rem;color:var(--ink-soft);line-height:1.5}
   #estimate .est-fine b{color:var(--bark)}
-  #estimate .est-owner{background:none;border:none;color:var(--ink-soft);font-size:.72rem;text-decoration:underline;cursor:pointer;padding:8px 0 0;font-family:var(--font-body)}
-  #estimate .est-op{display:none;margin:0 22px 14px;border:1.5px dashed var(--bark);border-radius:12px;background:#fff;overflow:hidden}
-  #estimate.owner .est-op{display:block}
-  #estimate .est-ophd{background:var(--bark);color:var(--birch);font-family:var(--font-mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;padding:9px 14px;display:flex;justify-content:space-between;align-items:center}
-  #estimate .est-ophd button{background:none;border:1px solid rgba(244,238,223,.4);color:var(--birch);border-radius:6px;font-size:.66rem;padding:3px 8px;cursor:pointer}
-  #estimate .est-optbl{width:100%;border-collapse:collapse;font-size:.8rem}
-  #estimate .est-optbl td{padding:7px 14px;border-bottom:1px solid var(--line);font-family:var(--font-mono)}
-  #estimate .est-optbl td:last-child{text-align:right}
-  #estimate .est-optbl .s td{color:var(--pine);font-weight:700;background:var(--birch-dim);font-family:var(--font-body)}
-  #estimate .est-optbl .t td{font-family:var(--font-display);font-weight:800;font-size:.95rem;border-top:2px solid var(--bark);border-bottom:none}
-  #estimate .est-mn{padding:9px 14px;font-size:.76rem;background:#E6F0E8;color:#2E6B4F}
 </style>
 <section id="estimate">
   <div class="wrap">
@@ -488,22 +477,16 @@
         <input type="checkbox" id="estPkgCk">
         <span><b>Save 10–15% with a seasonal plan.</b> Bundle your recurring work — winterization, winter watering, snow — onto one agreement. Check here and we'll include plan pricing in your quote.</span>
       </label>
-      <div class="est-op">
-        <div class="est-ophd"><span>Owner view — itemized</span><button id="estOpClose" type="button">hide</button></div>
-        <table class="est-optbl"><tbody id="estOpBody"></tbody></table>
-        <div class="est-mn" id="estMn"></div>
-      </div>
       <button class="est-cta" id="estCta" type="button" disabled>See available times →</button>
       <div class="est-foot">
         <div class="est-fine"><b>This is a ballpark.</b> Final price is confirmed on a quick, free site visit — rock, slope, access, and overgrowth can move it. Pine Country Landscape LLC · <b>Not a Licensed Contractor.</b></div>
-        <button class="est-owner" id="estOwner" type="button">Owner view</button>
       </div>
     </div>
   </div>
 </section>
 <script>
 (function(){
-  var CFG={CREW_RATE:140,TRIP_MIN:140,MARKUP:1.5,OWNER_PIN:"1234"};
+  var CFG={CREW_RATE:140,TRIP_MIN:140,MARKUP:1.5};
   var R=CFG.CREW_RATE,MK=CFG.MARKUP;
   var SV={
     cleanup:{label:"Yard Cleanup",seasonal:true,q:{t:"size",label:"Yard size",opts:["Small","Medium","Large"]},
@@ -566,20 +549,13 @@
   }
   function recalc(){
     var ids=order.filter(function(id){return sel[id]!==undefined;});
-    var low=0,high=0,seas=false,pv=false,opv=[];
-    ids.forEach(function(id){var r=SV[id].calc(sel[id]);low+=r.low;high+=r.high;if(SV[id].seasonal)seas=true;if(r.perVisit)pv=true;opv.push({n:SV[id].label,r:r});});
+    var low=0,high=0,seas=false,pv=false;
+    ids.forEach(function(id){var r=SV[id].calc(sel[id]);low+=r.low;high+=r.high;if(SV[id].seasonal)seas=true;if(r.perVisit)pv=true;});
     if(ids.length){low=Math.max(low,CFG.TRIP_MIN);high=Math.max(high,CFG.TRIP_MIN);}
     var amt=$("estAmt"),nud=$("estNudge");
     if(!ids.length){amt.className="amt empty";amt.textContent="Pick a service to start";nud.innerHTML="";}
     else{amt.className="amt";amt.textContent=money(low)+" – "+money(high)+(pv&&ids.length===1?" / visit":"");nud.innerHTML=seas?'Most jobs land in the middle. <b>Ask about a seasonal plan to save.</b>':"Most jobs land in the middle.";}
     $("estPkg").style.display=seas?"flex":"none";
-    var ob=$("estOpBody");ob.innerHTML="";
-    opv.forEach(function(o){
-      var tr=document.createElement("tr");tr.className="s";tr.innerHTML="<td>"+o.n+"</td><td>"+money(o.r.low)+"–"+money(o.r.high)+"</td>";ob.appendChild(tr);
-      o.r.lines.forEach(function(l){var a=Array.isArray(l.a)?money(l.a[0])+"–"+money(l.a[1]):money(l.a);var rr=document.createElement("tr");rr.innerHTML="<td style='color:var(--ink-soft)'>&nbsp;&nbsp;"+l.l+"</td><td>"+a+"</td>";ob.appendChild(rr);});
-    });
-    if(ids.length){var t=document.createElement("tr");t.className="t";t.innerHTML="<td>Quote to customer</td><td>"+money(low)+"–"+money(high)+"</td>";ob.appendChild(t);$("estMn").innerHTML="Floor "+money(CFG.CREW_RATE)+"/crew-hr · trip min "+money(CFG.TRIP_MIN)+". Clears the floor — bump hours if the property fights back (rock, slope, access).";}
-    else $("estMn").innerHTML="";
     $("estCta").disabled=!ids.length;
     window._estIds=ids;
   }
@@ -588,8 +564,6 @@
     if(typeof window.openModal==="function"){window.openModal(ids[0]);}
     else{var m=document.getElementById("modal");if(m){m.classList.add("open");document.body.style.overflow="hidden";}}
   });
-  $("estOwner").addEventListener("click",function(){var p=prompt("Owner PIN:");if(p===CFG.OWNER_PIN)document.getElementById("estimate").classList.add("owner");else if(p!==null)alert("Incorrect PIN.");});
-  $("estOpClose").addEventListener("click",function(){document.getElementById("estimate").classList.remove("owner");});
   recalc();
 })();
 </script>
