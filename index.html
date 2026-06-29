@@ -16,8 +16,8 @@
   >> SWAP IN PHOTOS: every dashed box is an <div class="ph"> with the exact shot
      described inside. Replace it with <img src="your-photo.jpg" alt="..."> when ready.
   >> BOOKINGS ARE LIVE: every "Book" button opens a modal with the Square Appointments
-     booking flow embedded (#sqBookFrame). To point at a different Square account, swap the
-     merchant/location ids in the iframe data-src and the fallback link (search "squareup.com/appointments").
+     booking flow (#sqBookFrame); service-card buttons preselect that service. To point at a
+     different Square account, edit SQ_MID / SQ_LID / SQ_SERVICE in the booking <script>.
 ================================================================
 -->
 
@@ -717,11 +717,10 @@
     <button class="close" id="modalClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
     <h3 id="modalTitle">Book a service</h3>
     <p class="sub">Pick your service and time below — confirmed instantly through Square.</p>
-    <!-- Square Appointments booking flow, embedded (same iframe the square.site embed widget injects). -->
+    <!-- Square Appointments booking flow, embedded. src is set by JS (openModal): preselects the clicked service, else the general flow. -->
     <iframe id="sqBookFrame"
-            data-src="https://app.squareup.com/appointments/buyer/widget/nak6l6jo4giy3h/LENX1RW6CSPMR"
             title="Book an appointment with Pine Country Landscape"
-            allow="payment app.squareup.com"
+            allow="payment https://app.squareup.com https://book.squareup.com"
             loading="lazy"
             style="width:100%;height:70vh;min-height:520px;border:0;border-radius:12px;background:#fff;display:block"></iframe>
     <p style="font-size:.8rem;color:var(--ink-soft);margin-top:12px;text-align:center">Trouble loading? <a href="https://app.squareup.com/appointments/book/nak6l6jo4giy3h/LENX1RW6CSPMR/start" target="_blank" rel="noopener" style="color:var(--pine);font-weight:600">Open booking in a new tab →</a></p>
@@ -883,15 +882,33 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 const modal = document.getElementById('modal');
 const sqFrame = document.getElementById('sqBookFrame');
 
-function openModal(){
-  // lazy-load the Square booking flow the first time the modal opens
-  if(sqFrame && !sqFrame.src) sqFrame.src = sqFrame.dataset.src;
+// Square Appointments booking flow
+const SQ_MID = 'nak6l6jo4giy3h', SQ_LID = 'LENX1RW6CSPMR';
+const SQ_GENERIC   = 'https://app.squareup.com/appointments/buyer/widget/' + SQ_MID + '/' + SQ_LID;
+const SQ_BOOK_BASE = 'https://book.squareup.com/appointments/' + SQ_MID + '/location/' + SQ_LID;
+// site service id -> Square service (item) token. Anything unmapped falls back to the general flow.
+const SQ_SERVICE = {
+  cleanup:'A7IKXO3BPTVVQM4B6FSSUNMS', plantdelivery:'R4VMZLNBT252ODDBDSCCJ73H',
+  irrigation:'5ONG625T2HQGPMXVXHHBYNQ6', timer:'KH3NZW63ZAAFHC7KXQBOGE6F',
+  pruning:'UQRBU5GGTHBVP2KW7LMTUCJ2', diagnosis:'OFWG6DIYHXIKMKQT47S6HY5G',
+  consult:'LD3J7I2JDFQU4XO3CZ7S3GAE', winterize:'UPXYNHQWFYAXECSA5O5DPFMX',
+  winter:'GS6F7EVEX7RN3PNW5GUFF45P', snow:'KCF3LPTQMNKGGI47R2NWXEGX'
+};
+function sqUrl(svc){
+  var id = svc && SQ_SERVICE[svc];
+  return id ? SQ_BOOK_BASE + '/services/' + id : SQ_GENERIC;  // preselect when mapped, else general flow
+}
+
+function openModal(svc){
+  // lazy: set (or switch) the iframe to the right Square flow only when the modal opens
+  var url = sqUrl(svc);
+  if(sqFrame && sqFrame.getAttribute('src') !== url) sqFrame.setAttribute('src', url);
   modal.classList.add('open');
   document.body.style.overflow='hidden';
 }
 function closeModal(){ modal.classList.remove('open'); document.body.style.overflow=''; }
 document.querySelectorAll('[data-book]').forEach(b=>{
-  b.addEventListener('click', e=>{ e.preventDefault(); openModal(); });
+  b.addEventListener('click', e=>{ e.preventDefault(); openModal(b.dataset.svc); });
 });
 document.getElementById('modalClose').addEventListener('click', closeModal);
 document.getElementById('modalBg').addEventListener('click', closeModal);
