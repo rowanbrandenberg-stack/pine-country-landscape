@@ -422,9 +422,9 @@
           Winter
         </button>
       </div>
-      <p class="eyebrow on-dark">Flagstaff, AZ · 7,000 ft · Locally owned</p>
+      <p class="eyebrow on-dark">Flagstaff, AZ · 7,000 ft · Locally owned landscaping</p>
       <h1 id="heroTitle">Yard work, handled.<br><span class="accent">Booked in 60 seconds.</span></h1>
-      <p class="lead" id="heroLead">Pick a service, choose a time, and we show up. No phone tag, no three-day wait for a quote.</p>
+      <p class="lead" id="heroLead">Local Flagstaff landscaping and yard care — pick a service, choose a time, and we show up. No phone tag, no three-day wait for a quote.</p>
       <div class="hero-cta">
         <button class="btn btn-primary" data-book>Book a service →</button>
         <a class="btn btn-ghost" href="sms:+19288638198">Text us a question</a>
@@ -745,6 +745,21 @@
   </div>
 </section>
 
+<!-- FAQ structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "How does pricing work?", "acceptedAnswer": { "@type": "Answer", "text": "Each service has a starting price you'll see when you book. The final price depends on yard size and scope — for anything bigger, we'll confirm before any work starts. No surprise charges, ever." } },
+    { "@type": "Question", "name": "How do I pay?", "acceptedAnswer": { "@type": "Answer", "text": "Card on the spot when the job's done — tap, swipe, or chip. Quick and easy, no invoicing chase." } },
+    { "@type": "Question", "name": "How does snow removal scheduling work?", "acceptedAnswer": { "@type": "Answer", "text": "Snow is storm-driven, so it's a little different: get on the Snow List once and we clear you automatically when it dumps, or send a one-off \"I need it now\" request after a storm." } },
+    { "@type": "Question", "name": "What areas do you cover?", "acceptedAnswer": { "@type": "Answer", "text": "Flagstaff and roughly 25 minutes out — Doney Park, Kachina, Mountainaire, Fort Valley, Williams and more. If you're not sure, ask when you book and we'll let you know." } },
+    { "@type": "Question", "name": "Are you licensed?", "acceptedAnswer": { "@type": "Answer", "text": "We're not a licensed contractor — we focus on maintenance, cleanups, and smaller jobs under Arizona's handyman limit. For larger installs that need a licensed contractor, we'll point you in the right direction." } }
+  ]
+}
+</script>
+
 <!-- ============ FOOTER ============ -->
 <footer>
   <div class="wrap">
@@ -865,13 +880,13 @@ const heroImgWinter = document.getElementById('heroImgWinter');
 const COPY = {
   green:{
     title:'Yard work, handled.<br><span class="accent">Booked in 60 seconds.</span>',
-    lead:'Pick a service, choose a time, and we show up. No phone tag, no three-day wait for a quote.',
+    lead:'Local Flagstaff landscaping and yard care — pick a service, choose a time, and we show up. No phone tag, no three-day wait for a quote.',
     imgT:'Hero photo — Green season',
     imgD:'Tidy, edged Flagstaff yard with ponderosa pines in frame. Daylight or golden hour.'
   },
   winter:{
     title:'Snowed in?<br><span class="accent">Cleared before coffee.</span>',
-    lead:'Get on the Snow List and we plow you automatically after every storm — or request a one-time clear.',
+    lead:'Flagstaff snow removal, handled — get on the Snow List and we plow you automatically after every storm, or request a one-time clear.',
     imgT:'Hero photo — Winter',
     imgD:'A driveway & walk cleanly cleared of snow, fresh powder piled to the sides. Bright morning light.'
   }
