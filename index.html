@@ -89,8 +89,6 @@
 
   >> EDIT YOUR PRICES: search "data-price" below (or the SERVICES array in <script>).
      Prices shown are SAMPLES — replace before launch.
-  >> SWAP IN PHOTOS: every dashed box is an <div class="ph"> with the exact shot
-     described inside. Replace it with <img src="your-photo.jpg" alt="..."> when ready.
   >> BOOKINGS ARE LIVE: every "Book" button opens a modal with the Square Appointments
      booking flow (#sqBookFrame); service-card buttons preselect that service. To point at a
      different Square account, edit SQ_MID / SQ_LID / SQ_SERVICE in the booking <script>.
@@ -197,18 +195,6 @@
   .season button[aria-pressed="true"]{background:var(--gold);color:var(--ink)}
   .season button.winter[aria-pressed="true"]{background:var(--snow);color:var(--sky)}
 
-  /* placeholders */
-  .ph{
-    border:2px dashed rgba(244,238,223,.4);border-radius:var(--r);
-    background:repeating-linear-gradient(45deg,rgba(255,255,255,.03) 0 12px,transparent 12px 24px);
-    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
-    padding:26px;color:rgba(244,238,223,.78);min-height:340px;gap:10px;
-  }
-  .ph.light{border-color:var(--bark);color:var(--bark);background:repeating-linear-gradient(45deg,rgba(74,53,38,.04) 0 12px,transparent 12px 24px)}
-  .ph svg{width:34px;height:34px;opacity:.7}
-  .ph .ph-title{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase}
-  .ph .ph-desc{font-size:.93rem;max-width:30ch;line-height:1.4}
-  .ph .ph-ratio{font-family:var(--font-mono);font-size:.66rem;opacity:.6}
   .hero-media{position:relative}
   .hero-photo{width:100%;height:100%;min-height:360px;max-height:460px;object-fit:cover;border-radius:var(--r);box-shadow:0 18px 50px -18px rgba(0,0,0,.55);display:block}
 
@@ -268,7 +254,6 @@
   .tag-before{left:12px}
   .tag-after{right:12px}
   .ba .lbl{font-family:var(--font-mono);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;opacity:.85}
-  .ba .ph-desc{font-size:.92rem;max-width:26ch}
   .ba .handle{position:absolute;top:0;bottom:0;left:50%;width:3px;background:var(--gold);transform:translateX(-50%);cursor:ew-resize;z-index:3}
   .ba .handle::after{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:42px;height:42px;border-radius:50%;background:var(--gold);box-shadow:0 4px 14px rgba(0,0,0,.4)}
   .ba .handle .arrows{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:4;font-size:1rem;color:var(--ink);font-weight:700;letter-spacing:-2px}
@@ -356,7 +341,6 @@
   /* responsive */
   @media(max-width:880px){
     .hero-inner,.why,.area-grid{grid-template-columns:1fr;gap:32px}
-    .hero .ph{min-height:240px}
     .steps,.svc-grid,.reviews,.foot-grid{grid-template-columns:1fr}
     .ba-grid{grid-template-columns:1fr 1fr}
     .nav-links{display:none}
