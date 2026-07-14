@@ -541,6 +541,7 @@
       <button class="est-cta" id="estCta" type="button" disabled>See available times →</button>
       <div class="est-foot">
         <div class="est-fine"><b>This is a ballpark.</b> Final price is confirmed on a quick, free site visit — rock, slope, access, and overgrowth can move it. Pine Country Landscape LLC · <b>Not a Licensed Contractor.</b></div>
+        <div class="est-fine" style="margin-top:8px"><b>Junk removal add-ons:</b> appliances +$20 each, fridges/AC (Freon) +$45 each, mattresses +$20 each. We don't haul paint, chemicals, tires, batteries, or hazardous waste.</div>
       </div>
     </div>
   </div>
@@ -569,9 +570,11 @@
     winter:{label:"Winter Watering",seasonal:true,q:{t:"qty",label:"How many trees / shrubs?",def:5},
       calc:function(n){n=n||0;return{low:90+n*6,high:90+n*10,lines:[{l:"Trip charge",a:[90,90]},{l:n+" tree/shrub",a:[n*6,n*10]}]};}},
     snow:{label:"Snow Removal",seasonal:true,q:{t:"size",label:"Driveway / area",opts:["Small","Medium","Large"]},
-      calc:function(s){var V={Small:[55,90],Medium:[90,150],Large:[150,250]}[s||"Medium"];return{low:V[0],high:V[1],perVisit:true,lines:[{l:"Per visit",a:[V[0],V[1]]}]};}}
+      calc:function(s){var V={Small:[55,90],Medium:[90,150],Large:[150,250]}[s||"Medium"];return{low:V[0],high:V[1],perVisit:true,lines:[{l:"Per visit",a:[V[0],V[1]]}]};}},
+    junk:{label:"Junk & Trash Removal",q:{t:"size",label:"How full is the load?",opts:["Single item","Quarter","Half","Three-quarter","Full load"]},
+      calc:function(s){var V={"Single item":[95,125],"Quarter":[175,175],"Half":[275,275],"Three-quarter":[375,375],"Full load":[475,475]}[s||"Half"];return{low:V[0],high:V[1],perVisit:true,lines:[{l:(s||"Half")+" load",a:[V[0],V[1]]}]};}}
   };
-  var order=["cleanup","plantdelivery","irrigation","timer","pruning","diagnosis","consult","winterize","winter","snow"];
+  var order=["cleanup","plantdelivery","irrigation","timer","pruning","diagnosis","consult","winterize","winter","snow","junk"];
   var sel={};
   var $=function(id){return document.getElementById(id);};
   var money=function(n){return "$"+Math.round(n).toLocaleString("en-US");};
@@ -822,6 +825,8 @@ const SERVICES = [
     icon:'<path d="M12 3s5 5 5 9a5 5 0 0 1-10 0c0-4 5-9 5-9Z"/><path d="M9 21h6"/>'},
   {id:'snow', name:'Snow Removal', desc:'Driveways & walks cleared fast. Get on the Snow List or request after a storm.', price:'55', unit:'per visit', dur:'30–60 min', season:'winter',
     icon:'<path d="M12 2v20M2 12h20M5 5l14 14M19 5 5 19"/>'},
+  {id:'junk', name:'Junk & Trash Removal', desc:'Pickup and haul only — we load it, strap it, and take it to the dump. Priced by the load.', price:'95', unit:'per load', dur:'1–2 hrs', season:'green',
+    icon:'<path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M6 7l1 13h10l1-13"/>'},
 ];
 
 const REVIEWS = [
