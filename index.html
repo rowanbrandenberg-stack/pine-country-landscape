@@ -391,7 +391,8 @@
   </svg>
   <div class="wrap hero-inner">
     <div>
-      <div class="season" role="group" aria-label="Choose season">
+      <!-- Winter season toggle hidden for now — delete style="display:none" (and restore the month default in the season script) to re-enable -->
+      <div class="season" role="group" aria-label="Choose season" style="display:none">
         <button id="seasonGreen" aria-pressed="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v18M12 8c-3-4-8-3-8-3s0 5 3 6M12 12c3-4 8-3 8-3s0 5-3 6"/></svg>
           Green season
@@ -917,9 +918,9 @@ function setSeason(season){
 }
 gBtn.addEventListener('click', ()=>setSeason('green'));
 wBtn.addEventListener('click', ()=>setSeason('winter'));
-// default by current month (Nov–Mar = winter)
-const m = new Date().getMonth();
-setSeason((m>=10 || m<=2) ? 'winter' : 'green');
+// Winter view hidden for now — locked to green season. To re-enable the seasonal toggle, restore:
+//   const m = new Date().getMonth(); setSeason((m>=10 || m<=2) ? 'winter' : 'green');
+setSeason('green');
 
 /* ---------- mobile menu ---------- */
 const menuBtn = document.getElementById('menuBtn');
