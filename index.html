@@ -223,6 +223,9 @@
   .svc .price{font-family:var(--font-display);font-weight:700;font-size:1.05rem;color:var(--pine)}
   .svc .price small{font-family:var(--font-body);font-weight:500;color:var(--ink-soft);font-size:.8rem}
   .svc-disc{font-size:.7rem;color:var(--ink-soft);line-height:1.4;margin:8px 0 0}
+  .est-badge{display:inline-block;font-family:var(--font-mono);font-size:.62rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin:2px 0}
+  .est-badge.free{background:#E6F0E8;color:#2E6B4F}
+  .est-badge.paid{background:#FBF3DD;color:var(--bark)}
   .svc .row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:6px}
   .svc .dur{font-family:var(--font-mono);font-size:.7rem;color:var(--ink-soft);letter-spacing:.05em}
   .tag{position:absolute;top:16px;right:-34px;transform:rotate(45deg);background:var(--sky);color:#fff;font-size:.66rem;font-weight:700;letter-spacing:.08em;padding:4px 40px;font-family:var(--font-mono);text-transform:uppercase;opacity:0;transition:.2s}
@@ -464,6 +467,48 @@
   </div>
 </section>
 
+<!-- ============ FREE ESTIMATE POLICY + PHOTO PATH ============ -->
+<style>
+  #estpolicy{background:var(--pine);color:var(--birch)}
+  #estpolicy .wrap{padding:46px 22px}
+  #estpolicy .ep-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:34px;align-items:center}
+  #estpolicy .eyebrow{color:var(--gold)}
+  #estpolicy h2{font-size:clamp(1.6rem,3vw,2.2rem);margin:6px 0 14px;color:var(--birch)}
+  #estpolicy .ep-lead{color:rgba(244,238,223,.9);line-height:1.6;font-size:1.02rem}
+  #estpolicy .ep-lead b{color:var(--birch)}
+  #estpolicy .ep-paid{color:var(--gold);font-weight:700}
+  #estpolicy .ep-out{font-size:.8rem;color:rgba(244,238,223,.72);margin-top:16px;line-height:1.55}
+  #estpolicy .ep-out b{color:var(--birch)}
+  #estpolicy .ep-card{background:var(--birch);color:var(--ink);border-radius:var(--r);padding:26px;text-align:center;box-shadow:0 14px 40px -14px rgba(0,0,0,.5)}
+  #estpolicy .ep-card .k{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--bark)}
+  #estpolicy .ep-phone{display:block;font-family:var(--font-display);font-weight:800;font-size:1.8rem;color:var(--pine);margin:8px 0 2px;text-decoration:none;letter-spacing:-.01em}
+  #estpolicy .ep-sub{font-size:.9rem;color:var(--ink-soft);margin:0 0 14px}
+  #estpolicy .ep-cta{display:inline-block;background:var(--gold);color:var(--ink);border-radius:12px;font-family:var(--font-display);font-weight:800;font-size:1rem;padding:14px 24px;text-decoration:none;transition:.14s}
+  #estpolicy .ep-cta:hover{background:var(--gold-deep);color:#fff}
+  #estpolicy .ep-disc{font-size:.74rem;color:var(--ink-soft);margin-top:16px;line-height:1.5}
+  #estpolicy .ep-disc b{color:var(--bark)}
+  @media(max-width:760px){#estpolicy .ep-grid{grid-template-columns:1fr;gap:26px}}
+</style>
+<section id="estpolicy">
+  <div class="wrap">
+    <div class="ep-grid">
+      <div>
+        <p class="eyebrow">Estimates</p>
+        <h2>Free estimates. Same-day ballparks.</h2>
+        <p class="ep-lead"><b>Free on-site estimates for cleanups, pruning, planting, and trash removal — within Flagstaff.</b> Text us photos for a same-day ballpark. <span class="ep-paid">Irrigation diagnostics and design consults are $145, credited toward the work.</span></p>
+        <p class="ep-out"><b>Outside Flagstaff city limits</b> — Doney Park, Kachina Village, Munds Park, Bellemont, Williams: a <b>$145 trip minimum</b> applies unless we're already scheduled in that area.</p>
+      </div>
+      <div class="ep-card">
+        <div class="k">Fastest way to a number</div>
+        <a class="ep-phone" href="sms:+19288638198?body=Photos%20and%20my%20address">(928) 863-8198</a>
+        <p class="ep-sub">Text photos + your address</p>
+        <a class="ep-cta" href="sms:+19288638198?body=Photos%20and%20my%20address">Text photos for a ballpark →</a>
+        <p class="ep-disc"><b>A photo ballpark is a range, not a quote.</b> Final price confirmed on site.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ INSTANT ESTIMATE ============ -->
 <style>
   #estimate{background:var(--birch-dim);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
@@ -492,6 +537,7 @@
   #estimate .est-read .amt.empty{color:rgba(244,238,223,.5);font-size:1.15rem}
   #estimate .est-read .n{font-size:.82rem;color:rgba(244,238,223,.85);margin-top:6px}
   #estimate .est-read .n b{color:var(--gold)}
+  #estimate .est-read .est-tier{font-size:.78rem;color:var(--gold);font-weight:600;margin-top:8px;line-height:1.5}
   #estimate .est-pkg{display:flex;gap:10px;align-items:flex-start;margin:14px 22px 0;padding:12px 14px;background:#FBF3DD;border:1px solid #E6CF94;border-radius:12px;cursor:pointer}
   #estimate .est-pkg input{width:19px;height:19px;margin-top:2px;accent-color:var(--gold-deep)}
   #estimate .est-pkg span{font-size:.83rem;color:var(--bark)}
@@ -520,6 +566,7 @@
         <div class="l">Estimated range</div>
         <div class="amt empty" id="estAmt">Pick a service to start</div>
         <div class="n" id="estNudge"></div>
+        <div class="est-tier" id="estTier"></div>
       </div>
       <label class="est-pkg" id="estPkg" style="display:none">
         <input type="checkbox" id="estPkgCk">
@@ -542,6 +589,12 @@ var PRICING={
   TRIP_MINIMUM:145,        // no standalone quote falls below this
   MATERIAL_MARKUP:1.25,    // materials billed on the invoice at cost x this (never inside a published/labor price)
   IRRIGATION_JOB_CAP:1000  // AZ handyman exemption: irrigation job TOTAL (labor + materials x markup) can't exceed this
+};
+/* Estimate policy tiers: 'free' = we can quote by LOOKING (free on-site, within Flagstaff);
+   'paid' = producing the estimate needs WORKING ($145 on-site diagnostic, credited toward the work). */
+var ESTIMATE_TIER={
+  cleanup:'free', plantdelivery:'free', pruning:'free', junk:'free',
+  irriginstall:'paid', irrigrepair:'paid', diagnosis:'paid', consult:'paid'
 };
 (function(){
   var HR=PRICING.CREW_HOUR_RATE,MIN=PRICING.TRIP_MINIMUM,MK=PRICING.MATERIAL_MARKUP,CAP=PRICING.IRRIGATION_JOB_CAP;
@@ -624,9 +677,11 @@ var PRICING={
     });
     if(ids.length){low=Math.max(low,MIN);high=Math.max(high,MIN);}   // never below TRIP_MINIMUM
     if(irr&&(CAP-high)/MK<=0)contact=true;   // cap is on TOTAL (labor + materials x MK); if labor leaves no material room, it's off-menu
-    var amt=$("estAmt"),nud=$("estNudge");
-    if(!ids.length){amt.className="amt empty";amt.textContent="Pick a service to start";nud.innerHTML="";}
-    else if(contact){amt.className="amt";amt.textContent="Contact us for this scope";nud.innerHTML="Irrigation jobs over "+money(CAP)+" need a custom quote — <b>book a visit and we'll scope it.</b>";}
+    var amt=$("estAmt"),nud=$("estNudge"),tier=$("estTier");
+    var hasFree=ids.some(function(id){return ESTIMATE_TIER[id]==="free";});
+    var hasPaid=ids.some(function(id){return ESTIMATE_TIER[id]==="paid";});
+    if(!ids.length){amt.className="amt empty";amt.textContent="Pick a service to start";nud.innerHTML="";tier.innerHTML="";}
+    else if(contact){amt.className="amt";amt.textContent="Contact us for this scope";nud.innerHTML="Irrigation jobs over "+money(CAP)+" need a custom quote — <b>book a visit and we'll scope it.</b>";tier.innerHTML="";}
     else{
       var pluses=Object.keys(plus),plusTxt=pluses.length?" + "+pluses.join(" + "):"";
       var pvTxt=(pv&&ids.length===1)?" / visit":"";
@@ -634,6 +689,10 @@ var PRICING={
       amt.textContent=(anyFrom?"from "+money(low)+plusTxt:(low===high?money(low)+plusTxt:money(low)+" – "+money(high)+plusTxt))+pvTxt;
       var baseNud=anyFrom?"Starting price — final confirmed on a quick, free visit.":(low===high?"Flat rate, no surprises.":"Most jobs land in the middle.");
       nud.innerHTML=baseNud+(seas?' <b>Ask about a seasonal plan to save.</b>':'');
+      var tm=[];
+      if(hasFree)tm.push("Estimate only. Free on-site visit confirms final price.");
+      if(hasPaid)tm.push(money(MIN)+" on-site diagnostic, credited toward the work.");
+      tier.innerHTML=tm.join("<br>");
     }
     $("estPkg").style.display=seas?"flex":"none";
     $("estCta").disabled=!ids.length;
@@ -863,6 +922,7 @@ grid.innerHTML = SERVICES.map(s => `
     <h3>${s.name}</h3>
     <p>${s.desc}</p>
     <div class="price" data-price>${s.from?'from ':''}$${s.price} <small>${s.unit}</small></div>
+    ${ESTIMATE_TIER[s.id]==='free'?'<span class="est-badge free">Free estimate</span>':(ESTIMATE_TIER[s.id]==='paid'?'<span class="est-badge paid">$'+PRICING.TRIP_MINIMUM+', credited</span>':'')}
     ${s.from?'<p class="svc-disc">Starting price covers labor only. Materials billed separately at cost plus markup. Final price quoted on site.</p>':''}
     <div class="row">
       <span class="dur">⏱ ${s.dur}</span>
