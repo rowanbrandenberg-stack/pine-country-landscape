@@ -570,7 +570,7 @@
       </div>
       <label class="est-pkg" id="estPkg" style="display:none">
         <input type="checkbox" id="estPkgCk">
-        <span><b>Save 10–15% with a seasonal plan.</b> Bundle your recurring work — winterization, winter watering, snow — onto one agreement. Check here and we'll include plan pricing in your quote.</span>
+        <span><b>Save 15% with a seasonal plan.</b> Bundle your recurring work — winterization, winter watering, snow — onto one agreement. Check the box to preview your plan price.</span>
       </label>
       <button class="est-cta" id="estCta" type="button" disabled>See available times →</button>
       <div class="est-foot">
@@ -588,7 +588,8 @@ var PRICING={
   CREW_HOUR_RATE:145,      // labor rate per crew-hour
   TRIP_MINIMUM:145,        // no standalone quote falls below this
   MATERIAL_MARKUP:1.25,    // materials billed on the invoice at cost x this (never inside a published/labor price)
-  IRRIGATION_JOB_CAP:1000  // AZ handyman exemption: irrigation job TOTAL (labor + materials x markup) can't exceed this
+  IRRIGATION_JOB_CAP:1000, // AZ handyman exemption: irrigation job TOTAL (labor + materials x markup) can't exceed this
+  SEASONAL_PLAN_DISCOUNT:0.15 // flat 15% off the estimate when a seasonal plan is selected
 };
 /* Estimate policy tiers: 'free' = we can quote by LOOKING (free on-site, within Flagstaff);
    'paid' = producing the estimate needs WORKING ($145 on-site diagnostic, credited toward the work). */
@@ -597,7 +598,7 @@ var ESTIMATE_TIER={
   irriginstall:'paid', irrigrepair:'paid', diagnosis:'paid', consult:'paid'
 };
 (function(){
-  var HR=PRICING.CREW_HOUR_RATE,MIN=PRICING.TRIP_MINIMUM,MK=PRICING.MATERIAL_MARKUP,CAP=PRICING.IRRIGATION_JOB_CAP;
+  var HR=PRICING.CREW_HOUR_RATE,MIN=PRICING.TRIP_MINIMUM,MK=PRICING.MATERIAL_MARKUP,CAP=PRICING.IRRIGATION_JOB_CAP,DISC=PRICING.SEASONAL_PLAN_DISCOUNT;
   /* Published prices are LABOR ONLY. "From" = crew-hours x HR (derivable). Materials never shown. */
   var SV={
     cleanup:{label:"Yard Cleanup",seasonal:true,
@@ -677,6 +678,8 @@ var ESTIMATE_TIER={
     });
     if(ids.length){low=Math.max(low,MIN);high=Math.max(high,MIN);}   // never below TRIP_MINIMUM
     if(irr&&(CAP-high)/MK<=0)contact=true;   // cap is on TOTAL (labor + materials x MK); if labor leaves no material room, it's off-menu
+    var plan=seas&&$("estPkgCk").checked;    // seasonal-plan toggle: flat discount off the shown estimate
+    if(plan){low=low*(1-DISC);high=high*(1-DISC);}
     var amt=$("estAmt"),nud=$("estNudge"),tier=$("estTier");
     var hasFree=ids.some(function(id){return ESTIMATE_TIER[id]==="free";});
     var hasPaid=ids.some(function(id){return ESTIMATE_TIER[id]==="paid";});
@@ -687,8 +690,8 @@ var ESTIMATE_TIER={
       var pvTxt=(pv&&ids.length===1)?" / visit":"";
       amt.className="amt";
       amt.textContent=(anyFrom?"from "+money(low)+plusTxt:(low===high?money(low)+plusTxt:money(low)+" – "+money(high)+plusTxt))+pvTxt;
-      var baseNud=anyFrom?"Starting price — final confirmed on a quick, free visit.":(low===high?"Flat rate, no surprises.":"Most jobs land in the middle.");
-      nud.innerHTML=baseNud+(seas?' <b>Ask about a seasonal plan to save.</b>':'');
+      var baseNud=plan?("Seasonal-plan price — "+Math.round(DISC*100)+"% off recurring work."):(anyFrom?"Starting price — final confirmed on a quick, free visit.":(low===high?"Flat rate, no surprises.":"Most jobs land in the middle."));
+      nud.innerHTML=baseNud+(seas&&!plan?' <b>Ask about a seasonal plan to save.</b>':'');
       var tm=[];
       if(hasFree)tm.push("Estimate only. Free on-site visit confirms final price.");
       if(hasPaid)tm.push(money(MIN)+" on-site diagnostic, credited toward the work.");
@@ -703,6 +706,7 @@ var ESTIMATE_TIER={
     if(typeof window.openModal==="function"){window.openModal(ids[0]);}
     else{var m=document.getElementById("modal");if(m){m.classList.add("open");document.body.style.overflow="hidden";}}
   });
+  $("estPkgCk").addEventListener("change",recalc);   // seasonal-plan toggle re-prices live
   recalc();
 })();
 </script>
