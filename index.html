@@ -228,6 +228,7 @@
   .svc p{color:var(--ink-soft);font-size:.95rem;flex-grow:1;margin-bottom:18px}
   .svc .price{font-family:var(--font-display);font-weight:700;font-size:1.05rem;color:var(--pine)}
   .svc .price small{font-family:var(--font-body);font-weight:500;color:var(--ink-soft);font-size:.8rem}
+  .svc-disc{font-size:.7rem;color:var(--ink-soft);line-height:1.4;margin:8px 0 0}
   .svc .row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:6px}
   .svc .dur{font-family:var(--font-mono);font-size:.7rem;color:var(--ink-soft);letter-spacing:.05em}
   .tag{position:absolute;top:16px;right:-34px;transform:rotate(45deg);background:var(--sky);color:#fff;font-size:.66rem;font-weight:700;letter-spacing:.08em;padding:4px 40px;font-family:var(--font-mono);text-transform:uppercase;opacity:0;transition:.2s}
@@ -541,41 +542,50 @@
       <button class="est-cta" id="estCta" type="button" disabled>See available times →</button>
       <div class="est-foot">
         <div class="est-fine"><b>This is a ballpark.</b> Final price is confirmed on a quick, free site visit — rock, slope, access, and overgrowth can move it. Pine Country Landscape LLC · <b>Not a Licensed Contractor.</b></div>
-        <div class="est-fine" style="margin-top:8px"><b>Junk removal add-ons:</b> appliances +$20 each, fridges/AC (Freon) +$45 each, mattresses +$20 each. We don't haul paint, chemicals, tires, batteries, or hazardous waste.</div>
+        <div class="est-fine" style="margin-top:8px">Starting price covers labor only. Materials billed separately at cost plus markup. Final price quoted on site.</div>
+        <div class="est-fine" style="margin-top:8px"><b>Trash removal add-ons:</b> appliances +$20 each, fridges/AC (Freon) +$45 each, mattresses +$20 each. We don't haul paint, chemicals, tires, batteries, or hazardous waste.</div>
       </div>
     </div>
   </div>
 </section>
 <script>
+/* ===== PRICING MODEL — single source of truth (shared by estimator + services grid) ===== */
+var PRICING={
+  CREW_HOUR_RATE:145,      // labor rate per crew-hour
+  TRIP_MINIMUM:145,        // no standalone quote falls below this
+  MATERIAL_MARKUP:1.25,    // materials billed on the invoice at cost x this (never inside a published/labor price)
+  IRRIGATION_JOB_CAP:1000  // AZ handyman exemption: irrigation job TOTAL (labor + materials x markup) can't exceed this
+};
 (function(){
-  /* ---- unified pricing model: two global constants, referenced everywhere ---- */
-  var CFG={CREW_HOUR_RATE:145,TRIP_MINIMUM:145,IRRIGATION_CAP:1000};
-  var HR=CFG.CREW_HOUR_RATE,MIN=CFG.TRIP_MINIMUM,CAP=CFG.IRRIGATION_CAP;
+  var HR=PRICING.CREW_HOUR_RATE,MIN=PRICING.TRIP_MINIMUM,MK=PRICING.MATERIAL_MARKUP,CAP=PRICING.IRRIGATION_JOB_CAP;
+  /* Published prices are LABOR ONLY. "From" = crew-hours x HR (derivable). Materials never shown. */
   var SV={
     cleanup:{label:"Yard Cleanup",seasonal:true,
-      calc:function(){var f=2*HR;return{low:f,high:f,from:true,lines:[{l:"Starting labor (2-hr crew min; final at visit)",a:[f,f]}]};}},
+      calc:function(){var f=2*HR;return{low:f,high:f,from:true,lines:[{l:"Labor — 2-hr crew min (materials extra)",a:[f,f]}]};}},
     plantdelivery:{label:"Plant & Delivery",
-      calc:function(){var f=2*HR;return{low:f,high:f,from:true,plus:"materials",lines:[{l:"Labor + delivery (plants/materials extra)",a:[f,f]}]};}},
-    irrigation:{label:"Irrigation Install / Repair",irrigationJob:true,q:{t:"qty",label:"Roughly how many heads/zones need work?",def:2},
-      calc:function(n){n=n||0;var lo=HR+n*45,hi=HR+n*70;if(hi>CAP)return{contact:true};return{low:lo,high:hi,lines:[{l:"Service call",a:[HR,HR]},{l:n+" head/zone",a:[n*45,n*70]}]};}},
-    timer:{label:"Timer Install",q:{t:"size",label:"Who supplies the timer?",opts:["Labor only (I supply timer)","Standard timer supplied"]},
-      calc:function(s){s=s||"Labor only (I supply timer)";var V={"Labor only (I supply timer)":165,"Standard timer supplied":245}[s];return{low:V,high:V,lines:[{l:s,a:[V,V]}]};}},
+      calc:function(){var f=2*HR;return{low:f,high:f,from:true,lines:[{l:"Labor — 2-hr crew min (plants/materials extra)",a:[f,f]}]};}},
+    irriginstall:{label:"Irrigation Installation",irrigationJob:true,
+      calc:function(){var f=4*HR;return{low:f,high:f,from:true,lines:[{l:"Labor — 4-hr crew min (materials extra)",a:[f,f]}]};}},
+    irrigrepair:{label:"Irrigation Repair",irrigationJob:true,
+      calc:function(){var f=HR;return{low:f,high:f,from:true,lines:[{l:"Labor — 1-hr crew min (materials extra)",a:[f,f]}]};}},
+    timer:{label:"Timer Install",
+      calc:function(){return{low:165,high:165,lines:[{l:"Labor only — you supply the timer",a:[165,165]}]};}},
     pruning:{label:"Pruning",seasonal:true,
-      calc:function(){var f=2*HR;return{low:f,high:f,from:true,lines:[{l:"Starting labor (2-hr crew min; final at visit)",a:[f,f]}]};}},
+      calc:function(){var f=2*HR;return{low:f,high:f,from:true,lines:[{l:"Labor — 2-hr crew min",a:[f,f]}]};}},
     diagnosis:{label:"Tree & Shrub Diagnosis",seasonal:true,
-      calc:function(){return{low:HR,high:HR,lines:[{l:"Health assessment (credited toward the work)",a:[HR,HR]}]};}},
+      calc:function(){return{low:MIN,high:MIN,lines:[{l:"Assessment (credited toward the work if booked)",a:[MIN,MIN]}]};}},
     consult:{label:"Yard Design Consult",
-      calc:function(){return{low:HR,high:HR,lines:[{l:"On-site consult (credited toward install if booked)",a:[HR,HR]}]};}},
+      calc:function(){return{low:MIN,high:MIN,lines:[{l:"On-site consult (credited toward install if booked)",a:[MIN,MIN]}]};}},
     winterize:{label:"Irrigation Winterization",seasonal:true,irrigationJob:true,q:{t:"qty",label:"How many zones? (a guess is fine)",def:4},
-      calc:function(n){n=n||4;var e=Math.max(0,n-4),v=MIN+e*25;if(v>CAP)return{contact:true};return{low:v,high:v,lines:[{l:"Base (up to 4 zones)",a:[MIN,MIN]},{l:e+" extra zone",a:[e*25,e*25]}]};}},
+      calc:function(n){n=n||4;var e=Math.max(0,n-4),v=MIN+e*25;return{low:v,high:v,lines:[{l:"Base (up to 4 zones)",a:[MIN,MIN]},{l:e+" extra zone",a:[e*25,e*25]}]};}},
     winter:{label:"Winter Watering",seasonal:true,q:{t:"size",label:"Standalone visit or add-on?",opts:["Standalone visit","Add-on to another visit"]},
       calc:function(s){s=s||"Standalone visit";var V={"Standalone visit":MIN,"Add-on to another visit":55}[s];return{low:V,high:V,perVisit:true,lines:[{l:s,a:[V,V]}]};}},
     snow:{label:"Snow Removal",seasonal:true,
       calc:function(){return{low:MIN,high:MIN,perVisit:true,lines:[{l:"Per visit",a:[MIN,MIN]}]};}},
-    junk:{label:"Junk & Trash Removal",
-      calc:function(){return{low:MIN,high:MIN,from:true,plus:"dump fees",lines:[{l:"Trip minimum (load size sets final; dump fees extra)",a:[MIN,MIN]}]};}}
+    junk:{label:"Trash Removal",
+      calc:function(){var f=HR;return{low:f,high:f,from:true,plus:"dump fees",lines:[{l:"Labor — 1-hr crew min (dump fees extra)",a:[f,f]}]};}}
   };
-  var order=["cleanup","plantdelivery","irrigation","timer","pruning","diagnosis","consult","winterize","winter","snow","junk"];
+  var order=["cleanup","plantdelivery","irriginstall","irrigrepair","timer","pruning","diagnosis","consult","winterize","winter","snow","junk"];
   var sel={};
   var $=function(id){return document.getElementById(id);};
   var money=function(n){return "$"+Math.round(n).toLocaleString("en-US");};
@@ -626,7 +636,7 @@
       if(r.plus)plus[r.plus]=true;
     });
     if(ids.length){low=Math.max(low,MIN);high=Math.max(high,MIN);}   // never below TRIP_MINIMUM
-    if(irr&&high>CAP)contact=true;                                   // never show an irrigation-inclusive quote over $1,000
+    if(irr&&(CAP-high)/MK<=0)contact=true;   // cap is on TOTAL (labor + materials x MK); if labor leaves no material room, it's off-menu
     var amt=$("estAmt"),nud=$("estNudge");
     if(!ids.length){amt.className="amt empty";amt.textContent="Pick a service to start";nud.innerHTML="";}
     else if(contact){amt.className="amt";amt.textContent="Contact us for this scope";nud.innerHTML="Irrigation jobs over "+money(CAP)+" need a custom quote — <b>book a visit and we'll scope it.</b>";}
@@ -824,27 +834,30 @@
 <script>
 /* ---------- SERVICES (edit names, prices, durations here) ---------- */
 const SERVICES = [
-  {id:'cleanup', name:'Yard Cleanups', desc:'Leaves, debris, weeds, hauling — the big spring & fall reset.', price:'290', from:true, unit:'', dur:'2–4 hrs', season:'green',
+  // "From" prices are derived: crew-hours x PRICING.CREW_HOUR_RATE (labor only). Fixed prices are labor too.
+  {id:'cleanup', name:'Yard Cleanups', desc:'Leaves, debris, weeds, hauling — the big spring & fall reset.', price:2*PRICING.CREW_HOUR_RATE, from:true, unit:'', dur:'2–4 hrs', season:'green',
     icon:'<path d="M16 3v6M19 5l-3 3M21 9l-7 7-3-3M3 21l6-6"/><path d="M14 19l-2 2H5l-1-4 5-1"/>'},
-  {id:'plantdelivery', name:'Plant & Delivery', desc:'We source, deliver, and plant for high-desert soil. Plants and materials billed on top.', price:'290', from:true, unit:'+ materials', dur:'varies', season:'green',
+  {id:'plantdelivery', name:'Plant & Delivery', desc:'We source, deliver, and plant for high-desert soil.', price:2*PRICING.CREW_HOUR_RATE, from:true, unit:'', dur:'varies', season:'green',
     icon:'<path d="M3 9l9-5 9 5-9 5-9-5Z"/><path d="M3 9v6l9 5 9-5V9"/>'},
-  {id:'irrigation', name:'Irrigation Install / Repair', desc:'Head swaps, leaks, zones, and small installs — jobs kept under $1,000.', price:'145', from:true, unit:'', dur:'1–2 hrs', season:'green',
+  {id:'irriginstall', name:'Irrigation Installation', desc:'New drip or spray zones and small system installs — scoped to stay under the AZ handyman cap.', price:4*PRICING.CREW_HOUR_RATE, from:true, unit:'', dur:'half day', season:'green',
+    icon:'<path d="M12 3s5 5 5 9a5 5 0 0 1-10 0c0-4 5-9 5-9Z"/><path d="M8 14h8"/>'},
+  {id:'irrigrepair', name:'Irrigation Repair', desc:'Head swaps, leaks, valves, and zone fixes.', price:1*PRICING.CREW_HOUR_RATE, from:true, unit:'', dur:'1–2 hrs', season:'green',
     icon:'<path d="M12 3s5 5 5 9a5 5 0 0 1-10 0c0-4 5-9 5-9Z"/>'},
-  {id:'timer', name:'Timer Installs', desc:'Controller installed and dialed in — supply your own, or we bring a standard one.', price:'165', from:true, unit:'installed', dur:'~1 hr', season:'green',
+  {id:'timer', name:'Timer Installs', desc:'Controller installed and dialed in. Labor only — you supply the timer.', price:165, unit:'labor only', dur:'~1 hr', season:'green',
     icon:'<circle cx="12" cy="13" r="7"/><path d="M12 13V9M9 2h6"/>'},
-  {id:'pruning', name:'Pruning', desc:'Shrubs and small trees, shaped and cleaned up — ground-level work.', price:'290', from:true, unit:'', dur:'1–3 hrs', season:'green',
+  {id:'pruning', name:'Pruning', desc:'Shrubs and small trees, shaped and cleaned up — ground-level work.', price:2*PRICING.CREW_HOUR_RATE, from:true, unit:'', dur:'1–3 hrs', season:'green',
     icon:'<circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M8.5 7.5 20 16M8.5 16.5 20 8"/>'},
-  {id:'diagnosis', name:'Tree & Shrub Diagnosis', desc:'We assess plant health and tell you what it needs. Credited toward the work.', price:'145', unit:'flat', dur:'30–45 min', season:'green',
+  {id:'diagnosis', name:'Tree & Shrub Diagnosis', desc:'We assess plant health and tell you what it needs. Credited toward the work if booked.', price:PRICING.TRIP_MINIMUM, unit:'flat', dur:'30–45 min', season:'green',
     icon:'<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>'},
-  {id:'consult', name:'Yard Design Consult', desc:'New to Flagstaff? We plan a yard that survives at 7,000 ft. Credited toward install if booked.', price:'145', unit:'flat', dur:'~1 hr', season:'green',
+  {id:'consult', name:'Yard Design Consult', desc:'New to Flagstaff? We plan a yard that survives at 7,000 ft. Credited toward install if booked.', price:PRICING.TRIP_MINIMUM, unit:'flat', dur:'~1 hr', season:'green',
     icon:'<path d="M9 3h6v3H9zM5 6h14v15H5zM9 12h6M9 16h4"/>'},
-  {id:'winterize', name:'Irrigation Winterization', desc:'Blow-out before the first hard freeze. Base covers up to 4 zones.', price:'145', from:true, unit:'', dur:'30–60 min', season:'winter',
+  {id:'winterize', name:'Irrigation Winterization', desc:'Blow-out before the first hard freeze. Base covers up to 4 zones, +$25 per zone after.', price:PRICING.TRIP_MINIMUM, unit:'up to 4 zones', dur:'30–60 min', season:'winter',
     icon:'<path d="M12 3s5 5 5 9a5 5 0 0 1-10 0c0-4 5-9 5-9Z"/><path d="M4 4l16 16"/>'},
-  {id:'winter', name:'Winter Watering', desc:'Keeps young trees alive through dry winters — or just $55 as an add-on to another visit.', price:'145', unit:'per visit', dur:'30–45 min', season:'winter',
+  {id:'winter', name:'Winter Watering', desc:'Keeps young trees alive through dry winters — or just $55 as an add-on to another visit.', price:PRICING.TRIP_MINIMUM, unit:'per visit', dur:'30–45 min', season:'winter',
     icon:'<path d="M12 3s5 5 5 9a5 5 0 0 1-10 0c0-4 5-9 5-9Z"/><path d="M9 21h6"/>'},
-  {id:'snow', name:'Snow Removal', desc:'Driveways & walks cleared fast. Get on the Snow List or request after a storm.', price:'145', unit:'per visit', dur:'30–60 min', season:'winter',
+  {id:'snow', name:'Snow Removal', desc:'Driveways & walks cleared fast. Get on the Snow List or request after a storm.', price:PRICING.TRIP_MINIMUM, unit:'per visit', dur:'30–60 min', season:'winter',
     icon:'<path d="M12 2v20M2 12h20M5 5l14 14M19 5 5 19"/>'},
-  {id:'junk', name:'Junk & Trash Removal', desc:'Pickup and haul only — we load it, strap it, and take it to the dump. Trip minimum plus dump fees.', price:'145', from:true, unit:'+ dump fees', dur:'1–2 hrs', season:'green',
+  {id:'junk', name:'Trash Removal', desc:'Pickup and haul only — we load it, strap it, and take it to the dump.', price:1*PRICING.CREW_HOUR_RATE, from:true, unit:'+ dump fees', dur:'1–2 hrs', season:'green',
     icon:'<path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M6 7l1 13h10l1-13"/>'},
 ];
 
@@ -863,6 +876,7 @@ grid.innerHTML = SERVICES.map(s => `
     <h3>${s.name}</h3>
     <p>${s.desc}</p>
     <div class="price" data-price>${s.from?'from ':''}$${s.price} <small>${s.unit}</small></div>
+    ${s.from?'<p class="svc-disc">Starting price covers labor only. Materials billed separately at cost plus markup. Final price quoted on site.</p>':''}
     <div class="row">
       <span class="dur">⏱ ${s.dur}</span>
       <button class="btn btn-dark btn-sm" data-book data-svc="${s.id}">Book →</button>
@@ -985,7 +999,7 @@ const SQ_BOOK_BASE = 'https://book.squareup.com/appointments/' + SQ_MID + '/loca
 // site service id -> Square service (item) token. Anything unmapped falls back to the general flow.
 const SQ_SERVICE = {
   cleanup:'A7IKXO3BPTVVQM4B6FSSUNMS', plantdelivery:'R4VMZLNBT252ODDBDSCCJ73H',
-  irrigation:'5ONG625T2HQGPMXVXHHBYNQ6', timer:'KH3NZW63ZAAFHC7KXQBOGE6F',
+  irriginstall:'5ONG625T2HQGPMXVXHHBYNQ6', irrigrepair:'5ONG625T2HQGPMXVXHHBYNQ6', timer:'KH3NZW63ZAAFHC7KXQBOGE6F',
   pruning:'UQRBU5GGTHBVP2KW7LMTUCJ2', diagnosis:'OFWG6DIYHXIKMKQT47S6HY5G',
   consult:'LD3J7I2JDFQU4XO3CZ7S3GAE', winterize:'UPXYNHQWFYAXECSA5O5DPFMX',
   winter:'GS6F7EVEX7RN3PNW5GUFF45P', snow:'KCF3LPTQMNKGGI47R2NWXEGX'
