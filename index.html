@@ -690,7 +690,7 @@ var ESTIMATE_TIER={
       var pvTxt=(pv&&ids.length===1)?" / visit":"";
       amt.className="amt";
       amt.textContent=(anyFrom?"from "+money(low)+plusTxt:(low===high?money(low)+plusTxt:money(low)+" – "+money(high)+plusTxt))+pvTxt;
-      var baseNud=plan?("Seasonal-plan price — "+Math.round(DISC*100)+"% off recurring work."):(anyFrom?"Starting price — final confirmed on a quick, free visit.":(low===high?"Flat rate, no surprises.":"Most jobs land in the middle."));
+      var baseNud=plan?("Seasonal-plan price — "+Math.round(DISC*100)+"% off, applied when you pay. Booking shows standard rates."):(anyFrom?"Starting price — final confirmed on a quick, free visit.":(low===high?"Flat rate, no surprises.":"Most jobs land in the middle."));
       nud.innerHTML=baseNud+(seas&&!plan?' <b>Ask about a seasonal plan to save.</b>':'');
       var tm=[];
       if(hasFree)tm.push("Estimate only. Free on-site visit confirms final price.");
