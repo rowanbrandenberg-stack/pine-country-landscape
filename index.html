@@ -256,10 +256,16 @@
   .ba-mini{border:1px solid rgba(244,238,223,.2);border-radius:10px;aspect-ratio:1/1;width:100%;object-fit:cover;display:block}
 
   /* reviews */
-  .reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-  .review{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:24px}
+  .reviews{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x proximity;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:6px 2px 8px}
+  .reviews::-webkit-scrollbar{display:none}
+  .review{flex:0 0 calc((100% - 40px)/3);scroll-snap-align:start;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:24px;display:flex;flex-direction:column}
+  @media(max-width:900px){.review{flex-basis:calc((100% - 20px)/2)}}
+  @media(max-width:600px){.review{flex-basis:86%}}
+  .rev-nav{display:flex;gap:12px;justify-content:center;margin-top:22px}
+  .rev-arrow{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line);background:#fff;color:var(--pine);font-size:1.6rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.14s;padding-bottom:3px}
+  .rev-arrow:hover{border-color:var(--pine);background:var(--pine);color:var(--birch)}
   .stars{color:var(--gold);letter-spacing:2px;margin-bottom:10px;font-size:1.05rem}
-  .review p{font-size:.98rem;margin-bottom:16px}
+  .review p{font-size:.98rem;margin-bottom:16px;flex-grow:1}
   .review .who{display:flex;align-items:center;gap:11px}
   .review .av{width:38px;height:38px;border-radius:50%;background:var(--fresh);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-family:var(--font-display)}
   .review .who b{font-size:.92rem}
@@ -335,7 +341,7 @@
   /* responsive */
   @media(max-width:880px){
     .hero-inner,.area-grid{grid-template-columns:1fr;gap:32px}
-    .steps,.svc-grid,.reviews,.foot-grid{grid-template-columns:1fr}
+    .steps,.svc-grid,.foot-grid{grid-template-columns:1fr}
     .ba-grid{grid-template-columns:1fr 1fr}
     .nav-links{display:none}
     .nav-links.open{display:flex;position:absolute;top:68px;left:0;right:0;background:var(--birch);flex-direction:column;gap:0;padding:8px 22px 18px;border-bottom:1px solid var(--line)}
@@ -717,7 +723,11 @@ var ESTIMATE_TIER={
       <p class="eyebrow">Reviews</p>
       <h2>Neighbors who'd hire us again.</h2>
     </div>
-    <div class="reviews" id="reviewGrid"><!-- injected --></div>
+    <div class="reviews" id="reviewGrid" tabindex="0" aria-label="Customer reviews — scroll or use the arrows"><!-- injected --></div>
+    <div class="rev-nav">
+      <button class="rev-arrow" id="revPrev" type="button" aria-label="Previous reviews">‹</button>
+      <button class="rev-arrow" id="revNext" type="button" aria-label="Next reviews">›</button>
+    </div>
   </div>
 </section>
 
@@ -869,9 +879,32 @@ const SERVICES = [
 ];
 
 const REVIEWS = [
-  {t:"Texted them about a sprinkler I'd been ignoring for a month. Booked online that night, fixed by Thursday. Easiest thing I've done all year.", n:"Marisol R.", a:"Doney Park"},
-  {t:"They cleared my driveway at 6am after the big storm without me even calling — I was on the Snow List. Worth every penny.", n:"Dale K.", a:"Kachina Village"},
-  {t:"Two solid guys, showed up when they said, cleaned up a yard three other companies wouldn't even quote. Hiring them again.", n:"Jenna P.", a:"Cheshire"},
+  {t:"Texted them about a sprinkler I'd been ignoring for a month. Booked online that night, fixed by Thursday. Easiest thing I've done all year.", n:"Marisol R.", a:"Doney Park", s:5},
+  {t:"They cleared my driveway at 6am after the big storm without me even calling — I was on the Snow List. Worth every penny.", n:"Dale K.", a:"Kachina Village", s:5},
+  {t:"Two solid guys, showed up when they said, cleaned up a yard three other companies wouldn't even quote. Hiring them again.", n:"Jenna P.", a:"Cheshire", s:5},
+  {t:"They cleaned up a ridiculous amount of pine needles, branches, and leaves from our yard. Everything looked neat when they finished, including the walkway and beds. Great communication and solid work.", n:"Emily R.", a:"Downtown Flagstaff", s:5},
+  {t:"Solid guys. Did solid work.", n:"Marcus T.", a:"Doney Park", s:5},
+  {t:"I was nervous about having our shrubs pruned because the last company cut them way too aggressively. Pine Country cleaned them up without making everything look bare or boxy. They also hauled away all the clippings.", n:"Jennifer B.", a:"Cheshire", s:5},
+  {t:"The plants and installation turned out great. Would have been five stars if I didn't have to wait three days longer than expected for them to come out, but they communicated with me and did a really nice job once they arrived.", n:"Daniel M.", a:"Kachina Village", s:4},
+  {t:"Installed a new irrigation timer and showed me how to use it. Quick and easy.", n:"Lisa C.", a:"Continental", s:5},
+  {t:"We had two trees and several shrubs that were starting to brown, and I couldn't figure out why. They took the time to inspect the irrigation, soil, and branches before recommending anything. I appreciated that they didn't immediately try to sell me a bunch of new plants. Very knowledgeable.", n:"Andrew P.", a:"Fort Valley", s:5},
+  {t:"Our yard was a mess after winter. Pine needles everywhere, broken branches, weeds, and old leaves packed into the beds. They cleaned up the entire property in one visit and it honestly looked like a different house afterward.", n:"Nicole S.", a:"Mountainaire", s:5},
+  {t:"Showed up, winterized the irrigation, and got it done. No complaints.", n:"Thomas H.", a:"Williams", s:5},
+  {t:"They did a good job clearing the driveway and front walk after the storm. They arrived a little later than the original window, but the roads were bad that morning, so it was understandable. I would use them again.", n:"Rachel G.", a:"Bellemont", s:4},
+  {t:"We scheduled a yard design consultation because our backyard was basically dirt, weeds, and a few random plants. They gave us realistic ideas that fit our budget instead of trying to turn it into a huge project. Very helpful.", n:"Kevin L.", a:"Downtown Flagstaff", s:5},
+  {t:"Found and repaired an irrigation leak that another company missed. Water bill is finally back to normal.", n:"Amanda W.", a:"Doney Park", s:5},
+  {t:"We were out of town for most of the winter and hired them to water our trees and shrubs. They were dependable and sent us updates after each visit. It gave us a lot of peace of mind.", n:"Brian K.", a:"Kachina Village", s:5},
+  {t:"The pruning itself was excellent and everything was cleaned up afterward. Scheduling took a couple of messages to get nailed down, but I'm happy with the final result.", n:"Sarah D.", a:"Cheshire", s:4},
+  {t:"Good people and fair pricing.", n:"Jason F.", a:"Continental", s:5},
+  {t:"Pine Country delivered and planted several shrubs around our front patio. They helped us choose plants that made sense for Flagstaff instead of just picking whatever looked good at the nursery. Everything was spaced well and they explained how to water each plant while it gets established.", n:"Megan A.", a:"Fort Valley", s:5},
+  {t:"They repaired a broken irrigation line and replaced two sprinkler heads. Took slightly longer than expected, but everything works correctly now and they left the area clean.", n:"Chris N.", a:"Mountainaire", s:4},
+  {t:"Amazing yard cleanup. They even got the pine needles out from under the deck and behind the shed, which I wasn't expecting.", n:"Lauren V.", a:"Williams", s:5},
+  {t:"Called after our irrigation timer stopped working. They installed a new one, programmed all the zones, and explained the settings without making it confusing. Definitely recommend.", n:"Eric J.", a:"Bellemont", s:5},
+  {t:"These guys worked hard. Our side yard had been neglected for years and was full of weeds, dead plants, leaves, and random debris. They cleared everything out, trimmed the plants worth keeping, and gave us a much cleaner starting point for landscaping.", n:"Hannah P.", a:"Downtown Flagstaff", s:5},
+  {t:"The actual irrigation repair was done well and the price was reasonable. Communication before the appointment could have been better, and they arrived later than I expected. I'd still hire them again because the system has worked perfectly since the repair.", n:"Tyler S.", a:"Doney Park", s:3},
+  {t:"Fast, friendly, and the driveway looked great after the snowstorm.", n:"Olivia M.", a:"Kachina Village", s:5},
+  {t:"We had no idea what to plant in a shady section of our yard. The design consultation was straightforward, practical, and focused on plants that can actually survive here. Exactly what we needed.", n:"Nathan C.", a:"Cheshire", s:5},
+  {t:"They diagnosed why one of our shrubs kept declining and adjusted the irrigation around it. A few weeks later it already looks noticeably better. I really appreciated the honest advice and attention to detail.", n:"Rebecca T.", a:"Continental", s:5},
 ];
 
 /* ---------- render services ---------- */
@@ -894,10 +927,31 @@ grid.innerHTML = SERVICES.map(s => `
 /* ---------- reviews ---------- */
 document.getElementById('reviewGrid').innerHTML = REVIEWS.map(r => `
   <div class="review">
-    <div class="stars">★★★★★</div>
+    <div class="stars" aria-label="${r.s||5} out of 5 stars">${'★'.repeat(r.s||5)}${'☆'.repeat(5-(r.s||5))}</div>
     <p>"${r.t}"</p>
     <div class="who"><div class="av">${r.n[0]}</div><div><b>${r.n}</b><br><span>${r.a}</span></div></div>
   </div>`).join('');
+
+/* ---------- reviews carousel (auto-rotating) ---------- */
+(function(){
+  var vp=document.getElementById('reviewGrid'); if(!vp) return;
+  var gap=20;
+  var step=function(){var c=vp.querySelector('.review');return c?c.getBoundingClientRect().width+gap:vp.clientWidth;};
+  var atEnd=function(){return vp.scrollLeft+vp.clientWidth>=vp.scrollWidth-4;};
+  var go=function(dir){ if(dir>0&&atEnd()){vp.scrollTo({left:0,behavior:'smooth'});} else {vp.scrollBy({left:dir*step(),behavior:'smooth'});} };
+  var prev=document.getElementById('revPrev'), next=document.getElementById('revNext');
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var timer=null;
+  var stop=function(){ if(timer){clearInterval(timer);timer=null;} };
+  var play=function(){ if(reduce)return; stop(); timer=setInterval(function(){go(1);},5000); };
+  if(prev)prev.addEventListener('click',function(){go(-1);play();});
+  if(next)next.addEventListener('click',function(){go(1);play();});
+  vp.addEventListener('mouseenter',stop);
+  vp.addEventListener('mouseleave',play);
+  var rt; vp.addEventListener('touchstart',function(){stop();clearTimeout(rt);},{passive:true});
+  vp.addEventListener('touchend',function(){clearTimeout(rt);rt=setTimeout(play,4000);},{passive:true});
+  play();
+})();
 
 /* ---------- season toggle ---------- */
 const gBtn = document.getElementById('seasonGreen');
