@@ -234,12 +234,6 @@
   body.is-winter .svc.snow .tag{background:var(--sky)}
   .svc.in-season .ic{color:var(--gold-deep)}
 
-  /* why us */
-  .why{display:grid;grid-template-columns:.95fr 1.05fr;gap:46px;align-items:center}
-  .why ul{list-style:none;padding:0;margin:22px 0 28px;display:grid;gap:14px}
-  .why li{display:flex;gap:12px;align-items:flex-start;font-size:1.02rem}
-  .why li svg{width:22px;height:22px;color:var(--fresh);flex:none;margin-top:3px}
-
   /* before/after */
   #gallery{background:var(--pine);color:var(--birch)}
   #gallery .sec-head h2{color:var(--birch)}
@@ -338,7 +332,7 @@
 
   /* responsive */
   @media(max-width:880px){
-    .hero-inner,.why,.area-grid{grid-template-columns:1fr;gap:32px}
+    .hero-inner,.area-grid{grid-template-columns:1fr;gap:32px}
     .steps,.svc-grid,.reviews,.foot-grid{grid-template-columns:1fr}
     .ba-grid{grid-template-columns:1fr 1fr}
     .nav-links{display:none}
@@ -419,7 +413,7 @@
       </div>
     </div>
     <div class="hero-media">
-      <img id="heroPhoto" class="hero-photo" src="hero-green.jpg" alt="Lush green Flagstaff lawn lined with ponderosa pines at golden hour, with rock-edged mulch beds and craftsman homes">
+      <img id="heroPhoto" class="hero-photo" src="team.jpg" alt="Rowan and Tripp of Pine Country Landscape in front of their work truck in Flagstaff">
       <img id="heroImgWinter" class="hero-photo" src="hero-winter.jpg" alt="Pine Country Landscape crew with their plow-equipped truck and spreader after clearing a snowy Flagstaff driveway" style="display:none">
     </div>
   </div>
@@ -460,7 +454,6 @@
     <div class="sec-head reveal">
       <p class="eyebrow">Services &amp; pricing</p>
       <h2>Book any of these online.</h2>
-      <p>Flip the season toggle up top — the work that's in season right now is highlighted.</p>
     </div>
     <div class="svc-grid" id="svcGrid"><!-- injected by JS --></div>
     <p class="sample-note">↑ Starting prices — your final quote depends on yard size, scope, and materials.</p>
@@ -554,7 +547,7 @@
     <div class="sec-head">
       <p class="eyebrow">Instant estimate</p>
       <h2>Ballpark your job in 30 seconds.</h2>
-      <p>Pick what you need and get a rough range — no waiting on a callback. Your exact price is confirmed on a quick, free visit.</p>
+      <p>Pick what you need and get a rough range — no waiting on a callback. Your exact price is confirmed on site.</p>
     </div>
     <div class="est-card">
       <div class="est-pad">
@@ -574,7 +567,7 @@
       </label>
       <button class="est-cta" id="estCta" type="button" disabled>See available times →</button>
       <div class="est-foot">
-        <div class="est-fine"><b>This is a ballpark.</b> Final price is confirmed on a quick, free site visit — rock, slope, access, and overgrowth can move it. Pine Country Landscape LLC · <b>Not a Licensed Contractor.</b></div>
+        <div class="est-fine"><b>This is a ballpark.</b> Final price is confirmed on a quick site visit — rock, slope, access, and overgrowth can move it. Pine Country Landscape LLC · <b>Not a Licensed Contractor.</b></div>
         <div class="est-fine" style="margin-top:8px"><b>Paying cash? Take 10% off — any job, any time.</b></div>
         <div class="est-fine" style="margin-top:8px">Starting price covers labor only. Materials billed separately at cost plus markup. Final price quoted on site.</div>
         <div class="est-fine" style="margin-top:8px"><b>Trash removal add-ons:</b> appliances +$20 each, fridges/AC (Freon) +$45 each, mattresses +$20 each. We don't haul paint, chemicals, tires, batteries, or hazardous waste.</div>
@@ -690,7 +683,7 @@ var ESTIMATE_TIER={
       var pvTxt=(pv&&ids.length===1)?" / visit":"";
       amt.className="amt";
       amt.textContent=(anyFrom?"from "+money(low)+plusTxt:(low===high?money(low)+plusTxt:money(low)+" – "+money(high)+plusTxt))+pvTxt;
-      var baseNud=plan?("Seasonal-plan price — "+Math.round(DISC*100)+"% off, applied when you pay. Booking shows standard rates."):(anyFrom?"Starting price — final confirmed on a quick, free visit.":(low===high?"Flat rate, no surprises.":"Most jobs land in the middle."));
+      var baseNud=plan?("Seasonal-plan price — "+Math.round(DISC*100)+"% off, applied when you pay. Booking shows standard rates."):(anyFrom?"Starting price — final confirmed on a site visit.":(low===high?"Flat rate, no surprises.":"Most jobs land in the middle."));
       nud.innerHTML=baseNud+(seas&&!plan?' <b>Ask about a seasonal plan to save.</b>':'');
       var tm=[];
       if(hasFree)tm.push("Estimate only. Free on-site visit confirms final price.");
@@ -710,24 +703,6 @@ var ESTIMATE_TIER={
   recalc();
 })();
 </script>
-
-<!-- ============ WHY US ============ -->
-<section id="why">
-  <div class="wrap why">
-    <img src="team.jpg" alt="Rowan and Tripp, Pine Country Landscape" style="width:100%;height:100%;object-fit:cover;border-radius:var(--r);">
-    <div class="reveal">
-      <p class="eyebrow">Why us</p>
-      <h2 style="font-size:clamp(1.8rem,3.4vw,2.5rem);margin-bottom:8px">Two locals who actually show up.</h2>
-      <ul>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> No job too small — the $60 sprinkler fix the big companies won't drive out for? That's our bread and butter.</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Book online in a minute. No voicemail purgatory, no waiting days for a callback.</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Born-and-raised pine country. We know what high-desert yards and Flagstaff winters actually need.</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Up-front pricing and card payment on site. No surprises.</li>
-      </ul>
-      <button class="btn btn-dark" data-book>Book a service</button>
-    </div>
-  </div>
-</section>
 
 <!-- ============ BEFORE / AFTER ============ -->
 <section id="gallery">
