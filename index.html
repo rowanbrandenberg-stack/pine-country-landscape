@@ -184,6 +184,8 @@
   .hero h1 .accent{color:var(--gold)}
   .hero p.lead{font-size:1.18rem;color:rgba(244,238,223,.85);max-width:30ch;margin-bottom:28px}
   .hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+  .hero-text-m{display:none}
+  @media(max-width:760px){.hero-text-d{display:none}.hero-text-m{display:inline-flex}}
   .hero-meta{display:flex;gap:22px;flex-wrap:wrap;font-family:var(--font-mono);font-size:.74rem;letter-spacing:.08em;color:rgba(244,238,223,.6)}
   .hero-meta span{display:flex;align-items:center;gap:7px}
   .dot{width:6px;height:6px;border-radius:50%;background:var(--fresh)}
@@ -404,7 +406,8 @@
       <p class="lead" id="heroLead">Local Flagstaff landscaping and yard care — pick a service, choose a time, and we show up. No phone tag, no three-day wait for a quote.</p>
       <div class="hero-cta">
         <button class="btn btn-primary" data-book>Book a service →</button>
-        <a class="btn btn-ghost" href="sms:+19288638198">Text us a question</a>
+        <a class="btn btn-ghost hero-text-m" href="sms:+19288638198">Text us a question</a>
+        <a class="btn btn-ghost hero-text-d" href="tel:+19288638198">(928) 863-8198</a>
       </div>
       <div class="hero-meta">
         <span><i class="dot"></i> Same-week scheduling</span>
@@ -460,48 +463,6 @@
   </div>
 </section>
 
-<!-- ============ FREE ESTIMATE POLICY + PHOTO PATH ============ -->
-<style>
-  #estpolicy{background:var(--pine);color:var(--birch)}
-  #estpolicy .wrap{padding:46px 22px}
-  #estpolicy .ep-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:34px;align-items:center}
-  #estpolicy .eyebrow{color:var(--gold)}
-  #estpolicy h2{font-size:clamp(1.6rem,3vw,2.2rem);margin:6px 0 14px;color:var(--birch)}
-  #estpolicy .ep-lead{color:rgba(244,238,223,.9);line-height:1.6;font-size:1.02rem}
-  #estpolicy .ep-lead b{color:var(--birch)}
-  #estpolicy .ep-paid{color:var(--gold);font-weight:700}
-  #estpolicy .ep-out{font-size:.8rem;color:rgba(244,238,223,.72);margin-top:16px;line-height:1.55}
-  #estpolicy .ep-out b{color:var(--birch)}
-  #estpolicy .ep-card{background:var(--birch);color:var(--ink);border-radius:var(--r);padding:26px;text-align:center;box-shadow:0 14px 40px -14px rgba(0,0,0,.5)}
-  #estpolicy .ep-card .k{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--bark)}
-  #estpolicy .ep-phone{display:block;font-family:var(--font-display);font-weight:800;font-size:1.8rem;color:var(--pine);margin:8px 0 2px;text-decoration:none;letter-spacing:-.01em}
-  #estpolicy .ep-sub{font-size:.9rem;color:var(--ink-soft);margin:0 0 14px}
-  #estpolicy .ep-cta{display:none;background:var(--gold);color:var(--ink);border-radius:12px;font-family:var(--font-display);font-weight:800;font-size:1rem;padding:14px 24px;text-decoration:none;transition:.14s}
-  #estpolicy .ep-cta:hover{background:var(--gold-deep);color:#fff}
-  #estpolicy .ep-disc{font-size:.74rem;color:var(--ink-soft);margin-top:16px;line-height:1.5}
-  #estpolicy .ep-disc b{color:var(--bark)}
-  @media(max-width:760px){#estpolicy .ep-grid{grid-template-columns:1fr;gap:26px}#estpolicy .ep-cta{display:inline-block}}
-</style>
-<section id="estpolicy">
-  <div class="wrap">
-    <div class="ep-grid">
-      <div>
-        <p class="eyebrow">Estimates</p>
-        <h2>Free estimates. Same-day ballparks.</h2>
-        <p class="ep-lead"><b>Free on-site estimates for cleanups, pruning, planting, and trash removal — within Flagstaff.</b> Text us photos for a same-day ballpark. <span class="ep-paid">Irrigation diagnostics and design consults are $145, credited toward the work.</span></p>
-        <p class="ep-out"><b>Outside Flagstaff city limits</b> — Doney Park, Kachina Village, Munds Park, Bellemont, Williams: a <b>$145 trip minimum</b> applies unless we're already scheduled in that area.</p>
-      </div>
-      <div class="ep-card">
-        <div class="k">Fastest way to a number</div>
-        <a class="ep-phone" href="sms:+19288638198?body=Photos%20and%20my%20address">(928) 863-8198</a>
-        <p class="ep-sub">Text photos + your address</p>
-        <a class="ep-cta" href="sms:+19288638198?body=Photos%20and%20my%20address">Text photos for a ballpark →</a>
-        <p class="ep-disc"><b>A photo ballpark is a range, not a quote.</b> Final price confirmed on site.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ============ INSTANT ESTIMATE ============ -->
 <style>
   #estimate{background:var(--birch-dim);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
@@ -541,6 +502,17 @@
   #estimate .est-foot{padding:12px 22px 18px}
   #estimate .est-fine{font-size:.72rem;color:var(--ink-soft);line-height:1.5}
   #estimate .est-fine b{color:var(--bark)}
+  #estimate .est-more{max-width:640px;margin:22px auto 0;display:grid;gap:14px}
+  #estimate .est-textus{background:var(--birch);border:1px solid var(--line);border-radius:var(--r);padding:22px;text-align:center;box-shadow:0 6px 28px rgba(33,27,16,.08)}
+  #estimate .est-textus .k{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--bark)}
+  #estimate .est-textus p{font-size:.96rem;color:var(--ink-soft);line-height:1.5;margin:6px auto 12px;max-width:36ch}
+  #estimate .est-phone{font-family:var(--font-display);font-weight:800;font-size:1.7rem;color:var(--pine);text-decoration:none;letter-spacing:-.01em}
+  #estimate .est-textbtn{display:none;background:var(--gold);color:var(--ink);border-radius:12px;font-family:var(--font-display);font-weight:800;font-size:1rem;padding:13px 22px;text-decoration:none;transition:.14s}
+  #estimate .est-textbtn:hover{background:var(--gold-deep);color:#fff}
+  #estimate .est-textus .fine{font-size:.72rem;color:var(--ink-soft);line-height:1.5;margin:14px auto 0;max-width:42ch}
+  #estimate .est-policy{font-size:.78rem;color:var(--ink-soft);line-height:1.6;text-align:center;margin:0}
+  #estimate .est-policy b{color:var(--bark)}
+  @media(max-width:760px){#estimate .est-phone{display:block;margin-bottom:10px}#estimate .est-textbtn{display:inline-block}}
 </style>
 <section id="estimate">
   <div class="wrap">
@@ -572,6 +544,16 @@
         <div class="est-fine" style="margin-top:8px">Starting price covers labor only. Materials billed separately at cost plus markup. Final price quoted on site.</div>
         <div class="est-fine" style="margin-top:8px"><b>Trash removal add-ons:</b> appliances +$20 each, fridges/AC (Freon) +$45 each, mattresses +$20 each. We don't haul paint, chemicals, tires, batteries, or hazardous waste.</div>
       </div>
+    </div>
+    <div class="est-more">
+      <div class="est-textus">
+        <div class="k">Questions, or don't see your service?</div>
+        <p>Text us a few photos and your address for a same-day ballpark — or just ask.</p>
+        <a class="est-phone" href="tel:+19288638198">(928) 863-8198</a>
+        <a class="est-textbtn" href="sms:+19288638198?body=Photos%20and%20my%20address">Text photos for a ballpark →</a>
+        <p class="fine"><b>A photo ballpark is a range, not a quote.</b> Final price confirmed on site.</p>
+      </div>
+      <p class="est-policy"><b>Free on-site estimates</b> for cleanups, pruning, planting &amp; trash — within Flagstaff. Irrigation diagnostics &amp; design consults are <b>$145, credited</b> toward the work. Outside Flagstaff (Doney Park, Kachina Village, Munds Park, Bellemont, Williams): <b>$145 trip minimum</b> unless we're already scheduled nearby.</p>
     </div>
   </div>
 </section>
