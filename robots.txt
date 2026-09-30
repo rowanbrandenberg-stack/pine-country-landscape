@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-
 Sitemap: https://pinecountrylandscape.com/sitemap.xml

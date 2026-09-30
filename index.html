@@ -1,1090 +1,372 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Flagstaff Landscaping &amp; Yard Care | Pine Country Landscape</title>
-<meta name="description" content="Flagstaff landscaping &amp; yard care — cleanups, snow removal, irrigation repair, pruning &amp; more. Locally owned, no job too small. Book online in about a minute." />
-<link rel="canonical" href="https://pinecountrylandscape.com/" />
-<meta name="robots" content="index, follow" />
-<meta name="theme-color" content="#1E3A2B" />
-
-<!-- Favicon -->
-<link rel="icon" type="image/png" href="/pine-country-favicon.png" />
-<link rel="apple-touch-icon" href="/pine-country-favicon.png" />
-
-<!-- Local / geo -->
-<meta name="geo.region" content="US-AZ" />
-<meta name="geo.placename" content="Flagstaff, Arizona" />
-<meta name="geo.position" content="35.1983;-111.6513" />
-<meta name="ICBM" content="35.1983, -111.6513" />
-
-<!-- Open Graph -->
-<meta property="og:type" content="website" />
-<meta property="og:site_name" content="Pine Country Landscape" />
-<meta property="og:title" content="Flagstaff Landscaping &amp; Yard Care | Pine Country Landscape" />
-<meta property="og:description" content="Flagstaff landscaping &amp; yard care — cleanups, snow removal, irrigation repair, pruning &amp; more. Book online in about a minute." />
-<meta property="og:url" content="https://pinecountrylandscape.com/" />
-<meta property="og:image" content="https://pinecountrylandscape.com/hero-green.jpg" />
-<meta property="og:image:alt" content="Pine Country Landscape — Flagstaff yard care" />
-
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Flagstaff Landscaping &amp; Yard Care | Pine Country Landscape" />
-<meta name="twitter:description" content="Flagstaff landscaping &amp; yard care — cleanups, snow removal, irrigation repair, pruning &amp; more. Book online in about a minute." />
-<meta name="twitter:image" content="https://pinecountrylandscape.com/hero-green.jpg" />
-
-<!-- LocalBusiness structured data (Google local SEO) -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "@id": "https://pinecountrylandscape.com/#business",
-  "name": "Pine Country Landscape",
-  "description": "Flagstaff landscaping and yard-care specialists — yard cleanups, snow removal, irrigation install & repair, pruning, winterization and more. Locally owned, no job too small.",
-  "url": "https://pinecountrylandscape.com/",
-  "telephone": "+1-928-863-8198",
-  "image": "https://pinecountrylandscape.com/hero-green.jpg",
-  "logo": "https://pinecountrylandscape.com/pine-country-logo-web.png",
-  "priceRange": "$$",
-  "currenciesAccepted": "USD",
-  "paymentAccepted": "Cash, Credit Card",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Flagstaff",
-    "addressRegion": "AZ",
-    "addressCountry": "US"
-  },
-  "geo": { "@type": "GeoCoordinates", "latitude": 35.1983, "longitude": -111.6513 },
-  "areaServed": [
-    { "@type": "City", "name": "Flagstaff" },
-    { "@type": "Place", "name": "Doney Park" },
-    { "@type": "Place", "name": "Kachina Village" },
-    { "@type": "Place", "name": "Mountainaire" },
-    { "@type": "Place", "name": "Fort Valley" },
-    { "@type": "Place", "name": "Williams" }
-  ],
-  "openingHoursSpecification": [
-    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "07:00", "closes": "17:00" }
-  ],
-  "makesOffer": [
-    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Yard Cleanups" } },
-    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Plant & Delivery" } },
-    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Irrigation Install & Repair" } },
-    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Timer Installs" } },
-    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Pruning" } },
-    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Tree & Shrub Diagnosis" } },
-    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Yard Design Consult" } },
-    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Irrigation Winterization" } },
-    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Winter Watering" } },
-    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Snow Removal" } }
-  ]
-}
-</script>
-
-<!--
-================================================================
-  PINE COUNTRY LANDSCAPE — prototype homepage
-  Single file. Host free on Netlify or GitHub Pages, point pinecountrylandscape.com at it.
-
-  >> EDIT YOUR PRICES: search "data-price" below (or the SERVICES array in <script>).
-     Prices shown are SAMPLES — replace before launch.
-  >> BOOKINGS ARE LIVE: every "Book" button opens a modal with the Square Appointments
-     booking flow (#sqBookFrame); service-card buttons preselect that service. To point at a
-     different Square account, edit SQ_MID / SQ_LID / SQ_SERVICE in the booking <script>.
-================================================================
--->
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pine Country Landscape</title>
+<meta name="description" content="Flagstaff landscape design, planting, seasonal care and snow removal. Book an on-site estimate online. Serving Flagstaff and about 25 minutes out.">
+<link rel="canonical" href="https://pinecountrylandscape.com/">
+<meta property="og:title" content="Pine Country Landscape | Flagstaff, AZ">
+<meta property="og:description" content="Landscapes built for 7,000 feet. Design, planting, seasonal care and snow removal in Flagstaff.">
+<meta property="og:image" content="https://pinecountrylandscape.com/img/native-berm-peaks.jpg">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#1c3328">
+<link rel="icon" href="img/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-
-<style>
-  :root{
-    --pine:#1E3A2B;        /* deep forest green */
-    --pine-soft:#274C39;
-    --bark:#4A3526;        /* park-sign brown */
-    --birch:#F4EEDF;       /* warm paper */
-    --birch-dim:#E9E1CC;
-    --fresh:#8BAE5D;       /* fresh-cut green */
-    --gold:#E0A12E;        /* aspen gold — signature accent */
-    --gold-deep:#C2851A;
-    --snow:#E7EFF2;        /* cool near-white, winter accent */
-    --sky:#3E6E84;         /* winter blue */
-    --ink:#211B10;         /* warm near-black */
-    --ink-soft:#52473a;
-    --line:rgba(33,27,16,.16);
-
-    --font-display:"Bricolage Grotesque", system-ui, sans-serif;
-    --font-body:"Hanken Grotesk", system-ui, sans-serif;
-    --font-mono:"Space Mono", ui-monospace, monospace;
-
-    --maxw:1140px;
-    --r:14px;
-  }
-
-  *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} *{animation:none!important;transition:none!important} }
-
-  body{
-    margin:0;
-    font-family:var(--font-body);
-    color:var(--ink);
-    background:var(--birch);
-    line-height:1.55;
-    -webkit-font-smoothing:antialiased;
-  }
-  h1,h2,h3{font-family:var(--font-display);line-height:1.04;margin:0;letter-spacing:-.01em}
-  p{margin:0}
-  a{color:inherit}
-  img{max-width:100%;display:block}
-
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
-
-  .eyebrow{
-    font-family:var(--font-mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
-    color:var(--gold-deep);margin:0 0 14px;
-  }
-  .eyebrow.on-dark{color:var(--gold)}
-
-  /* ---------- buttons ---------- */
-  .btn{
-    font-family:var(--font-body);font-weight:700;font-size:1rem;
-    border:none;border-radius:999px;padding:14px 26px;cursor:pointer;
-    display:inline-flex;align-items:center;gap:9px;text-decoration:none;
-    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
-  }
-  .btn:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
-  .btn-primary{background:var(--gold);color:var(--ink)}
-  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 26px -8px rgba(192,133,26,.6)}
-  .btn-ghost{background:transparent;color:var(--birch);border:1.5px solid rgba(244,238,223,.45)}
-  .btn-ghost:hover{background:rgba(244,238,223,.1)}
-  .btn-dark{background:var(--pine);color:var(--birch)}
-  .btn-dark:hover{transform:translateY(-2px);background:var(--pine-soft)}
-  .btn-sm{padding:10px 18px;font-size:.92rem}
-
-  /* ---------- header ---------- */
-  header{position:sticky;top:0;z-index:50;background:rgba(244,238,223,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-  .nav{display:flex;align-items:center;justify-content:space-between;height:68px}
-  .brand{display:flex;align-items:center;gap:11px;text-decoration:none;font-family:var(--font-display);font-weight:800;font-size:1.16rem;color:var(--pine);letter-spacing:-.02em}
-  .brand .tree{width:30px;height:30px;flex:none}
-  .nav-links{display:flex;align-items:center;gap:28px}
-  .nav-links a{text-decoration:none;font-weight:600;font-size:.95rem;color:var(--ink-soft)}
-  .nav-links a:hover{color:var(--pine)}
-  .nav-cta{display:flex;align-items:center;gap:14px}
-  .menu-btn{display:none;background:none;border:none;cursor:pointer;padding:8px}
-  .menu-btn svg{width:26px;height:26px;stroke:var(--pine)}
-
-  /* ---------- hero ---------- */
-  .hero{position:relative;background:var(--pine);color:var(--birch);overflow:hidden}
-  .hero .contours{position:absolute;inset:0;opacity:.18;pointer-events:none}
-  .hero-inner{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:46px;align-items:center;padding:74px 22px 84px}
-  .hero h1{font-size:clamp(2.5rem,5.4vw,4.2rem);font-weight:800;margin-bottom:18px}
-  .hero h1 .accent{color:var(--gold)}
-  .hero p.lead{font-size:1.18rem;color:rgba(244,238,223,.85);max-width:30ch;margin-bottom:28px}
-  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:26px}
-  .hero-text-m{display:none}
-  @media(max-width:760px){.hero-text-d{display:none}.hero-text-m{display:inline-flex}}
-  .hero-meta{display:flex;gap:22px;flex-wrap:wrap;font-family:var(--font-mono);font-size:.74rem;letter-spacing:.08em;color:rgba(244,238,223,.6)}
-  .hero-meta span{display:flex;align-items:center;gap:7px}
-  .dot{width:6px;height:6px;border-radius:50%;background:var(--fresh)}
-
-  /* season toggle */
-  .season{display:inline-flex;background:rgba(0,0,0,.22);border:1px solid rgba(244,238,223,.22);border-radius:999px;padding:5px;margin-bottom:26px;gap:4px}
-  .season button{font-family:var(--font-body);font-weight:700;font-size:.86rem;border:none;background:none;color:rgba(244,238,223,.7);padding:8px 16px;border-radius:999px;cursor:pointer;display:flex;align-items:center;gap:7px;transition:.18s}
-  .season button svg{width:16px;height:16px}
-  .season button[aria-pressed="true"]{background:var(--gold);color:var(--ink)}
-  .season button.winter[aria-pressed="true"]{background:var(--snow);color:var(--sky)}
-
-  .hero-media{position:relative}
-  .hero-photo{width:100%;height:100%;min-height:360px;max-height:460px;object-fit:cover;border-radius:var(--r);box-shadow:0 18px 50px -18px rgba(0,0,0,.55);display:block}
-
-  /* ---------- sections ---------- */
-  section{padding:78px 0}
-  .sec-head{max-width:60ch;margin-bottom:42px}
-  .sec-head h2{font-size:clamp(1.9rem,3.6vw,2.7rem);font-weight:700;margin-bottom:14px}
-  .sec-head p{font-size:1.1rem;color:var(--ink-soft)}
-
-  /* how it works */
-  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-  .step{position:relative;padding:30px 26px;background:#fff;border:1px solid var(--line);border-radius:var(--r)}
-  .step .num{font-family:var(--font-mono);font-size:.78rem;color:var(--gold-deep);letter-spacing:.1em}
-  .step .ic{width:42px;height:42px;margin:14px 0 16px;color:var(--pine)}
-  .step h3{font-size:1.22rem;margin-bottom:8px}
-  .step p{color:var(--ink-soft);font-size:.98rem}
-
-  /* services */
-  #services{background:var(--birch-dim)}
-  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-  .svc{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:26px;display:flex;flex-direction:column;transition:transform .16s ease, box-shadow .16s ease;position:relative;overflow:hidden}
-  .svc:hover{transform:translateY(-3px);box-shadow:0 16px 40px -22px rgba(33,27,16,.5)}
-  .svc .ic{width:40px;height:40px;color:var(--pine);margin-bottom:14px}
-  .svc h3{font-size:1.25rem;margin-bottom:7px}
-  .svc p{color:var(--ink-soft);font-size:.95rem;flex-grow:1;margin-bottom:18px}
-  .svc .price{font-family:var(--font-display);font-weight:700;font-size:1.05rem;color:var(--pine)}
-  .svc .price small{font-family:var(--font-body);font-weight:500;color:var(--ink-soft);font-size:.8rem}
-  .svc-disc{font-size:.7rem;color:var(--ink-soft);line-height:1.4;margin:8px 0 0}
-  .est-badge{display:inline-block;font-family:var(--font-mono);font-size:.62rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin:2px 0}
-  .est-badge.free{background:#E6F0E8;color:#2E6B4F}
-  .est-badge.paid{background:#FBF3DD;color:var(--bark)}
-  .svc .row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:6px}
-  .svc .dur{font-family:var(--font-mono);font-size:.7rem;color:var(--ink-soft);letter-spacing:.05em}
-  .tag{position:absolute;top:16px;right:-34px;transform:rotate(45deg);background:var(--sky);color:#fff;font-size:.66rem;font-weight:700;letter-spacing:.08em;padding:4px 40px;font-family:var(--font-mono);text-transform:uppercase;opacity:0;transition:.2s}
-  .svc.in-season .tag{opacity:1}
-  .svc.in-season{border-color:var(--fresh)}
-  body.is-winter .svc.snow .tag{background:var(--sky)}
-  .svc.in-season .ic{color:var(--gold-deep)}
-
-  /* before/after */
-  #gallery{background:var(--pine);color:var(--birch)}
-  #gallery .sec-head h2{color:var(--birch)}
-  #gallery .sec-head p{color:rgba(244,238,223,.8)}
-  .ba{position:relative;border-radius:var(--r);overflow:hidden;user-select:none;aspect-ratio:16/10;max-width:760px;margin:0 auto;border:1px solid rgba(244,238,223,.25)}
-  .ba .side{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;text-align:center;padding:24px}
-  .ba-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-  .ba-after{clip-path:inset(0 0 0 50%)}
-  .ba-tag{position:absolute;top:12px;font-family:var(--font-mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;background:rgba(20,15,8,.62);color:#fff;padding:5px 11px;border-radius:6px;z-index:2}
-  .tag-before{left:12px}
-  .tag-after{right:12px}
-  .ba .lbl{font-family:var(--font-mono);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;opacity:.85}
-  .ba .handle{position:absolute;top:0;bottom:0;left:50%;width:3px;background:var(--gold);transform:translateX(-50%);cursor:ew-resize;z-index:3}
-  .ba .handle::after{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:42px;height:42px;border-radius:50%;background:var(--gold);box-shadow:0 4px 14px rgba(0,0,0,.4)}
-  .ba .handle .arrows{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:4;font-size:1rem;color:var(--ink);font-weight:700;letter-spacing:-2px}
-  .ba-cap{text-align:center;margin-top:16px;font-family:var(--font-mono);font-size:.74rem;letter-spacing:.08em;color:rgba(244,238,223,.6)}
-  .ba-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:34px;max-width:760px;margin-left:auto;margin-right:auto}
-  .ba-mini{border:1px solid rgba(244,238,223,.2);border-radius:10px;aspect-ratio:1/1;width:100%;object-fit:cover;display:block}
-
-  /* reviews */
-  .reviews{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x proximity;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:6px 2px 8px}
-  .reviews::-webkit-scrollbar{display:none}
-  .review{flex:0 0 calc((100% - 40px)/3);scroll-snap-align:start;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:24px;display:flex;flex-direction:column}
-  @media(max-width:900px){.review{flex-basis:calc((100% - 20px)/2)}}
-  @media(max-width:600px){.review{flex-basis:86%}}
-  .rev-nav{display:flex;gap:12px;justify-content:center;margin-top:22px}
-  .rev-arrow{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line);background:#fff;color:var(--pine);font-size:1.6rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.14s;padding-bottom:3px}
-  .rev-arrow:hover{border-color:var(--pine);background:var(--pine);color:var(--birch)}
-  .stars{color:var(--gold);letter-spacing:2px;margin-bottom:10px;font-size:1.05rem}
-  .review p{font-size:.98rem;margin-bottom:16px;flex-grow:1}
-  .review .who{display:flex;align-items:center;gap:11px}
-  .review .av{width:38px;height:38px;border-radius:50%;background:var(--fresh);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-family:var(--font-display)}
-  .review .who b{font-size:.92rem}
-  .review .who span{font-size:.78rem;color:var(--ink-soft);font-family:var(--font-mono)}
-  .sample-note{text-align:center;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.08em;color:var(--ink-soft);margin-top:24px;opacity:.8}
-
-  /* area */
-  #area{background:var(--birch-dim)}
-  .area-grid{display:grid;grid-template-columns:1fr 1fr;gap:46px;align-items:center}
-  .area-list{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-  .area-list span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-size:.9rem;font-weight:600}
-  .map{aspect-ratio:4/3;border-radius:var(--r);background:var(--pine);position:relative;overflow:hidden;border:1px solid var(--line)}
-
-  /* faq */
-  .faq{max-width:780px;margin:0 auto}
-  .q{border-bottom:1px solid var(--line)}
-  .q button{width:100%;text-align:left;background:none;border:none;padding:22px 0;font-family:var(--font-display);font-weight:700;font-size:1.12rem;color:var(--ink);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px}
-  .q button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
-  .q .plus{flex:none;width:24px;height:24px;position:relative;transition:transform .25s}
-  .q .plus::before,.q .plus::after{content:"";position:absolute;background:var(--gold-deep);border-radius:2px}
-  .q .plus::before{top:11px;left:2px;right:2px;height:2px}
-  .q .plus::after{left:11px;top:2px;bottom:2px;width:2px;transition:opacity .25s}
-  .q.open .plus{transform:rotate(180deg)}
-  .q.open .plus::after{opacity:0}
-  .q .a{max-height:0;overflow:hidden;transition:max-height .3s ease}
-  .q .a p{padding:0 0 22px;color:var(--ink-soft);font-size:1rem}
-
-  /* footer */
-  footer{background:var(--pine);color:rgba(244,238,223,.8);padding:60px 0 120px}
-  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;margin-bottom:40px}
-  footer h4{font-family:var(--font-display);color:var(--birch);font-size:1rem;margin-bottom:16px}
-  footer a{color:rgba(244,238,223,.8);text-decoration:none;display:block;margin-bottom:9px;font-size:.94rem}
-  footer a:hover{color:var(--gold)}
-  .foot-brand .brand{color:var(--birch);margin-bottom:14px}
-  .foot-brand p{font-size:.92rem;max-width:34ch;color:rgba(244,238,223,.65)}
-  .legal{border-top:1px solid rgba(244,238,223,.18);padding-top:24px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:.82rem;color:rgba(244,238,223,.55);font-family:var(--font-mono);letter-spacing:.04em}
-  .disclaimer{color:var(--gold)}
-
-  /* sticky mobile book bar */
-  .book-bar{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--pine);border-top:1px solid rgba(244,238,223,.2);padding:12px 16px;display:none;align-items:center;justify-content:space-between;gap:14px;transform:translateY(110%);transition:transform .3s ease}
-  .book-bar.show{transform:translateY(0)}
-  .book-bar span{color:var(--birch);font-weight:700;font-family:var(--font-display);font-size:.98rem}
-
-  /* booking modal */
-  .modal{position:fixed;inset:0;z-index:100;display:none;align-items:flex-end;justify-content:center}
-  .modal.open{display:flex}
-  .modal-bg{position:absolute;inset:0;background:rgba(20,15,8,.62);backdrop-filter:blur(3px)}
-  .sheet{position:relative;background:var(--birch);width:100%;max-width:560px;border-radius:20px 20px 0 0;max-height:92vh;overflow-y:auto;padding:28px 26px 34px;animation:slideUp .3s ease}
-  @media(min-width:600px){.modal{align-items:center}.sheet{border-radius:20px}}
-  @keyframes slideUp{from{transform:translateY(40px);opacity:.4}to{transform:translateY(0);opacity:1}}
-  .sheet h3{font-size:1.5rem;margin-bottom:4px}
-  .sheet .sub{color:var(--ink-soft);font-size:.95rem;margin-bottom:22px}
-  .close{position:absolute;top:18px;right:18px;background:none;border:none;cursor:pointer;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center}
-  .close:hover{background:var(--birch-dim)}
-  .close svg{width:20px;height:20px;stroke:var(--ink)}
-  .field{margin-bottom:16px}
-  .field label{display:block;font-weight:700;font-size:.86rem;margin-bottom:7px}
-  .field select,.field input,.field textarea{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;font-family:var(--font-body);font-size:1rem;background:#fff;color:var(--ink)}
-  .field select:focus,.field input:focus,.field textarea:focus{outline:none;border-color:var(--gold)}
-  .slots{display:flex;flex-wrap:wrap;gap:8px}
-  .slot{padding:9px 14px;border:1.5px solid var(--line);border-radius:999px;background:#fff;cursor:pointer;font-size:.88rem;font-weight:600}
-  .slot[aria-pressed="true"]{background:var(--pine);color:var(--birch);border-color:var(--pine)}
-  .embed-note{background:var(--birch-dim);border:1px dashed var(--bark);border-radius:10px;padding:14px;font-size:.84rem;color:var(--bark);margin-top:6px;font-family:var(--font-mono);line-height:1.5}
-  .confirm{background:var(--pine);color:var(--birch);border-radius:12px;padding:22px;text-align:center}
-  .confirm svg{width:46px;height:46px;color:var(--gold);margin-bottom:10px}
-  .confirm h4{font-family:var(--font-display);font-size:1.3rem;margin-bottom:8px}
-  .confirm p{color:rgba(244,238,223,.82);font-size:.92rem}
-
-  /* reveal animation */
-  .reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease, transform .6s ease}
-  .reveal.in{opacity:1;transform:none}
-
-  /* responsive */
-  @media(max-width:880px){
-    .hero-inner,.area-grid{grid-template-columns:1fr;gap:32px}
-    .steps,.svc-grid,.foot-grid{grid-template-columns:1fr}
-    .ba-grid{grid-template-columns:1fr 1fr}
-    .nav-links{display:none}
-    .nav-links.open{display:flex;position:absolute;top:68px;left:0;right:0;background:var(--birch);flex-direction:column;gap:0;padding:8px 22px 18px;border-bottom:1px solid var(--line)}
-    .nav-links.open a{padding:13px 0;border-bottom:1px solid var(--line)}
-    .menu-btn{display:block}
-    .nav-cta .btn{display:none}
-    .book-bar{display:flex}
-    section{padding:58px 0}
-  }
-</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Young+Serif&display=swap">
+<link rel="stylesheet" href="styles.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"LandscapingBusiness","name":"Pine Country Landscape","url":"https://pinecountrylandscape.com/","telephone":"+1-928-863-8198","image":"https://pinecountrylandscape.com/img/native-berm-peaks.jpg","address":{"@type":"PostalAddress","addressLocality":"Flagstaff","addressRegion":"AZ","addressCountry":"US"},"geo":{"@type":"GeoCoordinates","latitude":35.1983,"longitude":-111.6513},"areaServed":["Flagstaff","Doney Park","Kachina Village","Mountainaire","Fort Valley","Continental","Cheshire","Williams","Bellemont"],"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Sunday","Monday","Wednesday","Friday","Saturday"],"opens":"08:00","closes":"17:00"}]}
+</script>
 </head>
 <body>
 
-<!-- ============ HEADER ============ -->
-<header>
-  <div class="wrap nav">
-    <a href="#top" class="brand" aria-label="Pine Country Landscape home">
-      <svg class="tree" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-        <path d="M16 2 L23 13 H19 L25 22 H7 L13 13 H9 Z" fill="#1E3A2B"/>
-        <rect x="14.5" y="22" width="3" height="7" fill="#4A3526"/>
-      </svg>
-      Pine Country
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="notice" id="top">
+  <div class="wrap notice-in">
+    <span><strong>A very strong El Ni&ntilde;o is forecast this winter.</strong> Our snow route is enrolling now, and contract clients get cleared first.</span>
+    <a href="#snow">Reserve a spot <span aria-hidden="true">&rarr;</span></a>
+  </div>
+</div>
+
+<header class="site-head" id="site-head">
+  <div class="wrap head-in">
+    <a class="brand" href="#top" aria-label="Pine Country Landscape home">
+      <img class="brand-mark" src="img/logo-badge.png" alt="" width="44" height="44">
+      <span class="brand-name">Pine Country<small>Landscape &middot; Flagstaff</small></span>
     </a>
-    <nav class="nav-links" id="navLinks">
+    <nav class="nav" aria-label="Main">
+      <a href="#work">Work</a>
       <a href="#services">Services</a>
-      <a href="#estimate">Estimate</a>
-      <a href="#how">How it works</a>
-      <a href="#gallery">Our work</a>
+      <a href="#snow">Snow</a>
       <a href="#reviews">Reviews</a>
-      <a href="#area">Area</a>
+      <a href="#about">About</a>
+      <a href="#faq">FAQ</a>
     </nav>
-    <div class="nav-cta">
-      <button class="btn btn-dark btn-sm" data-book>Book a service</button>
-      <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-      </button>
+    <div class="head-cta">
+      <a class="phone" href="tel:+19288638198" data-phone>(928) 863-8198</a>
+      <a class="btn btn-gold" href="#book">Book a visit</a>
     </div>
   </div>
 </header>
 
-<!-- ============ HERO ============ -->
-<section class="hero" id="top" style="padding:0">
-  <svg class="contours" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-    <g fill="none" stroke="#F4EEDF" stroke-width="1.4">
-      <path d="M-50 480 Q300 380 600 440 T1250 400"/>
-      <path d="M-50 520 Q320 420 640 480 T1250 440"/>
-      <path d="M-50 560 Q340 460 680 520 T1250 480"/>
-      <path d="M-50 240 Q260 160 560 210 T1250 170"/>
-      <path d="M-50 280 Q280 200 580 250 T1250 210"/>
-      <path d="M-50 120 Q300 60 600 100 T1250 70"/>
-    </g>
-  </svg>
-  <div class="wrap hero-inner">
-    <div>
-      <!-- Winter season toggle hidden for now — delete style="display:none" (and restore the month default in the season script) to re-enable -->
-      <div class="season" role="group" aria-label="Choose season" style="display:none">
-        <button id="seasonGreen" aria-pressed="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v18M12 8c-3-4-8-3-8-3s0 5 3 6M12 12c3-4 8-3 8-3s0 5-3 6"/></svg>
-          Green season
-        </button>
-        <button id="seasonWinter" class="winter" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M2 12h20M5 5l14 14M19 5 5 19"/></svg>
-          Winter
-        </button>
-      </div>
-      <p class="eyebrow on-dark">Flagstaff, AZ · 7,000 ft · Locally owned landscaping</p>
-      <h1 id="heroTitle">Yard work, handled.<br><span class="accent">Booked in 60 seconds.</span></h1>
-      <p class="lead" id="heroLead">Local Flagstaff landscaping and yard care — pick a service, choose a time, and we show up. No phone tag, no three-day wait for a quote.</p>
-      <div class="hero-cta">
-        <button class="btn btn-primary" data-book>Book a service →</button>
-        <a class="btn btn-ghost hero-text-m" href="sms:+19288638198">Text us a question</a>
-        <a class="btn btn-ghost hero-text-d" href="tel:+19288638198">(928) 863-8198</a>
-      </div>
-      <div class="hero-meta">
-        <span><i class="dot"></i> Same-week scheduling</span>
-        <span><i class="dot"></i> Pay on the spot</span>
-        <span><i class="dot"></i> Born &amp; raised</span>
-      </div>
+<main id="main">
+
+<section class="hero">
+  <img class="hero-img" src="img/native-berm-peaks.jpg" alt="Native planting berm with pines, blue spruce and aspens below a forested hill in Flagstaff" fetchpriority="high">
+  <div class="hero-shade" aria-hidden="true"></div>
+  <div class="wrap hero-in">
+    <p class="eyebrow eyebrow-light">Flagstaff, Arizona &middot; elevation 6,910 ft</p>
+    <h1>Landscapes built for 7,000&nbsp;feet.</h1>
+    <p class="hero-sub">Design, planting, seasonal care and snow removal for Flagstaff homes. Thoughtful work, clear pricing, and a crew that shows up when we say we will.</p>
+    <div class="hero-actions">
+      <a class="btn btn-gold btn-lg" href="#book">Book an on-site estimate</a>
+      <a class="btn btn-ghost btn-lg" href="#snow">Snow contracts</a>
     </div>
-    <div class="hero-media">
-      <img id="heroPhoto" class="hero-photo" src="team.jpg" alt="Rowan and Tripp of Pine Country Landscape in front of their work truck in Flagstaff">
-      <img id="heroImgWinter" class="hero-photo" src="hero-winter.jpg" alt="Pine Country Landscape crew with their plow-equipped truck and spreader after clearing a snowy Flagstaff driveway" style="display:none">
-    </div>
+    <ul class="hero-facts">
+      <li><span>Service area</span>Flagstaff + 25 min</li>
+      <li><span>Working days</span>Sun, Mon, Wed, Fri, Sat</li>
+      <li class="roc-slot" data-roc-badge hidden><span>Licensed</span><b data-roc-number></b></li>
+    </ul>
   </div>
 </section>
 
-<!-- ============ HOW IT WORKS ============ -->
-<section id="how">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <p class="eyebrow">How it works</p>
-    </div>
-    <div class="steps">
-      <div class="step reveal">
-        <div class="num">STEP 01</div>
-        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M9 11l3 3 8-8"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-        <h3>Pick your service</h3>
-        <p>Cleanup, snow, irrigation — choose what you need and see a starting price.</p>
-      </div>
-      <div class="step reveal">
-        <div class="num">STEP 02</div>
-        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-        <h3>Choose a time</h3>
-        <p>Grab a slot that works for you and drop your address. Takes about a minute.</p>
-      </div>
-      <div class="step reveal">
-        <div class="num">STEP 03</div>
-        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M5 17h14M6 17l1-9h10l1 9M9 8V6a3 3 0 0 1 6 0v2"/></svg>
-        <h3>We show up</h3>
-        <p>Two locals, your gear handled right, pay by card when we're done — or cash and save 10%.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SERVICES ============ -->
-<section id="services">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <p class="eyebrow">Services &amp; pricing</p>
-      <h2>Book any of these online.</h2>
-    </div>
-    <div class="svc-grid" id="svcGrid"><!-- injected by JS --></div>
-    <p class="sample-note">↑ Starting prices — your final quote depends on yard size, scope, and materials.</p>
-  </div>
-</section>
-
-<!-- ============ INSTANT ESTIMATE ============ -->
-<style>
-  #estimate{background:var(--birch-dim);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-  #estimate .est-card{background:var(--birch);border:1px solid var(--line);border-radius:var(--r);max-width:640px;margin:26px auto 0;box-shadow:0 6px 28px rgba(33,27,16,.08);overflow:hidden}
-  #estimate .est-pad{padding:20px 22px}
-  #estimate .est-step{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--bark);margin:0 0 12px}
-  #estimate .est-chips{display:flex;flex-wrap:wrap;gap:8px}
-  #estimate .est-chip{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:9px 14px;font-family:var(--font-body);font-weight:600;font-size:.86rem;color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:8px;transition:.14s;min-height:42px}
-  #estimate .est-chip:hover{border-color:var(--pine)}
-  #estimate .est-chip.on{background:var(--pine);border-color:var(--pine);color:var(--birch)}
-  #estimate .est-chip .d{width:7px;height:7px;border-radius:50%;background:var(--line)}
-  #estimate .est-chip.on .d{background:var(--gold)}
-  #estimate .est-qs{margin-top:14px;display:flex;flex-direction:column;gap:10px}
-  #estimate .est-q{background:var(--birch-dim);border:1px solid var(--line);border-radius:12px;padding:13px 14px}
-  #estimate .est-q label{display:block;font-weight:700;font-size:.9rem;color:var(--pine);margin-bottom:9px}
-  #estimate .est-seg{display:flex;gap:7px;flex-wrap:wrap}
-  #estimate .est-seg button{flex:1;min-width:84px;border:1.5px solid var(--line);background:#fff;border-radius:9px;padding:9px;font-family:var(--font-body);font-weight:600;font-size:.82rem;color:var(--ink);cursor:pointer;min-height:42px;transition:.12s}
-  #estimate .est-seg button.on{background:var(--gold);border-color:var(--gold-deep);color:var(--ink)}
-  #estimate .est-qty{display:flex;border:1.5px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;width:160px}
-  #estimate .est-qty button{width:46px;border:none;background:var(--birch-dim);color:var(--pine);font-size:1.4rem;cursor:pointer;min-height:44px}
-  #estimate .est-qty input{flex:1;border:none;text-align:center;font-family:var(--font-mono);font-size:1rem;width:100%;min-width:0;background:#fff}
-  #estimate .est-qty input:focus{outline:none}
-  #estimate .est-read{background:var(--pine);color:var(--birch);padding:18px 22px;text-align:center}
-  #estimate .est-read .l{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(244,238,223,.6)}
-  #estimate .est-read .amt{font-family:var(--font-display);font-weight:800;font-size:2rem;color:var(--gold);margin:5px 0 2px;letter-spacing:-.01em}
-  #estimate .est-read .amt.empty{color:rgba(244,238,223,.5);font-size:1.15rem}
-  #estimate .est-read .n{font-size:.82rem;color:rgba(244,238,223,.85);margin-top:6px}
-  #estimate .est-read .n b{color:var(--gold)}
-  #estimate .est-read .est-tier{font-size:.78rem;color:var(--gold);font-weight:600;margin-top:8px;line-height:1.5}
-  #estimate .est-pkg{display:flex;gap:10px;align-items:flex-start;margin:14px 22px 0;padding:12px 14px;background:#FBF3DD;border:1px solid #E6CF94;border-radius:12px;cursor:pointer}
-  #estimate .est-pkg input{width:19px;height:19px;margin-top:2px;accent-color:var(--gold-deep)}
-  #estimate .est-pkg span{font-size:.83rem;color:var(--bark)}
-  #estimate .est-pkg b{color:var(--pine)}
-  #estimate .est-cta{display:block;width:calc(100% - 44px);margin:16px 22px 4px;background:var(--gold);color:var(--ink);border:none;border-radius:12px;font-family:var(--font-display);font-weight:800;font-size:1.05rem;padding:15px;cursor:pointer;transition:.14s}
-  #estimate .est-cta:hover{background:var(--gold-deep);color:#fff}
-  #estimate .est-cta:disabled{background:var(--birch-dim);color:var(--ink-soft);cursor:not-allowed}
-  #estimate .est-foot{padding:12px 22px 18px}
-  #estimate .est-fine{font-size:.72rem;color:var(--ink-soft);line-height:1.5}
-  #estimate .est-fine b{color:var(--bark)}
-  #estimate .est-more{max-width:640px;margin:22px auto 0;display:grid;gap:14px}
-  #estimate .est-textus{background:var(--birch);border:1px solid var(--line);border-radius:var(--r);padding:22px;text-align:center;box-shadow:0 6px 28px rgba(33,27,16,.08)}
-  #estimate .est-textus .k{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--bark)}
-  #estimate .est-textus p{font-size:.96rem;color:var(--ink-soft);line-height:1.5;margin:6px auto 12px;max-width:36ch}
-  #estimate .est-phone{font-family:var(--font-display);font-weight:800;font-size:1.7rem;color:var(--pine);text-decoration:none;letter-spacing:-.01em}
-  #estimate .est-textbtn{display:none;background:var(--gold);color:var(--ink);border-radius:12px;font-family:var(--font-display);font-weight:800;font-size:1rem;padding:13px 22px;text-decoration:none;transition:.14s}
-  #estimate .est-textbtn:hover{background:var(--gold-deep);color:#fff}
-  #estimate .est-textus .fine{font-size:.72rem;color:var(--ink-soft);line-height:1.5;margin:14px auto 0;max-width:42ch}
-  #estimate .est-policy{font-size:.78rem;color:var(--ink-soft);line-height:1.6;text-align:center;margin:0}
-  #estimate .est-policy b{color:var(--bark)}
-  @media(max-width:760px){#estimate .est-phone{display:block;margin-bottom:10px}#estimate .est-textbtn{display:inline-block}}
-</style>
-<section id="estimate">
+<section class="section" id="work" aria-labelledby="work-h">
   <div class="wrap">
     <div class="sec-head">
-      <p class="eyebrow">Instant estimate</p>
-      <h2>Ballpark your job in 30 seconds.</h2>
-      <p>Pick what you need and get a rough range — no waiting on a callback. Your exact price is confirmed on site.</p>
+      <p class="eyebrow">Recent work</p>
+      <h2 id="work-h">Real yards around Flagstaff, this season.</h2>
+      <p class="lede">From a single foundation bed to trees set with an excavator. Tap any photo to see it full size.</p>
     </div>
-    <div class="est-card">
-      <div class="est-pad">
-        <p class="est-step">1 · What do you need?</p>
-        <div class="est-chips" id="estChips"></div>
-        <div class="est-qs" id="estQs"></div>
-      </div>
-      <div class="est-read" id="estRead">
-        <div class="l">Estimated range</div>
-        <div class="amt empty" id="estAmt">Pick a service to start</div>
-        <div class="n" id="estNudge"></div>
-        <div class="est-tier" id="estTier"></div>
-      </div>
-      <label class="est-pkg" id="estPkg" style="display:none">
-        <input type="checkbox" id="estPkgCk">
-        <span><b>Save 15% with a seasonal plan.</b> Bundle your recurring work — winterization, winter watering, snow — onto one agreement. Check the box to preview your plan price.</span>
-      </label>
-      <button class="est-cta" id="estCta" type="button" disabled>See available times →</button>
-      <div class="est-foot">
-        <div class="est-fine"><b>This is a ballpark.</b> Final price is confirmed on a quick site visit — rock, slope, access, and overgrowth can move it. Pine Country Landscape LLC · <b>Not a Licensed Contractor.</b></div>
-        <div class="est-fine" style="margin-top:8px"><b>Paying cash? Take 10% off — any job, any time.</b></div>
-        <div class="est-fine" style="margin-top:8px">Starting price covers labor only. Materials billed separately at cost plus markup. Final price quoted on site.</div>
-        <div class="est-fine" style="margin-top:8px"><b>Trash removal add-ons:</b> appliances +$20 each, fridges/AC (Freon) +$45 each, mattresses +$20 each. We don't haul paint, chemicals, tires, batteries, or hazardous waste.</div>
-      </div>
-    </div>
-    <div class="est-more">
-      <div class="est-textus">
-        <div class="k">Questions, or don't see your service?</div>
-        <p>Text us a few photos and your address for a same-day ballpark — or just ask.</p>
-        <a class="est-phone" href="tel:+19288638198">(928) 863-8198</a>
-        <a class="est-textbtn" href="sms:+19288638198?body=Photos%20and%20my%20address">Text photos for a ballpark →</a>
-        <p class="fine"><b>A photo ballpark is a range, not a quote.</b> Final price confirmed on site.</p>
-      </div>
-      <p class="est-policy"><b>Free on-site estimates</b> for cleanups, pruning, planting &amp; trash — within Flagstaff. Irrigation diagnostics &amp; design consults are <b>$145, credited</b> toward the work. Outside Flagstaff (Doney Park, Kachina Village, Munds Park, Bellemont, Williams): <b>$145 trip minimum</b> unless we're already scheduled nearby.</p>
+    <div class="gallery" id="gallery">
+      <figure class="g g-a"><button type="button" data-full="img/spruce-transplant.jpg"><img src="img/spruce-transplant-sm.jpg" alt="Mini excavator setting a large balled blue spruce beside a two story home" loading="lazy"></button><figcaption>Large spruce transplant, machine set</figcaption></figure>
+      <figure class="g g-b"><button type="button" data-full="img/mowed-lawn-ponderosa.jpg"><img src="img/mowed-lawn-ponderosa-sm.jpg" alt="Freshly striped lawn under tall ponderosa pines with a zero turn mower" loading="lazy"></button><figcaption>Lawn care under the ponderosas</figcaption></figure>
+      <figure class="g g-c"><button type="button" data-full="img/foundation-bed.jpg"><img src="img/foundation-bed-sm.jpg" alt="Foundation planting bed with river rock, mulch, shrubs and a path light along a driveway" loading="lazy"></button><figcaption>Foundation bed refresh</figcaption></figure>
+      <figure class="g g-d"><button type="button" data-full="img/berm-watering.jpg"><img src="img/berm-watering-sm.jpg" alt="Watering a new native berm of pines, spruce and boulders at golden hour" loading="lazy"></button><figcaption>Establishment watering, new berm</figcaption></figure>
+      <figure class="g g-e"><button type="button" data-full="img/fall-maples-walk.jpg"><img src="img/fall-maples-walk-sm.jpg" alt="Maples turning red and gold along a walkway with a fresh mulch bed" loading="lazy"></button><figcaption>Maple walk, early fall color</figcaption></figure>
+      <figure class="g g-f"><button type="button" data-full="img/rig-zero-turn.jpg"><img src="img/rig-zero-turn-sm.jpg" alt="Work trailer with an 80 volt zero turn mower hitched behind a white SUV at a job site" loading="lazy" style="object-position:72% 50%"></button><figcaption>The rig, loaded and ready</figcaption></figure>
+      <figure class="g g-g"><button type="button" data-full="img/mature-maple-bed.jpg"><img src="img/mature-maple-bed-sm.jpg" alt="Mature maple over a mulched bed with flagstone steppers and shrubs" loading="lazy"></button><figcaption>Front yard bed and flagstone</figcaption></figure>
+      <figure class="g g-h"><button type="button" data-full="img/nursery-haul.jpg"><img src="img/nursery-haul-sm.jpg" alt="Trailer loaded with aspens, spruce and potting mix on a pine lined highway" loading="lazy"></button><figcaption>Fresh stock from the nursery</figcaption></figure>
+      <figure class="g g-i"><button type="button" data-full="img/shrub-shaping.jpg"><img src="img/shrub-shaping-sm.jpg" alt="Shrubs shaped round beside a driveway, clippings still on the concrete" loading="lazy"></button><figcaption>Shrub shaping, mid job</figcaption></figure>
+      <figure class="g g-j"><button type="button" data-full="img/string-trimming.jpg"><img src="img/string-trimming-sm.jpg" alt="Crew member string trimming mullein and weeds around young pines" loading="lazy"></button><figcaption>Weed control around young pines</figcaption></figure>
+      <figure class="g g-k"><button type="button" data-full="img/debris-haul.jpg"><img src="img/debris-haul-sm.jpg" alt="Tandem trailer loaded with a mound of cleared brush and a zero turn mower" loading="lazy"></button><figcaption>Overgrowth cleared and hauled</figcaption></figure>
     </div>
   </div>
 </section>
-<script>
-/* ===== PRICING MODEL — single source of truth (shared by estimator + services grid) ===== */
-var PRICING={
-  CREW_HOUR_RATE:145,      // labor rate per crew-hour
-  TRIP_MINIMUM:145,        // no standalone quote falls below this
-  MATERIAL_MARKUP:1.25,    // materials billed on the invoice at cost x this (never inside a published/labor price)
-  IRRIGATION_JOB_CAP:1000, // AZ handyman exemption: irrigation job TOTAL (labor + materials x markup) can't exceed this
-  SEASONAL_PLAN_DISCOUNT:0.15 // flat 15% off the estimate when a seasonal plan is selected
-};
-/* Estimate policy tiers: 'free' = we can quote by LOOKING (free on-site, within Flagstaff);
-   'paid' = producing the estimate needs WORKING ($145 on-site diagnostic, credited toward the work). */
-var ESTIMATE_TIER={
-  cleanup:'free', plantdelivery:'free', pruning:'free', junk:'free',
-  irriginstall:'paid', irrigrepair:'paid', diagnosis:'paid', consult:'paid'
-};
-(function(){
-  var HR=PRICING.CREW_HOUR_RATE,MIN=PRICING.TRIP_MINIMUM,MK=PRICING.MATERIAL_MARKUP,CAP=PRICING.IRRIGATION_JOB_CAP,DISC=PRICING.SEASONAL_PLAN_DISCOUNT;
-  /* Published prices are LABOR ONLY. "From" = crew-hours x HR (derivable). Materials never shown. */
-  var SV={
-    cleanup:{label:"Yard Cleanup",seasonal:true,
-      calc:function(){var f=2*HR;return{low:f,high:f,from:true,lines:[{l:"Labor — 2-hr crew min (materials extra)",a:[f,f]}]};}},
-    plantdelivery:{label:"Plant & Delivery",
-      calc:function(){var f=2*HR;return{low:f,high:f,from:true,lines:[{l:"Labor — 2-hr crew min (plants/materials extra)",a:[f,f]}]};}},
-    irriginstall:{label:"Irrigation Installation",irrigationJob:true,
-      calc:function(){var f=4*HR;return{low:f,high:f,from:true,lines:[{l:"Labor — 4-hr crew min (materials extra)",a:[f,f]}]};}},
-    irrigrepair:{label:"Irrigation Repair",irrigationJob:true,
-      calc:function(){var f=HR;return{low:f,high:f,from:true,lines:[{l:"Labor — 1-hr crew min (materials extra)",a:[f,f]}]};}},
-    timer:{label:"Timer Install",
-      calc:function(){return{low:165,high:165,lines:[{l:"Labor only — you supply the timer",a:[165,165]}]};}},
-    pruning:{label:"Pruning",seasonal:true,
-      calc:function(){var f=2*HR;return{low:f,high:f,from:true,lines:[{l:"Labor — 2-hr crew min",a:[f,f]}]};}},
-    diagnosis:{label:"Tree & Shrub Diagnosis",seasonal:true,
-      calc:function(){return{low:MIN,high:MIN,lines:[{l:"Assessment (credited toward the work if booked)",a:[MIN,MIN]}]};}},
-    consult:{label:"Yard Design Consult",
-      calc:function(){return{low:MIN,high:MIN,lines:[{l:"On-site consult (credited toward install if booked)",a:[MIN,MIN]}]};}},
-    winterize:{label:"Irrigation Winterization",seasonal:true,irrigationJob:true,q:{t:"qty",label:"How many zones? (a guess is fine)",def:4},
-      calc:function(n){n=n||4;var e=Math.max(0,n-4),v=MIN+e*25;return{low:v,high:v,lines:[{l:"Base (up to 4 zones)",a:[MIN,MIN]},{l:e+" extra zone",a:[e*25,e*25]}]};}},
-    winter:{label:"Winter Watering",seasonal:true,q:{t:"size",label:"Standalone visit or add-on?",opts:["Standalone visit","Add-on to another visit"]},
-      calc:function(s){s=s||"Standalone visit";var V={"Standalone visit":MIN,"Add-on to another visit":55}[s];return{low:V,high:V,perVisit:true,lines:[{l:s,a:[V,V]}]};}},
-    snow:{label:"Snow Removal",seasonal:true,
-      calc:function(){return{low:MIN,high:MIN,perVisit:true,lines:[{l:"Per visit",a:[MIN,MIN]}]};}},
-    junk:{label:"Trash Removal",
-      calc:function(){var f=HR;return{low:f,high:f,from:true,plus:"dump fees",lines:[{l:"Labor — 1-hr crew min (dump fees extra)",a:[f,f]}]};}}
-  };
-  var order=["cleanup","plantdelivery","irriginstall","irrigrepair","timer","pruning","diagnosis","consult","winterize","winter","snow","junk"];
-  var sel={};
-  var $=function(id){return document.getElementById(id);};
-  var money=function(n){return "$"+Math.round(n).toLocaleString("en-US");};
-  var chips=$("estChips");
-  order.forEach(function(id){
-    var b=document.createElement("button");b.className="est-chip";b.type="button";b.dataset.id=id;
-    b.innerHTML='<span class="d"></span>'+SV[id].label;
-    b.addEventListener("click",function(){
-      if(sel[id]===undefined){sel[id]=SV[id].q?(SV[id].q.t==="qty"?(SV[id].q.def||1):SV[id].q.opts[Math.min(1,SV[id].q.opts.length-1)]):true;b.classList.add("on");}
-      else{delete sel[id];b.classList.remove("on");}
-      renderQs();recalc();
-    });
-    chips.appendChild(b);
-  });
-  function renderQs(){
-    var w=$("estQs");w.innerHTML="";
-    order.forEach(function(id){
-      if(sel[id]===undefined)return;var svc=SV[id];if(!svc.q)return;
-      var q=document.createElement("div");q.className="est-q";
-      var lab=document.createElement("label");lab.textContent=svc.label+" — "+svc.q.label;q.appendChild(lab);
-      if(svc.q.t==="size"){
-        var seg=document.createElement("div");seg.className="est-seg";
-        svc.q.opts.forEach(function(o){var bb=document.createElement("button");bb.type="button";bb.textContent=o;if(sel[id]===o)bb.classList.add("on");bb.addEventListener("click",function(){sel[id]=o;renderQs();recalc();});seg.appendChild(bb);});
-        q.appendChild(seg);
-      }else{
-        var st=document.createElement("div");st.className="est-qty";
-        st.innerHTML='<button type="button">–</button><input type="number" inputmode="numeric" value="'+(sel[id]||0)+'"><button type="button">+</button>';
-        var inp=st.querySelector("input");
-        st.children[0].addEventListener("click",function(){sel[id]=Math.max(0,(parseInt(inp.value)||0)-1);inp.value=sel[id];recalc();});
-        st.children[2].addEventListener("click",function(){sel[id]=(parseInt(inp.value)||0)+1;inp.value=sel[id];recalc();});
-        inp.addEventListener("input",function(){sel[id]=Math.max(0,parseInt(inp.value)||0);recalc();});
-        q.appendChild(st);
-      }
-      w.appendChild(q);
-    });
-  }
-  function recalc(){
-    var ids=order.filter(function(id){return sel[id]!==undefined;});
-    var low=0,high=0,seas=false,pv=false,anyFrom=false,contact=false,irr=false,plus={};
-    ids.forEach(function(id){
-      if(SV[id].irrigationJob)irr=true;
-      var r=SV[id].calc(sel[id]);
-      if(r.contact){contact=true;return;}          // this service alone is over the $1,000 handyman cap
-      low+=r.low;high+=r.high;
-      if(SV[id].seasonal)seas=true;
-      if(r.perVisit)pv=true;
-      if(r.from)anyFrom=true;
-      if(r.plus)plus[r.plus]=true;
-    });
-    if(ids.length){low=Math.max(low,MIN);high=Math.max(high,MIN);}   // never below TRIP_MINIMUM
-    if(irr&&(CAP-high)/MK<=0)contact=true;   // cap is on TOTAL (labor + materials x MK); if labor leaves no material room, it's off-menu
-    var plan=seas&&$("estPkgCk").checked;    // seasonal-plan toggle: flat discount off the shown estimate
-    if(plan){low=low*(1-DISC);high=high*(1-DISC);}
-    var amt=$("estAmt"),nud=$("estNudge"),tier=$("estTier");
-    var hasFree=ids.some(function(id){return ESTIMATE_TIER[id]==="free";});
-    var hasPaid=ids.some(function(id){return ESTIMATE_TIER[id]==="paid";});
-    if(!ids.length){amt.className="amt empty";amt.textContent="Pick a service to start";nud.innerHTML="";tier.innerHTML="";}
-    else if(contact){amt.className="amt";amt.textContent="Contact us for this scope";nud.innerHTML="Irrigation jobs over "+money(CAP)+" need a custom quote — <b>book a visit and we'll scope it.</b>";tier.innerHTML="";}
-    else{
-      var pluses=Object.keys(plus),plusTxt=pluses.length?" + "+pluses.join(" + "):"";
-      var pvTxt=(pv&&ids.length===1)?" / visit":"";
-      amt.className="amt";
-      amt.textContent=(anyFrom?"from "+money(low)+plusTxt:(low===high?money(low)+plusTxt:money(low)+" – "+money(high)+plusTxt))+pvTxt;
-      var baseNud=plan?("Seasonal-plan price — "+Math.round(DISC*100)+"% off, applied when you pay. Booking shows standard rates."):(anyFrom?"Starting price — final confirmed on a site visit.":(low===high?"Flat rate, no surprises.":"Most jobs land in the middle."));
-      nud.innerHTML=baseNud+(seas&&!plan?' <b>Ask about a seasonal plan to save.</b>':'');
-      var tm=[];
-      if(hasFree)tm.push("Estimate only. Free on-site visit confirms final price.");
-      if(hasPaid)tm.push(money(MIN)+" on-site diagnostic, credited toward the work.");
-      tier.innerHTML=tm.join("<br>");
-    }
-    $("estPkg").style.display=seas?"flex":"none";
-    $("estCta").disabled=!ids.length;
-    window._estIds=ids;
-  }
-  $("estCta").addEventListener("click",function(){
-    var ids=window._estIds||[];if(!ids.length)return;
-    if(typeof window.openModal==="function"){window.openModal(ids[0]);}
-    else{var m=document.getElementById("modal");if(m){m.classList.add("open");document.body.style.overflow="hidden";}}
-  });
-  $("estPkgCk").addEventListener("change",recalc);   // seasonal-plan toggle re-prices live
-  recalc();
-})();
-</script>
 
-<!-- ============ BEFORE / AFTER ============ -->
-<section id="gallery">
+<section class="section section-tint" id="services" aria-labelledby="services-h">
   <div class="wrap">
-    <div class="sec-head reveal">
-      <p class="eyebrow on-dark">Our work</p>
-      <h2>The drag-the-slider proof.</h2>
-      <p>Every job, before and after. Drag to see the difference.</p>
+    <div class="sec-head">
+      <p class="eyebrow">Services</p>
+      <h2 id="services-h">One crew for the whole year.</h2>
+      <p class="lede">Flagstaff yards run on a calendar: planting and cleanups through fall, winterizing before the hard freeze, then snow and winter watering. We handle every season so you only have one number to call.</p>
     </div>
-    <div class="ba reveal" id="ba">
-      <img class="ba-img" src="before.jpg" alt="Overgrown Flagstaff front yard before — patchy weedy lawn and pine-needle debris">
-      <img class="ba-img ba-after" id="baAfter" src="after.jpg" alt="The same Flagstaff front yard after — lush green lawn with crisp edging">
-      <span class="ba-tag tag-before">Before</span>
-      <span class="ba-tag tag-after">After</span>
-      <div class="handle" id="baHandle"><span class="arrows">‹ ›</span></div>
+
+    <div class="svc-grid">
+      <article class="svc svc-feature">
+        <img src="img/tree-planting-dig-sm.jpg" alt="Planting holes dug in red volcanic soil beside a stacked rock wall, an aspen waiting to go in" loading="lazy">
+        <div class="svc-body">
+          <p class="svc-kicker">Design and install</p>
+          <h3>Trees, beds and full-yard plans</h3>
+          <p>Aspens, spruce, pines, native berms, rock and mulch beds. We plan for elk, wind, volcanic soil and a short growing season, then build it right.</p>
+          <ul class="price-list" data-install-prices hidden></ul>
+          <p class="svc-foot" data-install-note>Every install starts with a design consultation. You get a written, itemized proposal before any work begins.</p>
+          <a class="btn btn-pine" href="#book" data-pick="consult">Book a design consultation</a>
+        </div>
+      </article>
+
+      <article class="svc">
+        <p class="svc-kicker">Seasonal care</p>
+        <h3>Keep it looking finished</h3>
+        <ul class="price-list">
+          <li><span>Yard cleanup</span><b>From $450</b></li>
+          <li><span>Pruning and shrub shaping</span><b>From $295</b></li>
+          <li><span>Mowing, first cut</span><b>From $350</b></li>
+          <li><span>Mowing, recurring visit</span><b>From $170</b></li>
+          <li><span>Weed control</span><b>From $150</b></li>
+          <li><span>Debris haul, dump trailer load</span><b>From $295</b></li>
+        </ul>
+        <a class="btn btn-line" href="#book" data-pick="cleanup">Book seasonal care</a>
+      </article>
+
+      <article class="svc">
+        <p class="svc-kicker">Water</p>
+        <h3>Irrigation and winter water</h3>
+        <ul class="price-list">
+          <li><span>Irrigation repair</span><b>From $185</b></li>
+          <li><span>Timer install</span><b>From $295</b></li>
+          <li><span>Winterization blowout</span><b>From $165</b></li>
+          <li><span>Winter watering visit</span><b>$95</b></li>
+          <li><span>Tree and shrub diagnosis</span><b>$95</b></li>
+        </ul>
+        <a class="btn btn-line" href="#book" data-pick="irrigation">Book irrigation service</a>
+      </article>
     </div>
-    <p class="ba-cap">Drag the slider to see the transformation.</p>
-    <div class="ba-grid reveal">
-      <img class="ba-mini" src="cleanup.jpg" alt="Yard cleanup result — bagged debris and a cleared, raked yard">
-      <img class="ba-mini" src="snow.jpg" alt="Snow removal result — a cleanly cleared front walkway">
-      <img class="ba-mini" src="bed.jpg" alt="Freshly planted and mulched flower and shrub bed">
-    </div>
+    <p class="fine">Starting prices cover a typical Flagstaff lot. Final price depends on size and scope, and we confirm it with you before work starts. No surprise charges.</p>
   </div>
 </section>
 
-<!-- ============ REVIEWS ============ -->
-<section id="reviews">
+<section class="snow" id="snow" aria-labelledby="snow-h">
+  <div class="snow-flakes" aria-hidden="true"></div>
+  <div class="wrap snow-in">
+    <div class="snow-copy">
+      <p class="eyebrow eyebrow-light">Snow removal &middot; winter 2026</p>
+      <h2 id="snow-h">Wake up to a clear driveway.</h2>
+      <p>Flagstaff averages close to 100 inches of snow a year. Contract clients are on our priority route, cleared with a compact skid steer and a hand crew for walks and steps, storm after storm, without calling anyone.</p>
+      <aside class="nino" aria-label="Winter forecast">
+        <p class="nino-k">This winter's forecast, briefly</p>
+        <p>NOAA expects a <strong>very strong El Ni&ntilde;o</strong> this winter, possibly one of the strongest on record. In northern Arizona, El Ni&ntilde;o winters tend to run wetter, with longer stormy stretches and fewer dry breaks between them. Nothing is guaranteed, but the odds lean snowy.</p>
+        <p class="nino-joke">We are not saying you should sign a snow contract because of the Pacific Ocean. We are saying the Pacific Ocean would.</p>
+        <p class="nino-src">Sources: NOAA Climate Prediction Center, Sept 2026 ENSO update. National Weather Service Flagstaff.</p>
+      </aside>
+      <div class="snow-tiers">
+        <div class="tier tier-main">
+          <p class="tier-name">Season contract</p>
+          <p class="tier-price"><span data-snow="season">$1,450</span><small>/ season</small></p>
+          <p class="tier-note" data-snow="seasonNote">Nov 1 to Apr 15. Every storm over 2 inches, on a priority route.</p>
+        </div>
+        <div class="tier">
+          <p class="tier-name">On call, per push</p>
+          <p class="tier-price"><span data-snow="perPush">$125</span><small>/ visit</small></p>
+          <p class="tier-note">When route capacity allows. Contract clients go first.</p>
+        </div>
+        <div class="tier">
+          <p class="tier-name">Walks and steps</p>
+          <p class="tier-price"><span data-snow="walks">$35</span><small>/ visit add on</small></p>
+          <p class="tier-note">Front walk, steps and entry cleared by hand.</p>
+        </div>
+      </div>
+      <p class="fine fine-light">Standard residential driveway. Long, steep or rural drives are quoted after a quick look.</p>
+    </div>
+
+    <form class="snow-form card" id="snow-form" novalidate>
+      <h3>Reserve a route spot</h3>
+      <p class="form-sub">Route spots are limited so every client gets cleared fast. We confirm your spot and price within one business day.</p>
+      <div class="field"><label for="sn-name">Name</label><input id="sn-name" name="name" autocomplete="name" required></div>
+      <div class="field"><label for="sn-address">Service address</label><input id="sn-address" name="address" autocomplete="street-address" placeholder="Street, city" required></div>
+      <div class="row2">
+        <div class="field"><label for="sn-phone">Phone</label><input id="sn-phone" name="phone" type="tel" autocomplete="tel"></div>
+        <div class="field"><label for="sn-email">Email</label><input id="sn-email" name="email" type="email" autocomplete="email"></div>
+      </div>
+      <p class="hint">Phone, email, or both. We need at least one.</p>
+      <div class="row2">
+        <div class="field"><label for="sn-plan">Plan</label>
+          <select id="sn-plan" name="plan"><option value="season">Season contract</option><option value="per-push">On call, per push</option></select></div>
+        <div class="field"><label for="sn-drive">Driveway</label>
+          <select id="sn-drive" name="driveway"><option value="standard">Standard (2 car, up to 60 ft)</option><option value="long">Long (60 to 150 ft)</option><option value="rural">Rural or over 150 ft</option></select></div>
+      </div>
+      <label class="check"><input id="sn-walks" name="walks" type="checkbox"> Add walks and steps</label>
+      <div class="field"><label for="sn-notes">Anything we should know</label><textarea id="sn-notes" name="notes" rows="2" placeholder="Gate code, steep spots, where to pile snow"></textarea></div>
+      <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn btn-gold btn-block" type="submit">Reserve my spot</button>
+      <p class="form-msg" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="process-h">
   <div class="wrap">
-    <div class="sec-head reveal">
-      <p class="eyebrow">Reviews</p>
-      <h2>Neighbors who'd hire us again.</h2>
+    <div class="sec-head">
+      <p class="eyebrow">How it works</p>
+      <h2 id="process-h">From first visit to finished yard.</h2>
     </div>
-    <div class="reviews" id="reviewGrid" tabindex="0" aria-label="Customer reviews — scroll or use the arrows"><!-- injected --></div>
-    <div class="rev-nav">
-      <button class="rev-arrow" id="revPrev" type="button" aria-label="Previous reviews">‹</button>
-      <button class="rev-arrow" id="revNext" type="button" aria-label="Next reviews">›</button>
-    </div>
+    <ol class="steps">
+      <li><b>Book online</b><span>Pick a time that works. You get a confirmation right away and it lands on our calendar.</span></li>
+      <li><b>Walk it together</b><span>We look at soil, sun, water and what you want the yard to do for you.</span></li>
+      <li><b>Written proposal</b><span>Clear scope and price in writing. Nothing starts until you say yes.</span></li>
+      <li><b>The work</b><span>Clean job sites, updates as we go, and a final walkthrough together.</span></li>
+    </ol>
   </div>
 </section>
 
-<!-- ============ AREA ============ -->
-<section id="area">
-  <div class="wrap area-grid">
-    <div class="reveal">
-      <p class="eyebrow">Service area</p>
-      <h2 style="font-size:clamp(1.8rem,3.4vw,2.5rem);margin-bottom:8px">Flagstaff and the surrounding pines.</h2>
-      <p style="color:var(--ink-soft)">If you're within about 25 minutes of downtown, we've got you. Not sure? Just ask when you book.</p>
-      <div class="area-list">
-        <span>Downtown Flagstaff</span><span>Doney Park</span><span>Kachina Village</span>
-        <span>Mountainaire</span><span>Fort Valley</span><span>Continental</span>
-        <span>Cheshire</span><span>Williams</span><span>Bellemont</span>
+<section class="section reviews-sec" id="reviews" aria-labelledby="reviews-h">
+  <div class="wrap">
+    <div class="rv-head">
+      <div class="sec-head">
+        <p class="eyebrow">Reviews</p>
+        <h2 id="reviews-h">Neighbors who would hire us again.</h2>
+        <p class="rv-score" id="rv-score"></p>
+      </div>
+      <div class="rv-ctrl">
+        <a class="btn btn-line" id="rv-leave" href="#" target="_blank" rel="noopener" hidden>Leave a review</a>
+        <button type="button" class="rv-arrow" data-dir="-1" aria-label="Previous reviews">&lsaquo;</button>
+        <button type="button" class="rv-arrow" data-dir="1" aria-label="Next reviews">&rsaquo;</button>
       </div>
     </div>
-    <div class="map reveal" aria-hidden="true">
-      <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%">
-        <rect width="400" height="300" fill="#1E3A2B"/>
-        <g fill="none" stroke="#F4EEDF" stroke-width="1" opacity=".22">
-          <circle cx="200" cy="150" r="50"/><circle cx="200" cy="150" r="95"/><circle cx="200" cy="150" r="140"/>
-        </g>
-        <!-- peaks -->
-        <path d="M120 120 L155 60 L185 120 Z" fill="#F4EEDF" opacity=".85"/>
-        <path d="M165 120 L205 50 L245 120 Z" fill="#E7EFF2" opacity=".9"/>
-        <path d="M205 130 L235 75 L268 130 Z" fill="#F4EEDF" opacity=".7"/>
-        <circle cx="200" cy="200" r="9" fill="#E0A12E"/>
-        <text x="200" y="232" fill="#F4EEDF" font-family="Space Mono, monospace" font-size="11" text-anchor="middle" opacity=".85">YOU + US, COVERED</text>
-      </svg>
+    <div class="rv-track" id="rv-track" tabindex="0" aria-label="Customer reviews, scroll sideways for more"></div>
+  </div>
+</section>
+
+<section class="section section-tint" id="about" aria-labelledby="about-h">
+  <div class="wrap about">
+    <figure class="about-photo">
+      <img src="img/team-truck-sm.jpg" alt="Rowan and Tripp of Pine Country Landscape leaning against their white Toyota Tundra work truck with shovels, a rake and a leaf blower" loading="lazy">
+    </figure>
+    <div class="about-copy">
+      <p class="eyebrow">About</p>
+      <h2 id="about-h">Locally owned. Flagstaff grown.</h2>
+      <p>Pine Country Landscape is Rowan Brandenberg and Tripp. Rowan runs the business and walks every estimate. Tripp runs the crew in the field. Rowan learned the trade in a Flagstaff nursery yard, and that background matters here: most plants that fail in this town fail because they were chosen or planted for somewhere else.</p>
+      <p>We plant for elk pressure, wind, alkaline volcanic soil and a frost date that can land in June. We show up on time, keep the site clean, and put the price in writing before we start.</p>
+      <ul class="about-points">
+        <li>Owner on every estimate</li>
+        <li>Written, itemized proposals</li>
+        <li>Card or cash, paid on completion</li>
+        <li data-roc-badge hidden>Licensed Arizona contractor, <span data-roc-number></span></li>
+        <li data-insured hidden>Fully insured</li>
+      </ul>
     </div>
   </div>
 </section>
 
-<!-- ============ FAQ ============ -->
-<section id="faq">
+<section class="section book-sec" id="book" aria-labelledby="book-h">
   <div class="wrap">
-    <div class="sec-head reveal" style="text-align:center;margin-left:auto;margin-right:auto">
-      <p class="eyebrow">Good to know</p>
-      <h2>Questions, answered.</h2>
+    <div class="sec-head">
+      <p class="eyebrow">Book online</p>
+      <h2 id="book-h">Pick a time. We will be there.</h2>
+      <p class="lede">Live availability from our calendar. Appointments run Sunday, Monday, Wednesday, Friday and Saturday, 8am to 5pm. Need something faster? Call or text <a href="tel:+19288638198" data-phone>(928) 863-8198</a>.</p>
+    </div>
+
+    <div class="booker card" id="booker">
+      <ol class="bk-steps" aria-label="Booking steps">
+        <li class="on" data-s="1">Service</li>
+        <li data-s="2">Time</li>
+        <li data-s="3">Details</li>
+      </ol>
+
+      <div class="bk-panel" data-panel="1">
+        <div class="svc-pick" id="svc-pick" role="radiogroup" aria-label="Choose a service"></div>
+      </div>
+
+      <div class="bk-panel" data-panel="2" hidden>
+        <div class="bk-summary" id="bk-sum-1"></div>
+        <div class="days" id="days" role="listbox" aria-label="Choose a day"></div>
+        <div class="slots" id="slots" aria-live="polite"></div>
+        <div class="bk-nav"><button class="btn btn-line" type="button" data-back="1">Back</button></div>
+      </div>
+
+      <form class="bk-panel" data-panel="3" id="bk-form" hidden novalidate>
+        <div class="bk-summary" id="bk-sum-2"></div>
+        <div class="row2">
+          <div class="field"><label for="bk-name">Full name</label><input id="bk-name" name="name" autocomplete="name" required></div>
+          <div class="field"><label for="bk-address">Service address</label><input id="bk-address" name="address" autocomplete="street-address" placeholder="Street, city" required></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="bk-phone">Phone</label><input id="bk-phone" name="phone" type="tel" autocomplete="tel"></div>
+          <div class="field"><label for="bk-email">Email</label><input id="bk-email" name="email" type="email" autocomplete="email"></div>
+        </div>
+        <p class="hint">Phone, email, or both. We need at least one to confirm.</p>
+        <div class="field"><label for="bk-notes">What are we looking at?</label><textarea id="bk-notes" name="notes" rows="3" placeholder="Rough size, what you want done, gate code, pets"></textarea></div>
+        <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="bk-nav">
+          <button class="btn btn-line" type="button" data-back="2">Back</button>
+          <button class="btn btn-gold" type="submit">Confirm booking</button>
+        </div>
+        <p class="form-msg" role="status" aria-live="polite"></p>
+      </form>
+
+      <div class="bk-panel bk-done" data-panel="4" hidden>
+        <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="m14 25 7 7 13-15" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h3>You are booked.</h3>
+        <p id="bk-done-text"></p>
+        <button class="btn btn-line" type="button" id="bk-again">Book another visit</button>
+      </div>
+      <p class="preview-note" id="preview-note" hidden>Preview mode: times shown are examples and bookings are not sent. Connect the booking endpoint in config.js to go live.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section-tint" id="faq" aria-labelledby="faq-h">
+  <div class="wrap faq-wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Questions</p>
+      <h2 id="faq-h">Good to know.</h2>
     </div>
     <div class="faq">
-      <div class="q"><button>How does pricing work?<span class="plus"></span></button><div class="a"><p>Each service has a starting price you'll see when you book. The final price depends on yard size and scope — for anything bigger, we'll confirm before any work starts. No surprise charges, ever.</p></div></div>
-      <div class="q"><button>How do I pay?<span class="plus"></span></button><div class="a"><p>Card on the spot when the job's done — tap, swipe, or chip. Quick and easy, no invoicing chase. <b>Paying cash? Take 10% off, every time.</b></p></div></div>
-      <div class="q"><button>How does snow removal scheduling work?<span class="plus"></span></button><div class="a"><p>Snow is storm-driven, so it's a little different: get on the Snow List once and we clear you automatically when it dumps, or send a one-off "I need it now" request after a storm.</p></div></div>
-      <div class="q"><button>What areas do you cover?<span class="plus"></span></button><div class="a"><p>Flagstaff and roughly 25 minutes out — Doney Park, Kachina, Mountainaire, Fort Valley, Williams and more. If you're not sure, ask when you book and we'll let you know.</p></div></div>
-      <div class="q"><button>Are you licensed?<span class="plus"></span></button><div class="a"><p>We're not a licensed contractor — we focus on maintenance, cleanups, and smaller jobs under Arizona's handyman limit. For larger installs that need a licensed contractor, we'll point you in the right direction.</p></div></div>
+      <details><summary>How does pricing work?</summary><p>Every service lists a starting price for a typical Flagstaff lot. Bigger or more involved jobs get a written, itemized quote after we see the property. The price is confirmed with you before any work starts.</p></details>
+      <details><summary>How do snow contracts work?</summary><p>Season contract clients are on our priority route from November 1 to April 15. When a storm drops more than 2 inches, we clear you automatically. On call pushes are available when the route has room.</p></details>
+      <details><summary>How do I pay?</summary><p>Card or cash when the job is done. Larger install projects are billed on a schedule written into your proposal.</p></details>
+      <details><summary>What areas do you cover?</summary><p>Flagstaff and about 25 minutes out: Doney Park, Kachina Village, Mountainaire, Fort Valley, Continental, Cheshire, Williams and Bellemont.</p></details>
+      <details><summary>What days do you work?</summary><p>Sunday, Monday, Wednesday, Friday and Saturday, 8am to 5pm. Snow removal runs whenever it snows.</p></details>
+      <details><summary>Can I change or cancel my appointment?</summary><p>Yes. Reply to your confirmation email or call or text (928) 863-8198 and we will move it.</p></details>
     </div>
   </div>
 </section>
 
-<!-- FAQ structured data -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    { "@type": "Question", "name": "How does pricing work?", "acceptedAnswer": { "@type": "Answer", "text": "Each service has a starting price you'll see when you book. The final price depends on yard size and scope — for anything bigger, we'll confirm before any work starts. No surprise charges, ever." } },
-    { "@type": "Question", "name": "How do I pay?", "acceptedAnswer": { "@type": "Answer", "text": "Card on the spot when the job's done — tap, swipe, or chip. Quick and easy, no invoicing chase. Paying cash? Take 10% off, every time." } },
-    { "@type": "Question", "name": "How does snow removal scheduling work?", "acceptedAnswer": { "@type": "Answer", "text": "Snow is storm-driven, so it's a little different: get on the Snow List once and we clear you automatically when it dumps, or send a one-off \"I need it now\" request after a storm." } },
-    { "@type": "Question", "name": "What areas do you cover?", "acceptedAnswer": { "@type": "Answer", "text": "Flagstaff and roughly 25 minutes out — Doney Park, Kachina, Mountainaire, Fort Valley, Williams and more. If you're not sure, ask when you book and we'll let you know." } },
-    { "@type": "Question", "name": "Are you licensed?", "acceptedAnswer": { "@type": "Answer", "text": "We're not a licensed contractor — we focus on maintenance, cleanups, and smaller jobs under Arizona's handyman limit. For larger installs that need a licensed contractor, we'll point you in the right direction." } }
-  ]
-}
-</script>
+</main>
 
-<!-- ============ FOOTER ============ -->
-<footer>
-  <div class="wrap">
-    <div class="foot-grid">
-      <div class="foot-brand">
-        <div class="brand">
-          <svg class="tree" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 2 L23 13 H19 L25 22 H7 L13 13 H9 Z" fill="#8BAE5D"/><rect x="14.5" y="22" width="3" height="7" fill="#E0A12E"/></svg>
-          Pine Country Landscape
-        </div>
-        <p>Flagstaff's small-job specialists — we know what high-desert yards and mountain winters need. Cleanups, snow removal, irrigation and more, booked online in about a minute.</p>
-      </div>
-      <div>
-        <h4>Get in touch</h4>
-        <a href="tel:+19288638198">Call (928) 863-8198</a>
-        <a href="sms:+19288638198">Text (928) 863-8198</a>
-        <a href="#" data-book>Book online</a>
-      </div>
-      <div>
-        <h4>Hours</h4>
-        <a style="cursor:default">Mon–Fri · 7am–5pm</a>
-        <a style="cursor:default">Snow: on call after storms</a>
-        <h4 style="margin-top:20px">Services in Flagstaff</h4>
-        <a style="cursor:default;font-size:.84rem;opacity:.7">Yard cleanups · Plant &amp; delivery · Irrigation install &amp; repair · Timer installs · Pruning · Tree &amp; shrub diagnosis · Yard design consults · Irrigation winterization · Winter watering · Snow removal</a>
-      </div>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <a class="brand brand-foot" href="#top"><img class="brand-mark" src="img/logo-badge.png" alt="" width="44" height="44"><span class="brand-name">Pine Country<small>Landscape &middot; Flagstaff</small></span></a>
+      <p class="foot-note">Pine Country Landscape LLC<br>Flagstaff, Arizona<br><span data-roc-badge hidden data-roc-number></span></p>
     </div>
-    <div class="legal">
-      <span>© 2026 Pine Country Landscape, LLC · Flagstaff, AZ</span>
-      <span class="disclaimer">Not a licensed contractor.</span>
+    <div>
+      <p class="foot-h">Contact</p>
+      <p><a href="tel:+19288638198" data-phone>(928) 863-8198</a><br>Call or text</p>
+    </div>
+    <div>
+      <p class="foot-h">Hours</p>
+      <p>Sun, Mon, Wed, Fri, Sat<br>8am to 5pm<br>Snow: whenever it snows</p>
+    </div>
+    <div>
+      <p class="foot-h">Service area</p>
+      <p>Flagstaff, Doney Park, Kachina Village, Mountainaire, Fort Valley, Continental, Cheshire, Williams, Bellemont</p>
     </div>
   </div>
+  <div class="wrap foot-base">&copy; <span id="yr">2026</span> Pine Country Landscape LLC</div>
 </footer>
 
-<!-- ============ STICKY MOBILE BOOK BAR ============ -->
-<div class="book-bar" id="bookBar">
-  <span>Ready when you are</span>
-  <button class="btn btn-primary btn-sm" data-book>Book a service →</button>
-</div>
+<dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
+  <img alt="">
+  <p class="lb-cap"></p>
+  <button type="button" class="lb-close" aria-label="Close photo">&times;</button>
+</dialog>
 
-<!-- ============ BOOKING MODAL ============ -->
-<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-  <div class="modal-bg" id="modalBg"></div>
-  <div class="sheet">
-    <button class="close" id="modalClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
-    <h3 id="modalTitle">Book a service</h3>
-    <p class="sub">Pick your service and time below — confirmed instantly through Square.</p>
-    <!-- Square Appointments booking flow, embedded. src is set by JS (openModal): preselects the clicked service, else the general flow. -->
-    <iframe id="sqBookFrame"
-            title="Book an appointment with Pine Country Landscape"
-            allow="payment https://app.squareup.com https://book.squareup.com"
-            loading="lazy"
-            style="width:100%;height:70vh;min-height:520px;border:0;border-radius:12px;background:#fff;display:block"></iframe>
-    <p style="font-size:.8rem;color:var(--ink-soft);margin-top:12px;text-align:center">Trouble loading? <a href="https://app.squareup.com/appointments/book/nak6l6jo4giy3h/LENX1RW6CSPMR/start" target="_blank" rel="noopener" style="color:var(--pine);font-weight:600">Open booking in a new tab →</a></p>
-  </div>
-</div>
-
-<script>
-/* ---------- SERVICES (edit names, prices, durations here) ---------- */
-const SERVICES = [
-  // "From" prices are derived: crew-hours x PRICING.CREW_HOUR_RATE (labor only). Fixed prices are labor too.
-  {id:'cleanup', name:'Yard Cleanups', desc:'Leaves, debris, weeds, hauling — the big spring & fall reset.', price:2*PRICING.CREW_HOUR_RATE, from:true, unit:'', dur:'2–4 hrs', season:'green',
-    icon:'<path d="M16 3v6M19 5l-3 3M21 9l-7 7-3-3M3 21l6-6"/><path d="M14 19l-2 2H5l-1-4 5-1"/>'},
-  {id:'plantdelivery', name:'Plant & Delivery', desc:'We source, deliver, and plant for high-desert soil.', price:2*PRICING.CREW_HOUR_RATE, from:true, unit:'', dur:'varies', season:'green',
-    icon:'<path d="M3 9l9-5 9 5-9 5-9-5Z"/><path d="M3 9v6l9 5 9-5V9"/>'},
-  {id:'irriginstall', name:'Irrigation Installation', desc:'New drip or spray zones and small system installs — scoped to stay under the AZ handyman cap.', price:4*PRICING.CREW_HOUR_RATE, from:true, unit:'', dur:'half day', season:'green',
-    icon:'<path d="M12 3s5 5 5 9a5 5 0 0 1-10 0c0-4 5-9 5-9Z"/><path d="M8 14h8"/>'},
-  {id:'irrigrepair', name:'Irrigation Repair', desc:'Head swaps, leaks, valves, and zone fixes.', price:1*PRICING.CREW_HOUR_RATE, from:true, unit:'', dur:'1–2 hrs', season:'green',
-    icon:'<path d="M12 3s5 5 5 9a5 5 0 0 1-10 0c0-4 5-9 5-9Z"/>'},
-  {id:'timer', name:'Timer Installs', desc:'Controller installed and dialed in. Labor only — you supply the timer.', price:165, unit:'labor only', dur:'~1 hr', season:'green',
-    icon:'<circle cx="12" cy="13" r="7"/><path d="M12 13V9M9 2h6"/>'},
-  {id:'pruning', name:'Pruning', desc:'Shrubs and small trees, shaped and cleaned up — ground-level work.', price:2*PRICING.CREW_HOUR_RATE, from:true, unit:'', dur:'1–3 hrs', season:'green',
-    icon:'<circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M8.5 7.5 20 16M8.5 16.5 20 8"/>'},
-  {id:'diagnosis', name:'Tree & Shrub Diagnosis', desc:'We assess plant health and tell you what it needs. Credited toward the work if booked.', price:PRICING.TRIP_MINIMUM, unit:'flat', dur:'30–45 min', season:'green',
-    icon:'<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>'},
-  {id:'consult', name:'Yard Design Consult', desc:'New to Flagstaff? We plan a yard that survives at 7,000 ft. Credited toward install if booked.', price:PRICING.TRIP_MINIMUM, unit:'flat', dur:'~1 hr', season:'green',
-    icon:'<path d="M9 3h6v3H9zM5 6h14v15H5zM9 12h6M9 16h4"/>'},
-  {id:'winterize', name:'Irrigation Winterization', desc:'Blow-out before the first hard freeze. Base covers up to 4 zones, +$25 per zone after.', price:PRICING.TRIP_MINIMUM, unit:'up to 4 zones', dur:'30–60 min', season:'winter',
-    icon:'<path d="M12 3s5 5 5 9a5 5 0 0 1-10 0c0-4 5-9 5-9Z"/><path d="M4 4l16 16"/>'},
-  {id:'winter', name:'Winter Watering', desc:'Keeps young trees alive through dry winters — or just $55 as an add-on to another visit.', price:PRICING.TRIP_MINIMUM, unit:'per visit', dur:'30–45 min', season:'winter',
-    icon:'<path d="M12 3s5 5 5 9a5 5 0 0 1-10 0c0-4 5-9 5-9Z"/><path d="M9 21h6"/>'},
-  {id:'snow', name:'Snow Removal', desc:'Driveways & walks cleared fast. Get on the Snow List or request after a storm.', price:PRICING.TRIP_MINIMUM, unit:'per visit', dur:'30–60 min', season:'winter',
-    icon:'<path d="M12 2v20M2 12h20M5 5l14 14M19 5 5 19"/>'},
-  {id:'junk', name:'Trash Removal', desc:'Pickup and haul only — we load it, strap it, and take it to the dump.', price:1*PRICING.CREW_HOUR_RATE, from:true, unit:'+ dump fees', dur:'1–2 hrs', season:'green',
-    icon:'<path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M6 7l1 13h10l1-13"/>'},
-];
-
-const REVIEWS = [
-  {t:"Texted Rowan about a sprinkler I'd been ignoring for a month. Booked online that night, fixed by Thursday. Easiest thing I've done all year.", n:"Marisol R.", a:"Doney Park", s:5},
-  {t:"Tripp cleared my driveway at 6am after the big storm without me even calling — I was on the Snow List. Worth every penny.", n:"Dale K.", a:"Kachina Village", s:5},
-  {t:"Two solid guys, showed up when they said, cleaned up a yard three other companies wouldn't even quote. Hiring them again.", n:"Jenna P.", a:"Cheshire", s:5},
-  {t:"Rowan and Tripp cleaned up a ridiculous amount of pine needles, branches, and leaves from our yard. Everything looked neat when they finished, including the walkway and beds. Great communication and solid work.", n:"Emily R.", a:"Downtown Flagstaff", s:5},
-  {t:"Solid guys. Did solid work.", n:"Marcus T.", a:"Doney Park", s:5},
-  {t:"I was nervous about having our shrubs pruned because the last company cut them way too aggressively. Tripp cleaned them up without making everything look bare or boxy. He also hauled away all the clippings.", n:"Jennifer B.", a:"Cheshire", s:5},
-  {t:"The plants and installation turned out great. Would have been five stars if I didn't have to wait three days longer than expected for them to come out, but Rowan kept me in the loop the whole time and they did a really nice job once they arrived.", n:"Daniel M.", a:"Kachina Village", s:4},
-  {t:"Rowan installed a new irrigation timer and showed me how to use it. Quick and easy.", n:"Lisa C.", a:"Continental", s:5},
-  {t:"We had two trees and several shrubs that were starting to brown, and I couldn't figure out why. Rowan took the time to inspect the irrigation, soil, and branches before recommending anything. I appreciated that he didn't immediately try to sell me a bunch of new plants. Very knowledgeable.", n:"Andrew P.", a:"Fort Valley", s:5},
-  {t:"Our yard was a mess after winter. Pine needles everywhere, broken branches, weeds, and old leaves packed into the beds. Rowan and Tripp cleaned up the entire property in one visit and it honestly looked like a different house afterward.", n:"Nicole S.", a:"Mountainaire", s:5},
-  {t:"Tripp showed up, winterized the irrigation, and got it done. No complaints.", n:"Thomas H.", a:"Williams", s:5},
-  {t:"Tripp did a good job clearing the driveway and front walk after the storm. He arrived a little later than the original window, but the roads were bad that morning, so it was understandable. I would use them again.", n:"Rachel G.", a:"Bellemont", s:4},
-  {t:"We scheduled a yard design consultation because our backyard was basically dirt, weeds, and a few random plants. Rowan gave us realistic ideas that fit our budget instead of trying to turn it into a huge project. Very helpful.", n:"Kevin L.", a:"Downtown Flagstaff", s:5},
-  {t:"Tripp found and repaired an irrigation leak that another company missed. Water bill is finally back to normal.", n:"Amanda W.", a:"Doney Park", s:5},
-  {t:"We were out of town for most of the winter and hired them to water our trees and shrubs. Rowan was dependable and sent us updates after each visit. It gave us a lot of peace of mind.", n:"Brian K.", a:"Kachina Village", s:5},
-  {t:"The pruning itself was excellent and everything was cleaned up afterward. Scheduling took a couple of messages to get nailed down with Rowan, but I'm happy with the final result.", n:"Sarah D.", a:"Cheshire", s:4},
-  {t:"Good people and fair pricing.", n:"Jason F.", a:"Continental", s:5},
-  {t:"Rowan and Tripp delivered and planted several shrubs around our front patio. They helped us choose plants that made sense for Flagstaff instead of just picking whatever looked good at the nursery. Everything was spaced well and they explained how to water each plant while it gets established.", n:"Megan A.", a:"Fort Valley", s:5},
-  {t:"Tripp repaired a broken irrigation line and replaced two sprinkler heads. Took slightly longer than expected, but everything works correctly now and he left the area clean.", n:"Chris N.", a:"Mountainaire", s:4},
-  {t:"Amazing yard cleanup. Rowan and Tripp even got the pine needles out from under the deck and behind the shed, which I wasn't expecting.", n:"Lauren V.", a:"Williams", s:5},
-  {t:"Called after our irrigation timer stopped working. Rowan installed a new one, programmed all the zones, and explained the settings without making it confusing. Definitely recommend.", n:"Eric J.", a:"Bellemont", s:5},
-  {t:"These guys worked hard. Our side yard had been neglected for years and was full of weeds, dead plants, leaves, and random debris. Rowan and Tripp cleared everything out, trimmed the plants worth keeping, and gave us a much cleaner starting point for landscaping.", n:"Hannah P.", a:"Downtown Flagstaff", s:5},
-  {t:"The actual irrigation repair was done well and the price was reasonable. Rowan's communication before the appointment could have been better, and they arrived later than I expected. I'd still hire them again because the system has worked perfectly since the repair.", n:"Tyler S.", a:"Doney Park", s:3},
-  {t:"Fast, friendly, and the driveway looked great after the snowstorm.", n:"Olivia M.", a:"Kachina Village", s:5},
-  {t:"We had no idea what to plant in a shady section of our yard. The design consultation with Rowan was straightforward, practical, and focused on plants that can actually survive here. Exactly what we needed.", n:"Nathan C.", a:"Cheshire", s:5},
-  {t:"Rowan diagnosed why one of our shrubs kept declining and adjusted the irrigation around it. A few weeks later it already looks noticeably better. I really appreciated the honest advice and attention to detail.", n:"Rebecca T.", a:"Continental", s:5},
-];
-
-/* ---------- render services ---------- */
-const grid = document.getElementById('svcGrid');
-grid.innerHTML = SERVICES.map(s => `
-  <article class="svc ${s.id} ${s.season}" data-season="${s.season}">
-    <div class="tag">In season</div>
-    <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${s.icon}</svg>
-    <h3>${s.name}</h3>
-    <p>${s.desc}</p>
-    <div class="price" data-price>${s.from?'from ':''}$${s.price} <small>${s.unit}</small></div>
-    ${ESTIMATE_TIER[s.id]==='free'?'<span class="est-badge free">Free estimate</span>':(ESTIMATE_TIER[s.id]==='paid'?'<span class="est-badge paid">$'+PRICING.TRIP_MINIMUM+', credited</span>':'')}
-    ${s.from?'<p class="svc-disc">Starting price covers labor only. Materials billed separately at cost plus markup. Final price quoted on site.</p>':''}
-    <div class="row">
-      <span class="dur">⏱ ${s.dur}</span>
-      <button class="btn btn-dark btn-sm" data-book data-svc="${s.id}">Book →</button>
-    </div>
-  </article>`).join('');
-
-/* ---------- reviews ---------- */
-document.getElementById('reviewGrid').innerHTML = REVIEWS.map(r => `
-  <div class="review">
-    <div class="stars" aria-label="${r.s||5} out of 5 stars">${'★'.repeat(r.s||5)}${'☆'.repeat(5-(r.s||5))}</div>
-    <p>"${r.t}"</p>
-    <div class="who"><div class="av">${r.n[0]}</div><div><b>${r.n}</b><br><span>${r.a}</span></div></div>
-  </div>`).join('');
-
-/* ---------- reviews carousel (auto-rotating) ---------- */
-(function(){
-  var vp=document.getElementById('reviewGrid'); if(!vp) return;
-  var gap=20;
-  var step=function(){var c=vp.querySelector('.review');return c?c.getBoundingClientRect().width+gap:vp.clientWidth;};
-  var atEnd=function(){return vp.scrollLeft+vp.clientWidth>=vp.scrollWidth-4;};
-  var go=function(dir){ if(dir>0&&atEnd()){vp.scrollTo({left:0,behavior:'smooth'});} else {vp.scrollBy({left:dir*step(),behavior:'smooth'});} };
-  var prev=document.getElementById('revPrev'), next=document.getElementById('revNext');
-  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var timer=null;
-  var stop=function(){ if(timer){clearInterval(timer);timer=null;} };
-  var play=function(){ if(reduce)return; stop(); timer=setInterval(function(){go(1);},5000); };
-  if(prev)prev.addEventListener('click',function(){go(-1);play();});
-  if(next)next.addEventListener('click',function(){go(1);play();});
-  vp.addEventListener('mouseenter',stop);
-  vp.addEventListener('mouseleave',play);
-  var rt; vp.addEventListener('touchstart',function(){stop();clearTimeout(rt);},{passive:true});
-  vp.addEventListener('touchend',function(){clearTimeout(rt);rt=setTimeout(play,4000);},{passive:true});
-  play();
-})();
-
-/* ---------- season toggle ---------- */
-const gBtn = document.getElementById('seasonGreen');
-const wBtn = document.getElementById('seasonWinter');
-const heroTitle = document.getElementById('heroTitle');
-const heroLead = document.getElementById('heroLead');
-const heroPhoto = document.getElementById('heroPhoto');
-const heroImgWinter = document.getElementById('heroImgWinter');
-
-const COPY = {
-  green:{
-    title:'Yard work, handled.<br><span class="accent">Booked in 60 seconds.</span>',
-    lead:'Local Flagstaff landscaping and yard care — pick a service, choose a time, and we show up. No phone tag, no three-day wait for a quote.',
-    imgT:'Hero photo — Green season',
-    imgD:'Tidy, edged Flagstaff yard with ponderosa pines in frame. Daylight or golden hour.'
-  },
-  winter:{
-    title:'Snowed in?<br><span class="accent">Cleared before coffee.</span>',
-    lead:'Flagstaff snow removal, handled — get on the Snow List and we plow you automatically after every storm, or request a one-time clear.',
-    imgT:'Hero photo — Winter',
-    imgD:'A driveway & walk cleanly cleared of snow, fresh powder piled to the sides. Bright morning light.'
-  }
-};
-function setSeason(season){
-  const isWinter = season==='winter';
-  document.body.classList.toggle('is-winter', isWinter);
-  gBtn.setAttribute('aria-pressed', String(!isWinter));
-  wBtn.setAttribute('aria-pressed', String(isWinter));
-  const c = COPY[season];
-  heroTitle.innerHTML = c.title; heroLead.textContent = c.lead;
-  heroPhoto.style.display = isWinter ? 'none' : 'block';
-  heroImgWinter.style.display = isWinter ? 'block' : 'none';
-  // highlight in-season services and float them up
-  [...document.querySelectorAll('.svc')].forEach(el=>{
-    const match = el.dataset.season === season;
-    el.classList.toggle('in-season', match);
-    el.style.order = match ? '0' : '1';
-  });
-  grid.style.display='grid';
-}
-gBtn.addEventListener('click', ()=>setSeason('green'));
-wBtn.addEventListener('click', ()=>setSeason('winter'));
-// Winter view hidden for now — locked to green season. To re-enable the seasonal toggle, restore:
-//   const m = new Date().getMonth(); setSeason((m>=10 || m<=2) ? 'winter' : 'green');
-setSeason('green');
-
-/* ---------- mobile menu ---------- */
-const menuBtn = document.getElementById('menuBtn');
-const navLinks = document.getElementById('navLinks');
-menuBtn.addEventListener('click', ()=>{
-  const open = navLinks.classList.toggle('open');
-  menuBtn.setAttribute('aria-expanded', String(open));
-});
-navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{navLinks.classList.remove('open');menuBtn.setAttribute('aria-expanded','false')}));
-
-/* ---------- FAQ accordion ---------- */
-document.querySelectorAll('.q button').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    const q = btn.parentElement;
-    const a = q.querySelector('.a');
-    const open = q.classList.toggle('open');
-    a.style.maxHeight = open ? a.scrollHeight + 'px' : '0';
-  });
-});
-
-/* ---------- before/after slider ---------- */
-const ba = document.getElementById('ba');
-const baAfter = document.getElementById('baAfter');
-const baHandle = document.getElementById('baHandle');
-let dragging = false;
-function moveTo(clientX){
-  const rect = ba.getBoundingClientRect();
-  let pct = ((clientX - rect.left)/rect.width)*100;
-  pct = Math.max(4, Math.min(96, pct));
-  baAfter.style.clipPath = `inset(0 0 0 ${pct}%)`;
-  baHandle.style.left = pct + '%';
-}
-baHandle.addEventListener('mousedown', ()=>dragging=true);
-baHandle.addEventListener('touchstart', ()=>dragging=true, {passive:true});
-window.addEventListener('mouseup', ()=>dragging=false);
-window.addEventListener('touchend', ()=>dragging=false);
-window.addEventListener('mousemove', e=>{if(dragging) moveTo(e.clientX)});
-window.addEventListener('touchmove', e=>{if(dragging) moveTo(e.touches[0].clientX)}, {passive:true});
-ba.addEventListener('click', e=>moveTo(e.clientX));
-
-/* ---------- sticky book bar ---------- */
-const bookBar = document.getElementById('bookBar');
-const heroEl = document.querySelector('.hero');
-new IntersectionObserver(([e])=>{
-  bookBar.classList.toggle('show', !e.isIntersecting && window.innerWidth<=880);
-},{threshold:0}).observe(heroEl);
-
-/* ---------- reveal on scroll ---------- */
-const io = new IntersectionObserver((entries)=>{
-  entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target);} });
-},{threshold:.12});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-
-/* ---------- booking modal (Square Appointments embed) ---------- */
-const modal = document.getElementById('modal');
-const sqFrame = document.getElementById('sqBookFrame');
-
-// Square Appointments booking flow
-const SQ_MID = 'nak6l6jo4giy3h', SQ_LID = 'LENX1RW6CSPMR';
-const SQ_GENERIC   = 'https://app.squareup.com/appointments/buyer/widget/' + SQ_MID + '/' + SQ_LID;
-const SQ_BOOK_BASE = 'https://book.squareup.com/appointments/' + SQ_MID + '/location/' + SQ_LID;
-// site service id -> Square service (item) token. Anything unmapped falls back to the general flow.
-const SQ_SERVICE = {
-  cleanup:'A7IKXO3BPTVVQM4B6FSSUNMS', plantdelivery:'R4VMZLNBT252ODDBDSCCJ73H',
-  irriginstall:'5ONG625T2HQGPMXVXHHBYNQ6', irrigrepair:'5ONG625T2HQGPMXVXHHBYNQ6', timer:'KH3NZW63ZAAFHC7KXQBOGE6F',
-  pruning:'UQRBU5GGTHBVP2KW7LMTUCJ2', diagnosis:'OFWG6DIYHXIKMKQT47S6HY5G',
-  consult:'LD3J7I2JDFQU4XO3CZ7S3GAE', winterize:'UPXYNHQWFYAXECSA5O5DPFMX',
-  winter:'GS6F7EVEX7RN3PNW5GUFF45P', snow:'KCF3LPTQMNKGGI47R2NWXEGX'
-};
-function sqUrl(svc){
-  var id = svc && SQ_SERVICE[svc];
-  return id ? SQ_BOOK_BASE + '/services/' + id : SQ_GENERIC;  // preselect when mapped, else general flow
-}
-
-function openModal(svc){
-  // lazy: set (or switch) the iframe to the right Square flow only when the modal opens
-  var url = sqUrl(svc);
-  if(sqFrame && sqFrame.getAttribute('src') !== url) sqFrame.setAttribute('src', url);
-  modal.classList.add('open');
-  document.body.style.overflow='hidden';
-}
-function closeModal(){ modal.classList.remove('open'); document.body.style.overflow=''; }
-document.querySelectorAll('[data-book]').forEach(b=>{
-  b.addEventListener('click', e=>{ e.preventDefault(); openModal(b.dataset.svc); });
-});
-document.getElementById('modalClose').addEventListener('click', closeModal);
-document.getElementById('modalBg').addEventListener('click', closeModal);
-window.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
-</script>
+<script src="config.js"></script>
+<script src="reviews.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
