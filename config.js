@@ -5,7 +5,7 @@
 window.PCL_CONFIG = {
   // Paste your Google Apps Script web app URL here after deploying apps-script/Code.gs.
   // Leave empty and the booking form runs in preview mode (nothing is sent).
-  bookingEndpoint: "",
+  bookingEndpoint: "https://script.google.com/macros/s/AKfycbz1WbbEgPfjD0fyKZF-4iaELQZ5_GWeBRERWhsRrM8lNS16P09_Wk3Ee7TyUYyYNFo45w/exec",
 
   // The day your ROC license issues, put the number here, for example "ROC 123456".
   // That one change: shows the license badge, and turns on install/hardscape "starting at" pricing.
