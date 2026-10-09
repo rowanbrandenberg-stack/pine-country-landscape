@@ -4,7 +4,7 @@
   Set googleReviewUrl to your Google "Ask for reviews" link to show a "Leave a review" button.
 */
 window.PCL_REVIEWS = {
-  googleReviewUrl: "",
+  googleReviewUrl: "https://share.google/mtNYeTWvokffNCzH7",
   items: [
     { stars: 5, text: "Texted Rowan about a sprinkler I'd been ignoring for a month. Booked online that night, fixed by Thursday. Easiest thing I've done all year.", name: "Marisol R.", place: "Doney Park" },
     { stars: 5, text: "Tripp cleared my driveway at 6am after the big storm without me even calling. I was on the Snow List. Worth every penny.", name: "Dale K.", place: "Kachina Village" },
