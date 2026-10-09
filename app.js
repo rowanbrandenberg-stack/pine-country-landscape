@@ -21,6 +21,10 @@
     }
   }
   if (C.insured) $$("[data-insured]").forEach(function (el) { el.hidden = false; });
+  if (C.snow && typeof C.snow.spotsLeft === "number") $$("[data-spots]").forEach(function (el) {
+    el.textContent = C.snow.spotsLeft >= C.snow.spotsTotal ? "Only " + C.snow.spotsTotal + " route spots this season" : C.snow.spotsLeft > 0 ? C.snow.spotsLeft + " of " + C.snow.spotsTotal + " route spots left" : "Route full for this season. Join the waitlist below";
+    el.hidden = false;
+  });
   if (C.snow) $$("[data-snow]").forEach(function (el) { var v = C.snow[el.getAttribute("data-snow")]; if (v) el.textContent = v; });
 
   var head = $("#site-head");
@@ -251,12 +255,12 @@
     var btn = $('button[type="submit"]', sf); btn.disabled = true; msg(out, "Sending...");
     var payload = {
       action: "snow", name: sf.name.value.trim(), address: sf.address.value.trim(), phone: sf.phone.value.trim(),
-      email: sf.email.value.trim(), plan: sf.plan.value, driveway: sf.driveway.value, walks: sf.walks.checked, notes: sf.notes.value.trim(), website: sf.website.value
+      email: sf.email.value.trim(), plan: sf.plan.value, driveway: sf.driveway.value, walks: sf.walks.checked, notes: ("[2027 WAITLIST] " + sf.notes.value.trim()).trim(), website: sf.website.value
     };
     var req = LIVE ? api(payload) : new Promise(function (r) { setTimeout(function () { r({ ok: true, preview: true }); }, 600); });
     req.then(function (res) {
       btn.disabled = false;
-      if (res && res.ok) { sf.reset(); msg(out, (res.preview ? "Preview only, nothing was sent. " : "") + "You are on the list. We will confirm your spot and price within one business day.", "ok"); }
+      if (res && res.ok) { sf.reset(); msg(out, (res.preview ? "Preview only, nothing was sent. " : "") + "You are on the 2027 snow waitlist. We will reach out before next season.", "ok"); }
       else msg(out, (res && res.message) || "That did not go through. Call or text " + C.phoneDisplay + ".", "err");
     }).catch(function () { btn.disabled = false; msg(out, "That did not go through. Call or text " + C.phoneDisplay + ".", "err"); });
   });

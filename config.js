@@ -40,9 +40,12 @@ window.PCL_CONFIG = {
   // Snow pricing shown on the site.
   snow: {
     season: "$1,450",
-    seasonNote: "Nov 1 to Apr 15. Every storm over 2 inches, on a priority route.",
+    seasonNote: "Snow route launches winter 2027-28. Waitlist open.",
     perPush: "$125",
-    walks: "$35"
+    walks: "$35",
+    // Route spots. Update spotsLeft as contracts sign; set to null to hide the counter.
+    spotsTotal: 25,
+    spotsLeft: null
   },
 
   // Install pricing only shows once rocNumber is set.
