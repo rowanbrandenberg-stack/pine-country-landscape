@@ -261,7 +261,66 @@
     req.then(function (res) {
       btn.disabled = false;
       if (res && res.ok) { sf.reset(); msg(out, (res.preview ? "Preview only, nothing was sent. " : "") + "You are on the 2027 snow waitlist. We will reach out before next season.", "ok"); }
-      else msg(out, (res && res.message) || "That did not go through. Call or text " + C.phoneDisplay + ".", "err");
-    }).catch(function () { btn.disabled = false; msg(out, "That did not go through. Call or text " + C.phoneDisplay + ".", "err"); });
+      else msg(out, (res && res.message) || "That did not go through. Text " + C.phoneDisplay + ".", "err");
+    }).catch(function () { btn.disabled = false; msg(out, "That did not go through. Text " + C.phoneDisplay + ".", "err"); });
   });
+
+  /* ---------- Price from photos ---------- */
+  var ef = $("#est-form");
+  if (ef) {
+    var shots = [], thumbs = $("#es-thumbs"), MAX = 6;
+    // Shrink each photo to 1600px JPEG so uploads stay small on phones.
+    function shrink(file) {
+      return new Promise(function (resolve, reject) {
+        var url = URL.createObjectURL(file), img = new Image();
+        img.onload = function () {
+          var s = Math.min(1, 1600 / Math.max(img.width, img.height));
+          var c = document.createElement("canvas"); c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
+          c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+          URL.revokeObjectURL(url);
+          resolve(c.toDataURL("image/jpeg", 0.8));
+        };
+        img.onerror = function () { URL.revokeObjectURL(url); reject(new Error("img")); };
+        img.src = url;
+      });
+    }
+    function drawThumbs() {
+      thumbs.innerHTML = shots.map(function (d, i) {
+        return '<figure><img src="' + d + '" alt="Photo ' + (i + 1) + '"><button type="button" data-rm="' + i + '" aria-label="Remove photo ' + (i + 1) + '">&times;</button></figure>';
+      }).join("");
+    }
+    thumbs.addEventListener("click", function (e) {
+      var b = e.target.closest("[data-rm]"); if (!b) return;
+      shots.splice(+b.getAttribute("data-rm"), 1); drawThumbs();
+    });
+    $("#es-photos").addEventListener("change", function (e) {
+      var files = Array.prototype.slice.call(e.target.files || []).slice(0, MAX - shots.length);
+      Promise.all(files.map(function (f) { return shrink(f).catch(function () { return null; }); })).then(function (list) {
+        list.forEach(function (d) { if (d && shots.length < MAX) shots.push(d); });
+        drawThumbs(); e.target.value = "";
+      });
+    });
+    ef.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var out = $(".form-msg", ef);
+      var err = requiredCheck(ef, ["description", "name", "address", "email"]);
+      if (!err && !validEmail(ef.email.value.trim())) err = "Add an email so we can send your price.";
+      if (err) { msg(out, err, "err"); return; }
+      if (ef.website.value) return;
+      var btn = $('button[type="submit"]', ef); btn.disabled = true; msg(out, shots.length ? "Uploading photos..." : "Sending...");
+      var payload = {
+        action: "estimate", service: ef.service.value, description: ef.description.value.trim(),
+        name: ef.name.value.trim(), address: ef.address.value.trim(), email: ef.email.value.trim(), phone: ef.phone.value.trim(),
+        photos: shots, website: ef.website.value
+      };
+      var req = LIVE ? api(payload) : new Promise(function (r) { setTimeout(function () { r({ ok: true, preview: true }); }, 800); });
+      req.then(function (res) {
+        btn.disabled = false;
+        if (res && res.ok) {
+          ef.reset(); shots = []; drawThumbs();
+          msg(out, (res.preview ? "Preview only, nothing was sent. " : "") + "Got it. Your price is on its way to your email, usually within 10 minutes. Check spam if you do not see it.", "ok");
+        } else msg(out, (res && res.message) || "That did not go through. Text " + C.phoneDisplay + " and we will price it for you.", "err");
+      }).catch(function () { btn.disabled = false; msg(out, "That did not go through. Text " + C.phoneDisplay + " and we will price it for you.", "err"); });
+    });
+  }
 })();
