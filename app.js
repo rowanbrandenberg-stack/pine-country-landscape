@@ -172,27 +172,35 @@
       loadSlots();
     }
 
-    // Live times come from Google Calendar through Apps Script, which can take 10 to 15 seconds.
-    // Prefetch every service once the booking section is near, and show progress text while waiting.
-    var slotCache = {};
+    // Open times come from Google Calendar through Apps Script. Ask for every service at once
+    // as soon as the page opens, so they are usually ready before anyone reaches the booking step.
+    var slotCache = {}, allReq = null, allAt = 0;
+    function fetchAll() {
+      if (allReq && Date.now() - allAt < 55000) return allReq;
+      allAt = Date.now();
+      allReq = fetch(C.bookingEndpoint + "?action=allslots")
+        .then(function (r) { return r.json(); })
+        .then(function (res) { if (!res || !res.ok || !res.services) throw new Error("load"); return res.services; });
+      allReq.catch(function () { allReq = null; });
+      return allReq;
+    }
+    function fetchOne(id) {
+      return fetch(C.bookingEndpoint + "?action=slots&service=" + encodeURIComponent(id))
+        .then(function (r) { return r.json(); })
+        .then(function (res) { if (!res || !res.ok) throw new Error(res && res.error || "load"); return res; });
+    }
     function fetchSlots(id) {
       var hit = slotCache[id];
       if (hit && Date.now() - hit.at < 55000) return hit.p;
-      var p = fetch(C.bookingEndpoint + "?action=slots&service=" + encodeURIComponent(id))
-        .then(function (r) { return r.json(); })
-        .then(function (res) { if (!res || !res.ok) throw new Error(res && res.error || "load"); return res; });
+      var p = fetchAll().then(function (all) { if (all[id] && all[id].ok) return all[id]; throw new Error("missing"); })
+        .catch(function () { return fetchOne(id); });
       p.catch(function () { if (slotCache[id] && slotCache[id].p === p) delete slotCache[id]; });
       slotCache[id] = { p: p, at: Date.now() };
       return p;
     }
-    var bookSec = $("#book");
-    if (LIVE && bookSec && "IntersectionObserver" in window) {
-      var pre = new IntersectionObserver(function (es) {
-        if (!es.some(function (e) { return e.isIntersecting; })) return;
-        pre.disconnect();
-        services.forEach(function (s) { fetchSlots(s.id).catch(function () {}); });
-      }, { rootMargin: "600px 0px" });
-      pre.observe(bookSec);
+    if (LIVE) {
+      var warm = function () { fetchAll().catch(function () {}); };
+      if (document.readyState === "complete") warm(); else window.addEventListener("load", warm);
     }
 
     var loadTimers = [], loadSeq = 0;
@@ -258,7 +266,7 @@
       var req = LIVE ? api(payload) : new Promise(function (r) { setTimeout(function () { r({ ok: true, preview: true }); }, 700); });
       req.then(function (res) {
         btn.disabled = false;
-        slotCache = {}; // calendar changed, refetch next time
+        slotCache = {}; allReq = null; // calendar changed, refetch next time
         if (res && res.ok) {
           msg(out, "");
           var when = fmtDay(S.day, { weekday: "long", month: "long", day: "numeric" }) + " at " + fmtTime(S.time);
