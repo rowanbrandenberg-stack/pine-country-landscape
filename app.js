@@ -172,13 +172,46 @@
       loadSlots();
     }
 
-    function loadSlots() {
-      var daysEl = $("#days"), slotsEl = $("#slots");
-      daysEl.innerHTML = ""; slotsEl.innerHTML = '<div class="skeleton" style="grid-column:1/-1"></div>';
-      var req = LIVE
-        ? fetch(C.bookingEndpoint + "?action=slots&service=" + encodeURIComponent(S.svc.id)).then(function (r) { return r.json(); })
-        : demoSlots(S.svc.minutes);
+    // Live times come from Google Calendar through Apps Script, which can take 10 to 15 seconds.
+    // Prefetch every service once the booking section is near, and show progress text while waiting.
+    var slotCache = {};
+    function fetchSlots(id) {
+      var hit = slotCache[id];
+      if (hit && Date.now() - hit.at < 55000) return hit.p;
+      var p = fetch(C.bookingEndpoint + "?action=slots&service=" + encodeURIComponent(id))
+        .then(function (r) { return r.json(); })
+        .then(function (res) { if (!res || !res.ok) throw new Error(res && res.error || "load"); return res; });
+      p.catch(function () { if (slotCache[id] && slotCache[id].p === p) delete slotCache[id]; });
+      slotCache[id] = { p: p, at: Date.now() };
+      return p;
+    }
+    var bookSec = $("#book");
+    if (LIVE && bookSec && "IntersectionObserver" in window) {
+      var pre = new IntersectionObserver(function (es) {
+        if (!es.some(function (e) { return e.isIntersecting; })) return;
+        pre.disconnect();
+        services.forEach(function (s) { fetchSlots(s.id).catch(function () {}); });
+      }, { rootMargin: "600px 0px" });
+      pre.observe(bookSec);
+    }
+
+    var loadTimers = [], loadSeq = 0;
+    function clearLoadTimers() { loadTimers.forEach(clearTimeout); loadTimers = []; }
+
+    function loadSlots(note) {
+      var daysEl = $("#days"), slotsEl = $("#slots"), seq = ++loadSeq;
+      clearLoadTimers();
+      daysEl.innerHTML = '<div class="day-skel"></div><div class="day-skel"></div><div class="day-skel"></div><div class="day-skel"></div>';
+      slotsEl.innerHTML = '<div class="slots-loading" role="status"><span class="spin" aria-hidden="true"></span><span class="sl-text">Checking Rowan\'s calendar for open times...</span></div>' +
+        '<div class="skeleton" style="grid-column:1/-1"></div>';
+      function say(t) { var el = $(".sl-text", slotsEl); if (el && seq === loadSeq) el.textContent = t; }
+      loadTimers.push(setTimeout(function () { say("Still checking. Live times can take up to 15 seconds."); }, 4000));
+      loadTimers.push(setTimeout(function () { say("Almost there, pulling the last few days..."); }, 11000));
+      loadTimers.push(setTimeout(function () { say("This is taking longer than usual. Hang tight, or text " + C.phoneDisplay + " to book."); }, 22000));
+      var req = LIVE ? fetchSlots(S.svc.id) : demoSlots(S.svc.minutes);
       req.then(function (res) {
+        if (seq !== loadSeq) return;
+        clearLoadTimers();
         if (!res || !res.ok) throw new Error(res && res.error || "load");
         S.days = res.days || {};
         var keys = Object.keys(S.days).sort();
@@ -190,7 +223,11 @@
         $$(".day", daysEl).forEach(function (b) { b.addEventListener("click", function () { chooseDay(b.getAttribute("data-day")); }); });
         var first = keys.filter(function (k) { return S.days[k].length; })[0];
         if (first) chooseDay(first); else slotsEl.innerHTML = '<p class="slots-empty">No openings in the next few weeks. Call or text ' + esc(C.phoneDisplay) + " and we will fit you in.</p>";
+        if (note) slotsEl.insertAdjacentHTML("afterbegin", '<p class="slots-empty">' + esc(note) + "</p>");
       }).catch(function () {
+        if (seq !== loadSeq) return;
+        clearLoadTimers();
+        daysEl.innerHTML = "";
         slotsEl.innerHTML = '<p class="slots-empty">We could not load live times right now. Call or text ' + esc(C.phoneDisplay) + " to book.</p>";
       });
     }
@@ -221,6 +258,7 @@
       var req = LIVE ? api(payload) : new Promise(function (r) { setTimeout(function () { r({ ok: true, preview: true }); }, 700); });
       req.then(function (res) {
         btn.disabled = false;
+        slotCache = {}; // calendar changed, refetch next time
         if (res && res.ok) {
           msg(out, "");
           var when = fmtDay(S.day, { weekday: "long", month: "long", day: "numeric" }) + " at " + fmtTime(S.time);
@@ -232,8 +270,7 @@
           booker.scrollIntoView({ behavior: "smooth", block: "start" });
         } else if (res && res.error === "taken") {
           msg(out, "");
-          go(2); loadSlots();
-          setTimeout(function () { var s = $("#slots"); s.insertAdjacentHTML("afterbegin", '<p class="slots-empty">That time was just taken. Please pick another.</p>'); }, 900);
+          go(2); loadSlots("That time was just taken. Please pick another.");
         } else {
           msg(out, (res && res.message) || "Something went wrong saving your booking. Call or text " + C.phoneDisplay + " and we will book it for you.", "err");
         }
