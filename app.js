@@ -30,6 +30,7 @@
   })();
 
   /* ---------- Site settings ---------- */
+  if (C.bonded) $$("[data-bonded]").forEach(function (el) { el.hidden = false; });
   var yr = $("#yr"); if (yr) yr.textContent = new Date().getFullYear();
   if (C.phoneDisplay) $$("[data-phone]").forEach(function (a) { a.textContent = C.phoneDisplay; a.href = "tel:" + C.phoneHref; });
   if (C.rocNumber) {

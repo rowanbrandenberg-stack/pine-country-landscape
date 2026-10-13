@@ -13,10 +13,13 @@ window.PCL_CONFIG = {
   rocNumber: "",
 
   // Only set true once general liability coverage is actually in force.
-  insured: false,
+  insured: true,
+
+  // Surety bond in place.
+  bonded: true,
 
   // Show "5.0 from N reviews" next to the buttons. Only turn on when every review in reviews.js is a real customer review.
-  showReviewCount: false,
+  showReviewCount: true,
 
   // Text us button opens the customer's messages with this already typed.
   smsBody: "Hi Rowan, I need a price on ",
