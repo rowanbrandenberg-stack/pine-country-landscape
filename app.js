@@ -298,7 +298,7 @@
       var payload = {
         action: "book", service: S.svc.id, date: S.day, time: S.time,
         name: form.name.value.trim(), address: form.address.value.trim(),
-        phone: form.phone.value.trim(), email: form.email.value.trim(), notes: form.notes.value.trim(), website: form.website.value
+        phone: form.phone.value.trim(), email: form.email.value.trim(), notes: form.notes.value.trim(), website: form.website.value, promo: form.promo ? form.promo.value.trim() : ""
       };
       var req = LIVE ? api(payload) : new Promise(function (r) { setTimeout(function () { r({ ok: true, preview: true }); }, 700); });
       req.then(function (res) {
@@ -399,7 +399,7 @@
       var payload = {
         action: "estimate", service: ef.service.value, description: ef.description.value.trim(),
         name: ef.name.value.trim(), address: ef.address.value.trim(), email: ef.email.value.trim(), phone: ef.phone.value.trim(),
-        photos: shots, website: ef.website.value
+        photos: shots, website: ef.website.value, promo: ef.promo ? ef.promo.value.trim() : ""
       };
       var req = LIVE ? api(payload) : new Promise(function (r) { setTimeout(function () { r({ ok: true, preview: true }); }, 800); });
       req.then(function (res) {
@@ -490,4 +490,36 @@
       }).catch(function () { btn.disabled = false; msg(pOut, "That did not go through. Text your photos to " + C.phoneDisplay + ".", "err"); });
     });
   }
+
+  /* ---------- 10% off first job ---------- */
+  (function () {
+    var store = { get: function (k) { try { return localStorage.getItem(k); } catch (x) { return null; } }, set: function (k, v) { try { localStorage.setItem(k, v); } catch (x) {} } };
+    var fill = function (code) { if (code) $$("[data-promo]").forEach(function (i) { if (!i.value) i.value = code; }); };
+    fill(store.get("pcl_promo"));
+    var box = $("#offer"), of = $("#offer-form");
+    if (!box || !of || !LIVE) return;
+    if (store.get("pcl_promo") || store.get("pcl_offer_closed")) return;
+    var shown = false;
+    var show = function () { if (shown) return; shown = true; box.hidden = false; requestAnimationFrame(function () { box.classList.add("in"); }); };
+    var timer = setTimeout(show, 25000);
+    var onScroll = function () { if (window.scrollY > document.body.scrollHeight * 0.45) { show(); window.removeEventListener("scroll", onScroll); } };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    document.addEventListener("mouseout", function (e) { if (!e.relatedTarget && e.clientY < 8) show(); });
+    $("[data-offer-close]", box).addEventListener("click", function () { box.classList.remove("in"); box.hidden = true; store.set("pcl_offer_closed", "1"); clearTimeout(timer); });
+    of.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var out = $(".form-msg", of), email = of.email.value.trim();
+      if (!validEmail(email)) { msg(out, "That email looks incomplete.", "err"); return; }
+      var btn = $('button[type="submit"]', of); btn.disabled = true; msg(out, "Sending...");
+      api({ action: "offer", email: email, website: of.website.value, source: location.pathname }).then(function (res) {
+        btn.disabled = false;
+        if (res && res.ok && res.code) {
+          store.set("pcl_promo", res.code); fill(res.code);
+          $(".offer-row", of).hidden = true;
+          msg(out, "Your code is " + res.code + ". It's in your email and saved for when you book.", "ok");
+          setTimeout(function () { box.classList.remove("in"); }, 9000);
+        } else msg(out, (res && res.message) || "That did not go through. Try again in a minute.", "err");
+      }).catch(function () { btn.disabled = false; msg(out, "That did not go through. Try again in a minute.", "err"); });
+    });
+  })();
 })();
