@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Young+Serif&display=swap">
-<link rel="stylesheet" href="styles.css?v=20261013b">
+<link rel="stylesheet" href="styles.css?v=20261013c">
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "LandscapingBusiness", "name": "Pine Country Landscape", "url": "https://pinecountrylandscape.com/", "telephone": "+1-928-863-8198", "image": "https://pinecountrylandscape.com/img/native-berm-peaks.jpg", "address": {"@type": "PostalAddress", "addressLocality": "Flagstaff", "addressRegion": "AZ", "addressCountry": "US"}, "geo": {"@type": "GeoCoordinates", "latitude": 35.1983, "longitude": -111.6513}, "areaServed": ["Flagstaff", "Doney Park", "Kachina Village", "Mountainaire", "Fort Valley", "Continental", "Cheshire", "Williams", "Bellemont"], "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Sunday", "Monday", "Wednesday", "Friday", "Saturday"], "opens": "08:00", "closes": "17:00"}], "@id": "https://pinecountrylandscape.com/#business", "logo": "https://pinecountrylandscape.com/img/logo-badge.png", "priceRange": "$$", "description": "Locally owned Flagstaff landscaping company: tree planting and landscape design, yard cleanups, pruning, irrigation repair and winterization, and winter watering.", "founder": {"@type": "Person", "name": "Rowan Brandenberg"}, "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Landscaping services", "itemListElement": [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Yard cleanup", "url": "https://pinecountrylandscape.com/yard-cleanup-flagstaff/"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Tree planting and landscape design", "url": "https://pinecountrylandscape.com/tree-planting-flagstaff/"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Irrigation repair and winterization", "url": "https://pinecountrylandscape.com/irrigation-flagstaff/"}}]}}
 </script>
@@ -40,8 +40,8 @@
       <a href="#services">Services</a>
       <a href="#estimate">Instant price</a>
       <a href="#book">Book</a>
+      <a href="#plant-doctor">Plant doctor</a>
       <a href="#reviews">Reviews</a>
-      <a href="#about">About</a>
       <a href="#faq">FAQ</a>
     </nav>
     <div class="head-cta">
@@ -179,6 +179,61 @@
     <div><b>Free visit, no pressure</b><span>We walk it with you and you decide. No charge, no hard sell.</span></div>
     <div><b>Price in writing first</b><span>You see the exact price before any work starts. No surprises on the bill.</span></div>
     <div><b>Not right? We fix it free</b><span>If something we did is not right, we come back and make it right at no cost.</span></div>
+  </div>
+</section>
+
+<section class="section plant-sec" id="plant-doctor" aria-labelledby="plant-h">
+  <div class="wrap est-in">
+    <div class="sec-head">
+      <p class="eyebrow">Plant doctor &middot; free</p>
+      <h2 id="plant-h">Something wrong with your tree? Send a photo.</h2>
+      <p class="lede">Yellow needles, brown leaves, a new tree that won't take off. Send a few photos and answer a few quick questions. We check it against the last month of Flagstaff weather and text and email you what's going on and what to do, usually within the hour.</p>
+      <ul class="est-points">
+        <li>One photo of the whole plant, one close up of the problem, one of the trunk base</li>
+        <li>If we need a closer look, we ask for exactly the photo we need</li>
+        <li>Want us to fix it? We can come out and handle it</li>
+      </ul>
+    </div>
+    <form class="est-form card" id="plant-form" novalidate>
+      <div class="plant-ask" data-plant-ask hidden>
+        <p class="est-kicker">Almost there</p>
+        <p class="est-h" data-plant-ask-h>A little more and we can tell you.</p>
+        <ul class="plant-ask-list" data-plant-ask-list></ul>
+      </div>
+      <div class="field"><label for="pd-photos">Photos (up to 6)</label>
+        <input id="pd-photos" type="file" accept="image/*" multiple>
+        <div class="est-thumbs" id="pd-thumbs" aria-live="polite"></div></div>
+      <div data-plant-new>
+        <div class="field"><label for="pd-desc">What are you seeing?</label><textarea id="pd-desc" name="description" rows="3" placeholder="Example: needles turning yellow and brown from the bottom up on one side"></textarea></div>
+        <div class="row2">
+          <div class="field"><label for="pd-plant">What plant is it?</label><input id="pd-plant" name="plant" placeholder="Aspen, blue spruce, not sure..."></div>
+          <div class="field"><label for="pd-age">How long in the ground?</label>
+            <select id="pd-age" name="age"><option value="">Pick one</option><option>Under 3 months</option><option>3 to 12 months</option><option>1 to 3 years</option><option>3+ years</option><option>Not sure</option></select></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="pd-water">How is it watered?</label><input id="pd-water" name="water" placeholder="Drip 20 min every other day, hose weekly..."></div>
+          <div class="field"><label for="pd-sun">Sun</label>
+            <select id="pd-sun" name="sun"><option value="">Pick one</option><option>Full sun all day</option><option>Afternoon sun</option><option>Morning sun</option><option>Mostly shade</option></select></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="pd-when">When did it start?</label><input id="pd-when" name="when" placeholder="About two weeks ago"></div>
+          <div class="field"><label for="pd-changes">Anything change nearby?</label><input id="pd-changes" name="changes" placeholder="New sod, construction, fertilizer..."></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="pd-name">Name</label><input id="pd-name" name="name" autocomplete="name"></div>
+          <div class="field"><label for="pd-email">Email</label><input id="pd-email" name="email" type="email" autocomplete="email"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="pd-phone">Mobile (we text your answer too)</label><input id="pd-phone" name="phone" type="tel" autocomplete="tel"></div>
+          <div class="field"><label for="pd-address">Neighborhood or address</label><input id="pd-address" name="address" placeholder="Doney Park, Cheshire..."></div>
+        </div>
+      </div>
+      <div data-plant-replies hidden></div>
+      <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn btn-gold btn-block" type="submit" data-plant-submit>Tell me what's wrong</button>
+      <p class="hint">Our best read from photos and your answers. For leaning, cracked or hazard trees, stay clear and call a certified arborist.</p>
+      <p class="form-msg" role="status" aria-live="polite"></p>
+    </form>
   </div>
 </section>
 
@@ -411,8 +466,8 @@
   <button type="button" class="lb-close" aria-label="Close photo">&times;</button>
 </dialog>
 
-<script src="config.js?v=20261013b"></script>
-<script src="reviews.js?v=20261013b"></script>
-<script src="app.js?v=20261013b"></script>
+<script src="config.js?v=20261013c"></script>
+<script src="reviews.js?v=20261013c"></script>
+<script src="app.js?v=20261013c"></script>
 </body>
 </html>

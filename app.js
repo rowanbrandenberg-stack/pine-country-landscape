@@ -412,4 +412,82 @@
       }).catch(function () { btn.disabled = false; msg(out, "That did not go through. Text " + C.phoneDisplay + " and we will price it for you.", "err"); });
     });
   }
+
+  /* ---------- Plant doctor ---------- */
+  var pf = $("#plant-form");
+  if (pf) {
+    var pShots = [], pThumbs = $("#pd-thumbs"), PMAX = 6;
+    var qs = new URLSearchParams(location.search), pid = qs.get("plant"), pkey = qs.get("k"), follow = !!(pid && pkey);
+    var pShrink = function (file) {
+      return new Promise(function (resolve, reject) {
+        var url = URL.createObjectURL(file), img = new Image();
+        img.onload = function () {
+          var sc = Math.min(1, 1600 / Math.max(img.width, img.height));
+          var c = document.createElement("canvas"); c.width = Math.round(img.width * sc); c.height = Math.round(img.height * sc);
+          c.getContext("2d").drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url); resolve(c.toDataURL("image/jpeg", 0.8));
+        };
+        img.onerror = function () { URL.revokeObjectURL(url); reject(new Error("img")); };
+        img.src = url;
+      });
+    };
+    var pDraw = function () {
+      pThumbs.innerHTML = pShots.map(function (d, i) { return '<figure><img src="' + d + '" alt="Photo ' + (i + 1) + '"><button type="button" data-rm="' + i + '" aria-label="Remove photo ' + (i + 1) + '">&times;</button></figure>'; }).join("");
+    };
+    pThumbs.addEventListener("click", function (e) { var b = e.target.closest("[data-rm]"); if (!b) return; pShots.splice(+b.getAttribute("data-rm"), 1); pDraw(); });
+    $("#pd-photos").addEventListener("change", function (e) {
+      var files = Array.prototype.slice.call(e.target.files || []).slice(0, PMAX - pShots.length);
+      Promise.all(files.map(function (f) { return pShrink(f).catch(function () { return null; }); })).then(function (list) {
+        list.forEach(function (d) { if (d && pShots.length < PMAX) pShots.push(d); }); pDraw(); e.target.value = "";
+      });
+    });
+    var pOut = $(".form-msg", pf), questions = [];
+    if (follow) {
+      $("[data-plant-new]", pf).hidden = true;
+      $("[data-plant-ask]", pf).hidden = false;
+      $("[data-plant-submit]", pf).textContent = "Send it";
+      msg(pOut, "Loading what we need...");
+      if (LIVE) fetch(C.bookingEndpoint + "?action=plant_ask&id=" + encodeURIComponent(pid) + "&k=" + encodeURIComponent(pkey))
+        .then(function (r) { return r.json(); }).then(function (res) {
+          if (!res || !res.ok) { msg(pOut, (res && res.message) || "This link did not work. Text " + C.phoneDisplay + ".", "err"); return; }
+          msg(pOut, "");
+          $("[data-plant-ask-h]", pf).textContent = "Thanks " + res.first + ". A little more and I can tell you.";
+          $("[data-plant-ask-list]", pf).innerHTML = (res.photos || []).map(function (p) { return "<li>&#128247; " + esc(p) + "</li>"; }).join("");
+          questions = res.questions || [];
+          var box = $("[data-plant-replies]", pf);
+          box.innerHTML = questions.map(function (q, i) { return '<div class="field"><label for="pd-r' + i + '">' + esc(q) + '</label><input id="pd-r' + i + '" data-reply></div>'; }).join("");
+          box.hidden = !questions.length;
+        }).catch(function () { msg(pOut, "This link did not work. Text " + C.phoneDisplay + ".", "err"); });
+      setTimeout(function () { var t = $("#plant-doctor"); if (t) t.scrollIntoView({ block: "start" }); }, 300);
+    }
+    pf.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (pf.website.value) return;
+      var payload;
+      if (follow) {
+        var replies = $$("[data-reply]", pf).map(function (i) { return i.value.trim(); });
+        if (!pShots.length && !replies.join("")) { msg(pOut, "Add a photo or answer at least one question.", "err"); return; }
+        payload = { action: "plant_more", id: pid, k: pkey, photos: pShots, replies: replies };
+      } else {
+        if (!pShots.length) { msg(pOut, "Add at least one photo of the plant.", "err"); return; }
+        var err = requiredCheck(pf, ["description", "name", "email"]);
+        if (!err && !validEmail(pf.email.value.trim())) err = "Add an email so we can send your answer.";
+        if (err) { msg(pOut, err, "err"); return; }
+        payload = { action: "plant", description: pf.description.value.trim(), name: pf.name.value.trim(), email: pf.email.value.trim(),
+          phone: pf.phone.value.trim(), address: pf.address.value.trim(), photos: pShots, website: pf.website.value,
+          answers: { plant: pf.plant.value.trim(), age: pf.age.value, water: pf.water.value.trim(), sun: pf.sun.value, when: pf.when.value.trim(), changes: pf.changes.value.trim() } };
+      }
+      var btn = $("[data-plant-submit]", pf); btn.disabled = true; msg(pOut, pShots.length ? "Uploading photos..." : "Sending...");
+      var req = LIVE ? api(payload) : new Promise(function (r) { setTimeout(function () { r({ ok: true, preview: true }); }, 700); });
+      req.then(function (res) {
+        btn.disabled = false;
+        if (res && res.ok) {
+          var texted = !follow && !!payload.phone;
+          pf.reset(); pShots = []; pDraw();
+          if (follow) { $("[data-plant-replies]", pf).hidden = true; $("[data-plant-ask]", pf).hidden = true; btn.hidden = true; }
+          msg(pOut, (res.preview ? "Preview only, nothing was sent. " : "") + (follow ? "Got it, thanks. Your answer is on its way." :
+            "Got it. Your answer is on its way" + (texted ? " by text and email" : " to your email") + ", usually within the hour."), "ok");
+        } else msg(pOut, (res && res.message) || "That did not go through. Text your photos to " + C.phoneDisplay + ".", "err");
+      }).catch(function () { btn.disabled = false; msg(pOut, "That did not go through. Text your photos to " + C.phoneDisplay + ".", "err"); });
+    });
+  }
 })();

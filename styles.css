@@ -432,3 +432,8 @@ input[aria-invalid="true"] { border-color: var(--err); }
   .hero-grid .eyebrow, .hero-grid .hero-actions { display: none; }
   .hero-grid .hero-sub { font-size: 1rem; }
 }
+.plant-ask { display: grid; gap: 6px; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+.plant-ask[hidden] { display: none; }
+.plant-ask-list { margin: 4px 0 0; padding-left: 0; list-style: none; display: grid; gap: 6px; font-weight: 600; }
+[data-plant-new][hidden], [data-plant-replies][hidden] { display: none; }
+[data-plant-new], [data-plant-replies] { display: grid; gap: 14px; }
