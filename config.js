@@ -36,7 +36,7 @@ window.PCL_CONFIG = {
 
   // Bookable services. id must match SERVICES in apps-script/Code.gs.
   services: [
-    { id: "estimate", name: "On-site estimate", minutes: 60, price: "Free", note: "Walk the property together and get a written quote for cleanups, care plans or snow." },
+    { id: "estimate", name: "On-site estimate", minutes: 60, price: "Free", note: "Walk the property together and get a written quote for cleanups, care plans or planting." },
     { id: "consult", name: "Design consultation", minutes: 90, price: "$150", note: "Planting, trees, beds and full-yard plans. Fee is credited toward your project." },
     { id: "cleanup", name: "Yard cleanup", minutes: 180, price: "From $450", note: "Needles, cones, leaves, weeds and debris, hauled away." },
     { id: "pruning", name: "Pruning and shrub shaping", minutes: 120, price: "From $295", note: "Shrubs, small trees and hedges shaped for health and form." },
