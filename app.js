@@ -6,6 +6,29 @@
   var TZ = "America/Phoenix";
   document.documentElement.classList.add("js");
 
+  /* ---------- Conversion helpers: one tap text, seasonal banner, review badge ---------- */
+  (function () {
+    var base = location.pathname === "/" || /index\.html$/.test(location.pathname) || location.protocol === "file:" ? "" : "/";
+    var smsBody = C.smsBody || "Hi Rowan, I need a price on ";
+    Array.prototype.forEach.call(document.querySelectorAll("[data-sms]"), function (a) { a.href = "sms:" + (C.phoneHref || "+19288638198") + "?&body=" + encodeURIComponent(smsBody); });
+    var bar = document.querySelector("[data-season]");
+    if (bar) {
+      var d = new Date(), m = d.getMonth() + 1, day = d.getDate(), t = null;
+      if ((m === 9 && day >= 15) || m === 10 || m === 11) t = 'Hard freeze is coming. Winterize sprinklers from $165 before it hits. <a href="' + base + '#book">Book a time</a>';
+      else if (m === 12 || m <= 2) t = 'Dry winter? New trees still need water. Winter watering visits $95. <a href="' + base + '#book">Book a visit</a>';
+      else if (m <= 5) t = 'Spring cleanup season is here. <a href="' + base + '#estimate">Get an instant price</a>';
+      else if (m <= 8) t = 'Monsoon season: cleanups and irrigation fixes. <a href="' + base + '#estimate">Get an instant price</a>';
+      else t = 'Fall cleanup spots are filling up. <a href="' + base + '#estimate">Get an instant price</a>';
+      bar.innerHTML = t; bar.hidden = false;
+    }
+    var R = window.PCL_REVIEWS;
+    if (C.showReviewCount && R && R.items && R.items.length) {
+      var avg = R.items.reduce(function (s, r) { return s + (r.stars || 5); }, 0) / R.items.length;
+      Array.prototype.forEach.call(document.querySelectorAll("[data-review-count]"), function (el) { el.textContent = avg.toFixed(1) + " from " + R.items.length + " reviews"; });
+      Array.prototype.forEach.call(document.querySelectorAll("[data-review-badge]"), function (el) { el.hidden = false; });
+    }
+  })();
+
   /* ---------- Site settings ---------- */
   var yr = $("#yr"); if (yr) yr.textContent = new Date().getFullYear();
   if (C.phoneDisplay) $$("[data-phone]").forEach(function (a) { a.textContent = C.phoneDisplay; a.href = "tel:" + C.phoneHref; });
@@ -198,8 +221,21 @@
       slotCache[id] = { p: p, at: Date.now() };
       return p;
     }
+    // Honest urgency: show the real next open visit from the live calendar.
+    function showNextOpen(all) {
+      var est = all && (all.estimate || all[Object.keys(all)[0]]); if (!est || !est.days) return;
+      var keys = Object.keys(est.days).sort().filter(function (k) { return est.days[k].length; });
+      if (!keys.length) return;
+      var first = keys[0], t = est.days[first][0];
+      var weekEnd = new Date(Date.now() + 7 * 864e5).toISOString().slice(0, 10);
+      var thisWeek = keys.filter(function (k) { return k <= weekEnd; }).length;
+      var txt = "Next open visit: " + fmtDay(first, { weekday: "short", month: "short", day: "numeric" }) + ", " + fmtTime(t);
+      if (thisWeek > 0 && thisWeek <= 2) txt += " \u00b7 only " + thisWeek + " open day" + (thisWeek > 1 ? "s" : "") + " left this week";
+      $$("[data-next-open-text]").forEach(function (el) { el.textContent = txt; });
+      $$("[data-next-open]").forEach(function (el) { el.hidden = false; });
+    }
     if (LIVE) {
-      var warm = function () { fetchAll().catch(function () {}); };
+      var warm = function () { fetchAll().then(showNextOpen).catch(function () {}); };
       if (document.readyState === "complete") warm(); else window.addEventListener("load", warm);
     }
 
@@ -311,7 +347,7 @@
   });
 
   /* ---------- Price from photos ---------- */
-  var ef = $("#est-form");
+  var ef = $("#estimate");
   if (ef) {
     var shots = [], thumbs = $("#es-thumbs"), MAX = 6;
     // Shrink each photo to 1600px JPEG so uploads stay small on phones.
@@ -345,6 +381,12 @@
         drawThumbs(); e.target.value = "";
       });
     });
+    var step2 = $(".est-step2", ef), nextBtn = $(".est-next", ef);
+    if (nextBtn && step2) nextBtn.addEventListener("click", function () {
+      var out = $(".form-msg", ef);
+      if (!ef.description.value.trim()) { msg(out, "Tell us what you want done, even one line is fine.", "err"); ef.description.focus(); return; }
+      msg(out, ""); step2.hidden = false; nextBtn.hidden = true; ef.name.focus();
+    });
     ef.addEventListener("submit", function (e) {
       e.preventDefault();
       var out = $(".form-msg", ef);
@@ -362,8 +404,9 @@
       req.then(function (res) {
         btn.disabled = false;
         if (res && res.ok) {
+          var texted = !!payload.phone;
           ef.reset(); shots = []; drawThumbs();
-          msg(out, (res.preview ? "Preview only, nothing was sent. " : "") + "Got it. Your price is on its way to your email, usually within 10 minutes. Check spam if you do not see it.", "ok");
+          msg(out, (res.preview ? "Preview only, nothing was sent. " : "") + "Got it. Your price is on its way" + (texted ? " by text and email" : " to your email") + ", usually within 10 minutes. Want it locked in? Book a free visit below.", "ok");
         } else msg(out, (res && res.message) || "That did not go through. Text " + C.phoneDisplay + " and we will price it for you.", "err");
       }).catch(function () { btn.disabled = false; msg(out, "That did not go through. Text " + C.phoneDisplay + " and we will price it for you.", "err"); });
     });

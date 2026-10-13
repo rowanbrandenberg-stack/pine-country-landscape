@@ -15,6 +15,12 @@ window.PCL_CONFIG = {
   // Only set true once general liability coverage is actually in force.
   insured: false,
 
+  // Show "5.0 from N reviews" next to the buttons. Only turn on when every review in reviews.js is a real customer review.
+  showReviewCount: false,
+
+  // Text us button opens the customer's messages with this already typed.
+  smsBody: "Hi Rowan, I need a price on ",
+
   phoneDisplay: "(928) 863-8198",
   phoneHref: "+19288638198",
 

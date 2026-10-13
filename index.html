@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Young+Serif&display=swap">
-<link rel="stylesheet" href="styles.css?v=20261012d">
+<link rel="stylesheet" href="styles.css?v=20261013a">
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "LandscapingBusiness", "name": "Pine Country Landscape", "url": "https://pinecountrylandscape.com/", "telephone": "+1-928-863-8198", "image": "https://pinecountrylandscape.com/img/native-berm-peaks.jpg", "address": {"@type": "PostalAddress", "addressLocality": "Flagstaff", "addressRegion": "AZ", "addressCountry": "US"}, "geo": {"@type": "GeoCoordinates", "latitude": 35.1983, "longitude": -111.6513}, "areaServed": ["Flagstaff", "Doney Park", "Kachina Village", "Mountainaire", "Fort Valley", "Continental", "Cheshire", "Williams", "Bellemont"], "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Sunday", "Monday", "Wednesday", "Friday", "Saturday"], "opens": "08:00", "closes": "17:00"}], "@id": "https://pinecountrylandscape.com/#business", "logo": "https://pinecountrylandscape.com/img/logo-badge.png", "priceRange": "$$", "description": "Locally owned Flagstaff landscaping company: tree planting and landscape design, yard cleanups, pruning, irrigation repair and winterization, and winter watering.", "founder": {"@type": "Person", "name": "Rowan Brandenberg"}, "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Landscaping services", "itemListElement": [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Yard cleanup", "url": "https://pinecountrylandscape.com/yard-cleanup-flagstaff/"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Tree planting and landscape design", "url": "https://pinecountrylandscape.com/tree-planting-flagstaff/"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Irrigation repair and winterization", "url": "https://pinecountrylandscape.com/irrigation-flagstaff/"}}]}}
 </script>
@@ -39,6 +39,7 @@
       <a href="#work">Work</a>
       <a href="#services">Services</a>
       <a href="#estimate">Instant price</a>
+      <a href="#book">Book</a>
       <a href="#reviews">Reviews</a>
       <a href="#about">About</a>
       <a href="#faq">FAQ</a>
@@ -50,22 +51,133 @@
   </div>
 </header>
 
+<div class="season-bar" data-season hidden></div>
+
 <main id="main">
 
 <section class="hero">
-  <div class="wrap hero-in">
-    <p class="eyebrow eyebrow-light">Flagstaff, Arizona &middot; elevation 6,910 ft</p>
-    <h1>Landscapes built for 7,000&nbsp;feet.</h1>
-    <p class="hero-sub">Design, planting, seasonal care and irrigation for Flagstaff homes. Thoughtful work, clear pricing, and a crew that shows up when we say we will.</p>
-    <div class="hero-actions">
-      <a class="btn btn-gold btn-lg" href="#estimate">Get an instant price</a>
-      <a class="btn btn-ghost btn-lg" href="#book">Book a free visit</a>
+  <div class="wrap hero-in hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow eyebrow-light">Flagstaff, Arizona &middot; elevation 6,910 ft</p>
+      <h1>Your yard, handled. Price in minutes.</h1>
+      <p class="hero-sub">Cleanups, pruning, irrigation and planting for Flagstaff homes. Send a few photos, get your price by text, and book a time that works for you.</p>
+      <p class="next-open" data-next-open hidden><span class="dot" aria-hidden="true"></span><span data-next-open-text></span></p>
+      <ul class="trust-line" aria-label="Why homeowners pick us">
+        <li data-review-badge hidden><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span> <a href="#reviews" data-review-count></a></li>
+        <li>Locally owned in Flagstaff</li>
+        <li>Free visits</li>
+        <li>Price in writing before we start</li>
+        <li class="roc-slot" data-roc-badge hidden>Licensed <b data-roc-number></b></li>
+        <li data-insured hidden>Insured</li>
+      </ul>
+      <div class="hero-actions">
+        <a class="btn btn-ghost btn-lg" href="#book">Book a free visit</a>
+        <a class="btn btn-ghost btn-lg" data-sms href="sms:+19288638198">Text us</a>
+      </div>
     </div>
-    <ul class="hero-facts">
-      <li><span>Service area</span>Flagstaff + 25 min</li>
-      <li><span>Working days</span>Sun, Mon, Wed, Fri, Sat</li>
-      <li class="roc-slot" data-roc-badge hidden><span>Licensed</span><b data-roc-number></b></li>
-    </ul>
+    <form class="est-form card" id="estimate" novalidate>
+        <div class="est-top"><p class="est-kicker">Instant price</p><p class="est-h">Send photos. Get your price in minutes.</p><p class="est-sub">By text and email, usually under 10 minutes. Free and no pressure.</p></div>
+        <div class="field"><label for="es-svc">What do you need?</label>
+          <select id="es-svc" name="service">
+            <option value="cleanup">Yard cleanup or needle removal</option>
+            <option value="pruning">Pruning and shrub shaping</option>
+            <option value="mowing">Mowing</option>
+            <option value="weeds">Weed control</option>
+            <option value="haul">Debris or junk haul</option>
+            <option value="irrigation">Irrigation repair or timer</option>
+            <option value="winterize">Irrigation winterization</option>
+            <option value="planting">Trees, shrubs or planting</option>
+            <option value="hardscape">Pavers, patio, rock or hardscape</option>
+            <option value="other">Something else</option>
+          </select></div>
+        <div class="field"><label for="es-desc">Describe the job</label><textarea id="es-desc" name="description" rows="3" required placeholder="Example: clear pine needles from front and side beds, haul away, about 2,000 sq ft"></textarea></div>
+        <div class="field">
+          <label for="es-photos">Photos (up to 6: wide shots plus one close up)</label>
+          <input id="es-photos" name="photos" type="file" accept="image/*" multiple>
+          <div class="est-thumbs" id="es-thumbs" aria-live="polite"></div>
+        </div>
+        <button class="btn btn-gold btn-block est-next" type="button">Next: where should we send it?</button>
+        <div class="est-step2" hidden>
+        <div class="row2">
+          <div class="field"><label for="es-name">Name</label><input id="es-name" name="name" autocomplete="name" required></div>
+          <div class="field"><label for="es-address">Service address</label><input id="es-address" name="address" autocomplete="street-address" placeholder="Street, city" required></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="es-email">Email (we send your price here)</label><input id="es-email" name="email" type="email" autocomplete="email" required></div>
+          <div class="field"><label for="es-phone">Mobile (optional, we text your price too)</label><input id="es-phone" name="phone" type="tel" autocomplete="tel"></div>
+        </div>
+          <button class="btn btn-gold btn-block" type="submit">Get my instant price</button>
+        </div>
+        <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <p class="hint">A ballpark from photos, not a bid. Bigger installs and hardscape get priced at a free visit. Rather we look in person? <a href="#book">Book a free visit</a>.</p>
+        <p class="form-msg" role="status" aria-live="polite"></p>
+      </form>
+  </div>
+</section>
+
+<section class="section book-sec" id="book" aria-labelledby="book-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Book online</p>
+      <p class="next-open next-open-dark" data-next-open hidden><span class="dot" aria-hidden="true"></span><span data-next-open-text></span></p>
+      <h2 id="book-h">Pick a time. We will be there.</h2>
+      <p class="lede">Live availability from our calendar. Appointments run Sunday, Monday, Wednesday, Friday and Saturday, 8am to 5pm. Questions? <b>Texting is fastest:</b> <a data-sms href="sms:+19288638198">(928) 863-8198</a>. We are usually out on a job, so calls go to voicemail. Leave a message and we call back the same day.</p>
+    </div>
+
+    <div class="booker card" id="booker">
+      <ol class="bk-steps" aria-label="Booking steps">
+        <li class="on" data-s="1">Service</li>
+        <li data-s="2">Time</li>
+        <li data-s="3">Details</li>
+      </ol>
+
+      <div class="bk-panel" data-panel="1">
+        <div class="svc-pick" id="svc-pick" role="radiogroup" aria-label="Choose a service"></div>
+      </div>
+
+      <div class="bk-panel" data-panel="2" hidden>
+        <div class="bk-summary" id="bk-sum-1"></div>
+        <div class="days" id="days" role="listbox" aria-label="Choose a day"></div>
+        <div class="slots" id="slots" aria-live="polite"></div>
+        <div class="bk-nav"><button class="btn btn-line" type="button" data-back="1">Back</button></div>
+      </div>
+
+      <form class="bk-panel" data-panel="3" id="bk-form" hidden novalidate>
+        <div class="bk-summary" id="bk-sum-2"></div>
+        <div class="row2">
+          <div class="field"><label for="bk-name">Full name</label><input id="bk-name" name="name" autocomplete="name" required></div>
+          <div class="field"><label for="bk-address">Service address</label><input id="bk-address" name="address" autocomplete="street-address" placeholder="Street, city" required></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="bk-phone">Phone</label><input id="bk-phone" name="phone" type="tel" autocomplete="tel"></div>
+          <div class="field"><label for="bk-email">Email</label><input id="bk-email" name="email" type="email" autocomplete="email"></div>
+        </div>
+        <p class="hint">Phone, email, or both. We need at least one to confirm.</p>
+        <div class="field"><label for="bk-notes">What are we looking at?</label><textarea id="bk-notes" name="notes" rows="3" placeholder="Rough size, what you want done, gate code, pets"></textarea></div>
+        <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="bk-nav">
+          <button class="btn btn-line" type="button" data-back="2">Back</button>
+          <button class="btn btn-gold" type="submit">Confirm booking</button>
+        </div>
+        <p class="form-msg" role="status" aria-live="polite"></p>
+      </form>
+
+      <div class="bk-panel bk-done" data-panel="4" hidden>
+        <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="m14 25 7 7 13-15" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h3>You are booked.</h3>
+        <p id="bk-done-text"></p>
+        <button class="btn btn-line" type="button" id="bk-again">Book another visit</button>
+      </div>
+      <p class="preview-note" id="preview-note" hidden>Preview mode: times shown are examples and bookings are not sent. Connect the booking endpoint in config.js to go live.</p>
+    </div>
+  </div>
+</section>
+
+<section class="guarantee" aria-label="Our promise">
+  <div class="wrap guar-in">
+    <div><b>Free visit, no pressure</b><span>We walk it with you and you decide. No charge, no hard sell.</span></div>
+    <div><b>Price in writing first</b><span>You see the exact price before any work starts. No surprises on the bill.</span></div>
+    <div><b>Not right? We fix it free</b><span>If something we did is not right, we come back and make it right at no cost.</span></div>
   </div>
 </section>
 
@@ -233,110 +345,7 @@
   </div>
 </section>
 
-<section class="section section-tint est-sec" id="estimate" aria-labelledby="est-h">
-  <div class="wrap est-in">
-    <div class="sec-head">
-      <p class="eyebrow">Instant price</p>
-      <h2 id="est-h">Snap a few photos. Get your price in minutes.</h2>
-      <p class="lede">Upload 1 to 6 photos and tell us what you want done. Your price comes by text and email, usually in under 10 minutes. No phone tag, no waiting days for a quote. Like the number? Book a free visit and we lock it in.</p>
-      <ul class="est-points">
-        <li>Wide shots of the whole area, plus one close-up</li>
-        <li>Rough size helps: "about 40 x 60 ft" or "half the backyard"</li>
-        <li>Final price is always confirmed in person, free</li>
-      </ul>
-    </div>
-    <form class="est-form card" id="est-form" novalidate>
-      <div class="field"><label for="es-svc">What do you need?</label>
-        <select id="es-svc" name="service">
-          <option value="cleanup">Yard cleanup or needle removal</option>
-          <option value="pruning">Pruning and shrub shaping</option>
-          <option value="mowing">Mowing</option>
-          <option value="weeds">Weed control</option>
-          <option value="haul">Debris or junk haul</option>
-          <option value="irrigation">Irrigation repair or timer</option>
-          <option value="winterize">Irrigation winterization</option>
-          <option value="planting">Trees, shrubs or planting</option>
-          <option value="hardscape">Pavers, patio, rock or hardscape</option>
-          <option value="other">Something else</option>
-        </select></div>
-      <div class="field"><label for="es-desc">Describe the job</label><textarea id="es-desc" name="description" rows="3" required placeholder="Example: clear pine needles from front and side beds, haul away, about 2,000 sq ft"></textarea></div>
-      <div class="field">
-        <label for="es-photos">Photos (up to 6)</label>
-        <input id="es-photos" name="photos" type="file" accept="image/*" multiple>
-        <div class="est-thumbs" id="es-thumbs" aria-live="polite"></div>
-      </div>
-      <div class="row2">
-        <div class="field"><label for="es-name">Name</label><input id="es-name" name="name" autocomplete="name" required></div>
-        <div class="field"><label for="es-address">Service address</label><input id="es-address" name="address" autocomplete="street-address" placeholder="Street, city" required></div>
-      </div>
-      <div class="row2">
-        <div class="field"><label for="es-email">Email (we send your price here)</label><input id="es-email" name="email" type="email" autocomplete="email" required></div>
-        <div class="field"><label for="es-phone">Mobile (optional, we text your price too)</label><input id="es-phone" name="phone" type="tel" autocomplete="tel"></div>
-      </div>
-      <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <button class="btn btn-gold btn-block" type="submit">Get my instant price</button>
-      <p class="hint">Photo estimates are a ballpark range, not a bid. Bigger installs and hardscape get priced at a free on-site visit.</p>
-      <p class="form-msg" role="status" aria-live="polite"></p>
-    </form>
-  </div>
-</section>
 
-<section class="section book-sec" id="book" aria-labelledby="book-h">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow">Book online</p>
-      <h2 id="book-h">Pick a time. We will be there.</h2>
-      <p class="lede">Live availability from our calendar. Appointments run Sunday, Monday, Wednesday, Friday and Saturday, 8am to 5pm. Questions? <b>Texting is fastest:</b> <a href="tel:+19288638198" data-phone>(928) 863-8198</a>. We are usually out on a job, so calls go to voicemail. Leave a message and we call back the same day.</p>
-    </div>
-
-    <div class="booker card" id="booker">
-      <ol class="bk-steps" aria-label="Booking steps">
-        <li class="on" data-s="1">Service</li>
-        <li data-s="2">Time</li>
-        <li data-s="3">Details</li>
-      </ol>
-
-      <div class="bk-panel" data-panel="1">
-        <div class="svc-pick" id="svc-pick" role="radiogroup" aria-label="Choose a service"></div>
-      </div>
-
-      <div class="bk-panel" data-panel="2" hidden>
-        <div class="bk-summary" id="bk-sum-1"></div>
-        <div class="days" id="days" role="listbox" aria-label="Choose a day"></div>
-        <div class="slots" id="slots" aria-live="polite"></div>
-        <div class="bk-nav"><button class="btn btn-line" type="button" data-back="1">Back</button></div>
-      </div>
-
-      <form class="bk-panel" data-panel="3" id="bk-form" hidden novalidate>
-        <div class="bk-summary" id="bk-sum-2"></div>
-        <div class="row2">
-          <div class="field"><label for="bk-name">Full name</label><input id="bk-name" name="name" autocomplete="name" required></div>
-          <div class="field"><label for="bk-address">Service address</label><input id="bk-address" name="address" autocomplete="street-address" placeholder="Street, city" required></div>
-        </div>
-        <div class="row2">
-          <div class="field"><label for="bk-phone">Phone</label><input id="bk-phone" name="phone" type="tel" autocomplete="tel"></div>
-          <div class="field"><label for="bk-email">Email</label><input id="bk-email" name="email" type="email" autocomplete="email"></div>
-        </div>
-        <p class="hint">Phone, email, or both. We need at least one to confirm.</p>
-        <div class="field"><label for="bk-notes">What are we looking at?</label><textarea id="bk-notes" name="notes" rows="3" placeholder="Rough size, what you want done, gate code, pets"></textarea></div>
-        <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <div class="bk-nav">
-          <button class="btn btn-line" type="button" data-back="2">Back</button>
-          <button class="btn btn-gold" type="submit">Confirm booking</button>
-        </div>
-        <p class="form-msg" role="status" aria-live="polite"></p>
-      </form>
-
-      <div class="bk-panel bk-done" data-panel="4" hidden>
-        <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="m14 25 7 7 13-15" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <h3>You are booked.</h3>
-        <p id="bk-done-text"></p>
-        <button class="btn btn-line" type="button" id="bk-again">Book another visit</button>
-      </div>
-      <p class="preview-note" id="preview-note" hidden>Preview mode: times shown are examples and bookings are not sent. Connect the booking endpoint in config.js to go live.</p>
-    </div>
-  </div>
-</section>
 
 <section class="section section-tint" id="faq" aria-labelledby="faq-h">
   <div class="wrap faq-wrap">
@@ -389,14 +398,20 @@
   <div class="wrap foot-base">&copy; <span id="yr">2026</span> Pine Country Landscape LLC</div>
 </footer>
 
+<nav class="action-bar" aria-label="Quick actions">
+  <a data-sms href="sms:+19288638198"><span aria-hidden="true">&#128172;</span>Text us</a>
+  <a class="ab-main" href="#estimate"><span aria-hidden="true">&#9889;</span>Instant price</a>
+  <a href="#book"><span aria-hidden="true">&#128197;</span>Book</a>
+</nav>
+
 <dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
   <img alt="">
   <p class="lb-cap"></p>
   <button type="button" class="lb-close" aria-label="Close photo">&times;</button>
 </dialog>
 
-<script src="config.js?v=20261012d"></script>
-<script src="reviews.js?v=20261012d"></script>
-<script src="app.js?v=20261012d"></script>
+<script src="config.js?v=20261013a"></script>
+<script src="reviews.js?v=20261013a"></script>
+<script src="app.js?v=20261013a"></script>
 </body>
 </html>
