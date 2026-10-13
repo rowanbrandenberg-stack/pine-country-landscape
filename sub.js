@@ -15,7 +15,8 @@
     var bar = document.querySelector("[data-season]");
     if (bar) {
       var d = new Date(), m = d.getMonth() + 1, day = d.getDate(), t = null;
-      if ((m === 9 && day >= 15) || m === 10 || m === 11) t = 'Hard freeze is coming. Winterize sprinklers from $165 before it hits. <a href="' + base + '#book">Book a time</a>';
+      if (m === 10 || (m === 11 && day <= 20)) t = 'Before the snow: needle cleanups from $450, sprinkler blowouts from $165. <a href="' + base + '#estimate">Get an instant price</a>';
+      else if ((m === 9 && day >= 15) || m === 11) t = 'Hard freeze is coming. Winterize sprinklers from $165 before it hits. <a href="' + base + '#book">Book a time</a>';
       else if (m === 12 || m <= 2) t = 'Dry winter? New trees still need water. Winter watering visits $95. <a href="' + base + '#book">Book a visit</a>';
       else if (m <= 5) t = 'Spring cleanup season is here. <a href="' + base + '#estimate">Get an instant price</a>';
       else if (m <= 8) t = 'Monsoon season: cleanups and irrigation fixes. <a href="' + base + '#estimate">Get an instant price</a>';

@@ -500,9 +500,17 @@
     if (!box || !of || !LIVE) return;
     if (store.get("pcl_promo") || store.get("pcl_offer_closed")) return;
     var shown = false;
-    var show = function () { if (shown) return; shown = true; box.hidden = false; requestAnimationFrame(function () { box.classList.add("in"); }); };
-    var timer = setTimeout(show, 25000);
-    var onScroll = function () { if (window.scrollY > document.body.scrollHeight * 0.45) { show(); window.removeEventListener("scroll", onScroll); } };
+    var phone = window.matchMedia("(max-width: 820px)").matches;
+    var busy = function () { var f = document.activeElement; return f && /INPUT|TEXTAREA|SELECT/.test(f.tagName) && !box.contains(f); };
+    var show = function () {
+      if (shown) return;
+      if (busy() || store.get("pcl_sent")) { clearTimeout(timer); timer = setTimeout(show, 15000); return; }
+      shown = true; if (phone) box.classList.add("mini"); box.hidden = false; requestAnimationFrame(function () { box.classList.add("in"); });
+    };
+    var timer = setTimeout(show, phone ? 45000 : 30000);
+    var onScroll = function () { if (window.scrollY > document.body.scrollHeight * 0.6) { show(); window.removeEventListener("scroll", onScroll); } };
+    box.addEventListener("click", function (e) { if (box.classList.contains("mini") && !e.target.closest("[data-offer-close]")) { box.classList.remove("mini"); var i = of.email; if (i) setTimeout(function () { i.focus(); }, 50); } });
+    $$("form").forEach(function (f) { if (f !== of) f.addEventListener("submit", function () { store.set("pcl_sent", "1"); }); });
     window.addEventListener("scroll", onScroll, { passive: true });
     document.addEventListener("mouseout", function (e) { if (!e.relatedTarget && e.clientY < 8) show(); });
     $("[data-offer-close]", box).addEventListener("click", function () { box.classList.remove("in"); box.hidden = true; store.set("pcl_offer_closed", "1"); clearTimeout(timer); });
