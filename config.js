@@ -43,7 +43,8 @@ window.PCL_CONFIG = {
     { id: "mowing", name: "Mowing, first cut", minutes: 120, price: "From $350", note: "Reset cut, trim and edge. Recurring visits from $170." },
     { id: "irrigation", name: "Irrigation repair", minutes: 120, price: "From $185", note: "Leaks, heads, drip lines and zones. Includes the first hour." },
     { id: "winterize", name: "Irrigation winterization", minutes: 60, price: "From $165", note: "Blow out lines before the hard freeze." },
-    { id: "watering", name: "Winter watering", minutes: 60, price: "$95 / visit", note: "Deep watering for trees and shrubs through dry winter months." }
+    { id: "watering", name: "Winter watering", minutes: 60, price: "$95 / visit", note: "Deep watering for trees and shrubs through dry winter months." },
+    { id: "treecare", name: "Tree and shrub check", minutes: 60, price: "$95", note: "Sick or struggling tree? We diagnose it on site. Recovery visits with root stimulant from $55." }
   ],
 
   // Snow pricing shown on the site.
