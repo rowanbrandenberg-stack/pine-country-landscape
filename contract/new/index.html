@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Agreement Link Builder | Pine Country Landscape</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#1c3328">
+<link rel="icon" href="/img/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Young+Serif&display=swap">
+<link rel="stylesheet" href="/styles.css?v=20261020b">
+<link rel="stylesheet" href="/contract/contract.css?v=20261020b">
+</head>
+<body class="ct-body">
+<main class="wrap ct-wrap">
+  <div class="ct-intro">
+    <p class="eyebrow">For Rowan</p>
+    <h1>Agreement link builder</h1>
+    <p class="lede">Fill this in from your proposal, then text or email the link to the customer. They review, add their details and sign on their phone. Nothing is saved here: everything lives in the link, and the signed copy lands in your email and the Contracts tab. Use it for one time projects and for recurring care agreements.</p>
+  </div>
+  <form class="ct-sign card" id="b" novalidate>
+    <div class="row2">
+      <div class="field"><label for="b-title">Agreement title</label><input id="b-title" name="title" value="Landscape Project Agreement"></div>
+      <div class="field"><label for="b-ref">Proposal number (optional)</label><input id="b-ref" name="ref" placeholder="PCL-2026-014"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="b-name">Customer name</label><input id="b-name" name="client_name"></div>
+      <div class="field"><label for="b-address">Service address</label><input id="b-address" name="client_address"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="b-phone">Customer mobile</label><input id="b-phone" name="client_phone" type="tel"></div>
+      <div class="field"><label for="b-email">Customer email</label><input id="b-email" name="client_email" type="email"></div>
+    </div>
+    <div class="field"><label for="b-scope">Scope of work (one item per line)</label><textarea id="b-scope" name="scope" rows="6" placeholder="Excavate and grade 420 sq ft patio area&#10;Install compacted base and pavers&#10;Haul away all spoils"></textarea></div>
+    <div class="field"><label for="b-excl">Not included (optional)</label><input id="b-excl" name="exclusions" placeholder="Permits, electrical, plant replacement after 30 days"></div>
+    <div class="row2">
+      <div class="field"><label for="b-total">Total price incl. tax ($)</label><input id="b-total" name="total" inputmode="decimal"></div>
+      <div class="field"><label for="b-dep">Advance deposit at signing ($)</label><input id="b-dep" name="deposit" inputmode="decimal" value="0"></div>
+    </div>
+    <div class="field"><label>Progress payments (amount and the stage it is due)</label>
+      <div class="row2"><input name="p1a" placeholder="Amount" inputmode="decimal"><input name="p1s" placeholder="Stage, e.g. when base is complete"></div>
+      <div class="row2"><input name="p2a" placeholder="Amount" inputmode="decimal"><input name="p2s" placeholder="Stage"></div>
+      <div class="row2"><input name="p3a" placeholder="Amount" inputmode="decimal"><input name="p3s" placeholder="Stage"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="b-start">Estimated start</label><input id="b-start" name="start" placeholder="Week of November 9, 2026"></div>
+      <div class="field"><label for="b-finish">Estimated completion</label><input id="b-finish" name="finish" placeholder="November 20, 2026"></div>
+    </div>
+    <div class="field"><label for="b-terms">Extra terms (optional)</label><textarea id="b-terms" name="terms" rows="2" placeholder="Anything specific to this job"></textarea></div>
+    <p class="form-msg" role="status" aria-live="polite"></p>
+    <button class="btn btn-gold btn-lg btn-block" type="submit">Make the link</button>
+    <div class="field" id="out" hidden>
+      <label for="b-link">Customer link</label>
+      <textarea id="b-link" rows="3" readonly></textarea>
+      <div class="ct-done-actions">
+        <button class="btn btn-pine" type="button" id="copy">Copy link</button>
+        <a class="btn btn-line" id="preview" target="_blank" rel="noopener">Preview</a>
+        <a class="btn btn-line" id="sms">Text it</a>
+      </div>
+    </div>
+  </form>
+</main>
+<script>
+(function () {
+  var f = document.getElementById("b"), num = function (v) { return Number(String(v || "").replace(/[^0-9.]/g, "")) || 0; };
+  function enc(o) { var bytes = new TextEncoder().encode(JSON.stringify(o)), bin = ""; bytes.forEach(function (b) { bin += String.fromCharCode(b); }); return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""); }
+  f.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var m = f.querySelector(".form-msg");
+    var d = { title: f.title.value.trim(), ref: f.ref.value.trim(), client_name: f.client_name.value.trim(), client_address: f.client_address.value.trim(),
+      client_phone: f.client_phone.value.trim(), client_email: f.client_email.value.trim(), scope: f.scope.value.trim(), exclusions: f.exclusions.value.trim(),
+      total: num(f.total.value), deposit: num(f.deposit.value), start: f.start.value.trim(), finish: f.finish.value.trim(), terms: f.terms.value.trim(), payments: [] };
+    [1, 2, 3].forEach(function (i) { var a = num(f["p" + i + "a"].value), s = f["p" + i + "s"].value.trim(); if (a || s) d.payments.push({ amount: a, stage: s }); });
+    if (!d.scope || !d.total) { m.className = "form-msg err"; m.textContent = "Add the scope and the total price."; return; }
+    var sum = d.deposit + d.payments.reduce(function (t, p) { return t + p.amount; }, 0);
+    m.className = "form-msg" + (sum > d.total ? " err" : ""); m.textContent = sum > d.total ? "Heads up: deposit plus progress payments is more than the total." : "";
+    var url = location.origin + "/contract/#p=" + enc(d);
+    document.getElementById("b-link").value = url;
+    document.getElementById("preview").href = url;
+    document.getElementById("sms").href = "sms:" + (d.client_phone.replace(/[^0-9+]/g, "")) + "?&body=" + encodeURIComponent("Hi " + (d.client_name.split(" ")[0] || "") + ", here is your agreement from Pine Country Landscape to review and sign: " + url);
+    document.getElementById("out").hidden = false;
+  });
+  document.getElementById("copy").addEventListener("click", function () { var t = document.getElementById("b-link"); t.select(); try { navigator.clipboard.writeText(t.value); } catch (x) { document.execCommand("copy"); } this.textContent = "Copied"; });
+})();
+</script>
+</body>
+</html>
