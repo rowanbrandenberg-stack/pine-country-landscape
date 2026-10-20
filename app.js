@@ -6,6 +6,50 @@
   var TZ = "America/Phoenix";
   document.documentElement.classList.add("js");
 
+  /* ---------- Old links: send retired homepage anchors to their new homes ---------- */
+  (function () {
+    var home = location.pathname === "/" || /\/index\.html$/.test(location.pathname);
+    var map = { "#estimate": "/price-from-photos/", "#price": "/price-from-photos/", "#plant-doctor": "/plant-doctor/", "#snow": "/snow-removal-flagstaff/", "#plans": "/snow-removal-flagstaff/", "#facts": "#about" };
+    var to = home && map[location.hash];
+    if (to && to.charAt(0) === "/" && location.protocol !== "file:") location.replace(to);
+    else if (to) location.hash = to;
+  })();
+
+  /* ---------- Measurement: privacy safe events into the PCL Website Leads sheet ----------
+     Only the event name, a short label, the page path, the referring site, utm tags and phone/desktop are sent.
+     Never names, contact details, addresses, photos or message text. Add ?internal=1 to any URL once to mark
+     your own browser as internal so your visits can be filtered out. */
+  var track = (function () {
+    var store = function (k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (x) { return null; } };
+    var qs = new URLSearchParams(location.search);
+    if (qs.get("internal") === "1") store("pcl_internal", "1");
+    if (qs.get("internal") === "0") store("pcl_internal", "0");
+    var refHost = ""; try { refHost = document.referrer ? new URL(document.referrer).hostname : ""; } catch (x) {}
+    if (refHost === location.hostname) refHost = "";
+    // Remember the first campaign seen this visit so later events keep the source.
+    var utm = { src: qs.get("utm_source") || "", med: qs.get("utm_medium") || "", cmp: qs.get("utm_campaign") || "" };
+    try { if (utm.src) sessionStorage.setItem("pcl_utm", JSON.stringify(utm)); else utm = JSON.parse(sessionStorage.getItem("pcl_utm") || "null") || utm; } catch (x) {}
+    var base = { page: location.pathname.slice(0, 80), refHost: refHost, src: utm.src, med: utm.med, cmp: utm.cmp,
+      dev: window.matchMedia("(max-width: 820px)").matches ? "phone" : "desktop", internal: store("pcl_internal") === "1" || location.hostname !== "pinecountrylandscape.com" };
+    function send(ev, label) {
+      if (!C.bookingEndpoint || location.protocol === "file:") return;
+      var body = JSON.stringify(Object.assign({ action: "ev", ev: ev, label: String(label || "").slice(0, 40) }, base));
+      try { if (navigator.sendBeacon && navigator.sendBeacon(C.bookingEndpoint, new Blob([body], { type: "text/plain" }))) return; } catch (x) {}
+      try { fetch(C.bookingEndpoint, { method: "POST", body: body, keepalive: true, mode: "no-cors" }); } catch (x) {}
+    }
+    send("page_view");
+    document.addEventListener("click", function (e) {
+      var a = e.target.closest && e.target.closest("a, button");
+      if (!a) return;
+      var ev = a.getAttribute("data-track"), label = a.getAttribute("data-label") || "";
+      var href = a.getAttribute("href") || "";
+      if (!ev && /^tel:/.test(href)) ev = "call_click";
+      if (!ev && /^sms:/.test(href)) ev = "text_click";
+      if (ev) send(ev, label);
+    }, true);
+    return send;
+  })();
+
   /* ---------- Conversion helpers: one tap text, seasonal banner, review badge ---------- */
   (function () {
     var base = location.pathname === "/" || /index\.html$/.test(location.pathname) || location.protocol === "file:" ? "" : "/";
@@ -14,11 +58,12 @@
     var bar = document.querySelector("[data-season]");
     if (bar) {
       var d = new Date(), m = d.getMonth() + 1, day = d.getDate(), t = null;
-      if ((m === 9 && day >= 15) || m === 10 || m === 11) t = 'Hard freeze is coming. Winterize sprinklers from $165 before it hits. <a href="' + base + '#book">Book a time</a>';
-      else if (m === 12 || m <= 2) t = 'Dry winter? New trees still need water. Winter watering visits $95. <a href="' + base + '#book">Book a visit</a>';
-      else if (m <= 5) t = 'Spring cleanup season is here. <a href="' + base + '#estimate">Get an instant price</a>';
-      else if (m <= 8) t = 'Monsoon season: cleanups and irrigation fixes. <a href="' + base + '#estimate">Get an instant price</a>';
-      else t = 'Fall cleanup spots are filling up. <a href="' + base + '#estimate">Get an instant price</a>';
+      if (m === 10 || m === 11) t = 'Snow removal season contracts are open for this winter. <a href="/snow-removal-flagstaff/">See details</a>';
+      else if (m === 9 && day >= 15) t = 'Hard freeze is coming. Winterize sprinklers from $165 before it hits. <a href="/#inquiry">Book an estimate</a>';
+      else if (m === 12 || m <= 2) t = 'Dry winter? New trees still need water. Winter watering visits $95. <a href="/#inquiry">Book an estimate</a>';
+      else if (m <= 5) t = 'Spring cleanup season is here. <a href="/#inquiry">Book an estimate</a>';
+      else if (m <= 8) t = 'Monsoon season: cleanups and irrigation fixes. <a href="/#inquiry">Book an estimate</a>';
+      else t = 'Fall cleanup spots are filling up. <a href="/#inquiry">Book an estimate</a>';
       bar.innerHTML = t; bar.hidden = false;
     }
     var R = window.PCL_REVIEWS;
@@ -41,12 +86,12 @@
       ul.innerHTML = C.installPricing.map(function (p) { return "<li><span>" + esc(p.name) + "</span><b>" + esc(p.price) + "</b></li>"; }).join("");
       ul.hidden = false;
       var note = $("[data-install-note]");
-      if (note) note.textContent = "Starting prices for typical Flagstaff lots. Every project gets a written, itemized proposal after a design consultation.";
+      if (note) note.textContent = "Starting prices for typical Flagstaff lots. Bigger projects start with a 90 minute design consultation on site; the $150 is credited toward your project, and you sign the written proposal online before any work begins.";
     }
   }
   if (C.insured) $$("[data-insured]").forEach(function (el) { el.hidden = false; });
   if (C.snow && typeof C.snow.spotsLeft === "number") $$("[data-spots]").forEach(function (el) {
-    el.textContent = C.snow.spotsLeft >= C.snow.spotsTotal ? "Only " + C.snow.spotsTotal + " route spots this season" : C.snow.spotsLeft > 0 ? C.snow.spotsLeft + " of " + C.snow.spotsTotal + " route spots left" : "Route full for this season. Join the waitlist below";
+    el.textContent = C.snow.spotsLeft >= C.snow.spotsTotal ? "Only " + C.snow.spotsTotal + " route spots this winter. First come, first served." : C.snow.spotsLeft > 0 ? C.snow.spotsLeft + " of " + C.snow.spotsTotal + " route spots left" : "Route full for this winter. Reserve below and we will call if a spot opens.";
     el.hidden = false;
   });
   if (C.snow) $$("[data-snow]").forEach(function (el) { var v = C.snow[el.getAttribute("data-snow")]; if (v) el.textContent = v; });
@@ -56,30 +101,34 @@
   window.addEventListener("scroll", onScroll, { passive: true }); onScroll();
 
   /* ---------- Reviews ---------- */
-  var R = window.PCL_REVIEWS, track = $("#rv-track");
-  if (track && R && R.items && R.items.length) {
-    var starStr = function (n) { var s = ""; for (var i = 1; i <= 5; i++) s += i <= n ? "\u2605" : '<span class="off">\u2605</span>'; return s; };
-    var avg = R.items.reduce(function (t, r) { return t + r.stars; }, 0) / R.items.length;
-    $("#rv-score").innerHTML = "<b>" + avg.toFixed(1) + '</b><span class="stars" aria-hidden="true">' + starStr(Math.round(avg)) + "</span><span>average from " + R.items.length + " customer reviews</span>";
-    track.innerHTML = R.items.map(function (r) {
+  var R = window.PCL_REVIEWS, rvTrack = $("#rv-track");
+  if (rvTrack && R && R.items && R.items.length) {
+    // Filled stars for the rating, hollow outline stars for the rest, so a 4 star review never reads as 5.
+    var starStr = function (n) { var s = ""; for (var i = 1; i <= 5; i++) s += i <= n ? "\u2605" : '<span class="off">\u2606</span>'; return s; };
+    var score = $("#rv-score");
+    if (score) {
+      var avg = R.items.reduce(function (t, r) { return t + r.stars; }, 0) / R.items.length;
+      score.innerHTML = "<b>" + avg.toFixed(1) + '</b><span class="stars" aria-hidden="true">' + starStr(Math.round(avg)) + "</span><span>average from " + R.items.length + " customer reviews</span>";
+    }
+    rvTrack.innerHTML = R.items.map(function (r) {
       return '<figure class="rv"><span class="stars" role="img" aria-label="' + r.stars + ' out of 5 stars">' + starStr(r.stars) + "</span>" +
         "<blockquote>&ldquo;" + esc(r.text) + "&rdquo;</blockquote>" +
         '<figcaption><span class="rv-av" aria-hidden="true">' + esc(r.name.charAt(0)) + "</span><span><b>" + esc(r.name) + "</b>" + esc(r.place) + "</span></figcaption></figure>";
     }).join("");
     $$(".rv-arrow").forEach(function (b) {
-      b.addEventListener("click", function () { track.scrollBy({ left: +b.getAttribute("data-dir") * track.clientWidth * 0.9, behavior: "smooth" }); });
+      b.addEventListener("click", function () { rvTrack.scrollBy({ left: +b.getAttribute("data-dir") * rvTrack.clientWidth * 0.9, behavior: "smooth" }); });
     });
     if (R.googleReviewUrl) { var lv = $("#rv-leave"); lv.href = R.googleReviewUrl; lv.hidden = false; }
-  } else if (track) { var sec = $("#reviews"); if (sec) sec.hidden = true; }
+  } else if (rvTrack) { var sec = $("#reviews"); if (sec) sec.hidden = true; }
 
   /* ---------- Lightbox ---------- */
   var lb = $("#lightbox");
-  $$("#gallery button[data-full]").forEach(function (b) {
+  $$("#gallery button[data-full], .proj button[data-full]").forEach(function (b) {
     b.addEventListener("click", function () {
       if (!lb || !lb.showModal) { window.open(b.getAttribute("data-full"), "_blank"); return; }
       var img = $("img", lb), sm = $("img", b);
       img.src = b.getAttribute("data-full"); img.alt = sm ? sm.alt : "";
-      $(".lb-cap", lb).textContent = (b.parentNode.querySelector("figcaption") || {}).textContent || "";
+      var cap = b.parentNode.querySelector("figcaption b") || b.parentNode.querySelector("figcaption"); $(".lb-cap", lb).textContent = cap ? cap.textContent : "";
       lb.showModal();
     });
   });
@@ -124,6 +173,75 @@
   function api(payload) {
     return fetch(C.bookingEndpoint, { method: "POST", body: JSON.stringify(payload) })
       .then(function (r) { return r.json(); });
+  }
+
+  /* ---------- Short inquiry: Book an estimate ---------- */
+  function shrinkPhoto(file) {
+    return new Promise(function (resolve, reject) {
+      var url = URL.createObjectURL(file), img = new Image();
+      img.onload = function () {
+        var s = Math.min(1, 1600 / Math.max(img.width, img.height));
+        var c = document.createElement("canvas"); c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
+        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url);
+        resolve(c.toDataURL("image/jpeg", 0.82));
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); reject(new Error("bad image")); };
+      img.src = url;
+    });
+  }
+  var iq = $("#inq-form");
+  if (iq) {
+    var iqShots = [], iqThumbs = $("#iq-thumbs"), iqStarted = false, iqBusy = false, iqRid = null;
+    var drawIq = function () {
+      iqThumbs.innerHTML = iqShots.map(function (src, i) { return '<figure><img src="' + src + '" alt="Photo ' + (i + 1) + '"><button type="button" data-rm="' + i + '" aria-label="Remove photo ' + (i + 1) + '">&times;</button></figure>'; }).join("");
+      $$("[data-rm]", iqThumbs).forEach(function (b) { b.addEventListener("click", function () { iqShots.splice(+b.getAttribute("data-rm"), 1); drawIq(); }); });
+    };
+    $("#iq-photos").addEventListener("change", function (e) {
+      var files = Array.prototype.slice.call(e.target.files || []).slice(0, 6 - iqShots.length);
+      Promise.all(files.map(function (f) { return shrinkPhoto(f).catch(function () { return null; }); })).then(function (list) {
+        list.forEach(function (d) { if (d && iqShots.length < 6) iqShots.push(d); }); drawIq(); e.target.value = "";
+      });
+    });
+    iq.addEventListener("input", function () { if (!iqStarted) { iqStarted = true; track("inquiry_start"); } iqRid = null; }, { once: false });
+    iq.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (iqBusy) return;
+      var out = $(".form-msg", iq);
+      var f = { name: iq.name.value.trim(), phone: iq.phone.value.trim(), email: iq.email.value.trim(), area: iq.area.value.trim(), description: iq.description.value.trim() };
+      $$("[aria-invalid]", iq).forEach(function (el) { el.removeAttribute("aria-invalid"); });
+      var bad = function (el, text) { if (el) { el.setAttribute("aria-invalid", "true"); el.focus(); } msg(out, text, "err"); };
+      if (!f.name) return bad(iq.name, "Please add your name.");
+      if (!f.phone && !f.email) { iq.email.setAttribute("aria-invalid", "true"); return bad(iq.phone, "Add a phone number or an email so we can reach you."); }
+      if (f.phone && !validPhone(f.phone)) return bad(iq.phone, "That phone number looks short. Include the area code.");
+      if (f.email && !validEmail(f.email)) return bad(iq.email, "That email address looks incomplete.");
+      if (!f.area) return bad(iq.area, "Please add your neighborhood or ZIP code.");
+      if (!f.description) return bad(iq.description, "Tell us a little about the work.");
+      if (iq.website.value) return;
+      // One request id per filled out form: a retry after a timeout or a double tap cannot create a second lead.
+      if (!iqRid) iqRid = "iq-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8);
+      iqBusy = true;
+      var btn = $('button[type="submit"]', iq); btn.disabled = true; btn.setAttribute("aria-busy", "true");
+      msg(out, iqShots.length ? "Sending your request and photos..." : "Sending your request...");
+      var utm = ""; try { var u = JSON.parse(sessionStorage.getItem("pcl_utm") || "null"); if (u) utm = [u.src, u.med, u.cmp].filter(Boolean).join(" / "); } catch (x) {}
+      var payload = Object.assign({ action: "inquiry", rid: iqRid, service: iq.service.value, photos: iqShots, page: location.pathname, ref: document.referrer.slice(0, 200), utm: utm, website: iq.website.value }, f);
+      var timeout = new Promise(function (_, rej) { setTimeout(function () { rej(new Error("timeout")); }, 45000); });
+      var req = LIVE ? Promise.race([api(payload), timeout]) : new Promise(function (r) { setTimeout(function () { r({ ok: true, preview: true }); }, 700); });
+      req.then(function (res) {
+        if (!res || !res.ok) throw Object.assign(new Error("rejected"), { res: res });
+        track("inquiry_success", payload.service || "none");
+        var done = $("#inq-done");
+        $("[data-inq-done-text]", done).textContent = (res.preview ? "Preview only, nothing was sent. " : "") + "Thanks, " + f.name.split(" ")[0] + ". Rowan has your request and will get back to you" + (f.phone ? " by text" : " by email") + (f.phone && f.email ? " or email" : "") + "." + (f.email ? " A confirmation is on its way to " + f.email + "." : "");
+        iq.hidden = true; done.hidden = false; done.focus({ preventScroll: true });
+        done.scrollIntoView({ behavior: "smooth", block: "center" });
+      }).catch(function (err) {
+        var res = err && err.res;
+        track("inquiry_error", res ? (res.field || "rejected") : (err && err.message === "timeout" ? "timeout" : "network"));
+        if (res && res.field && iq[res.field]) iq[res.field].setAttribute("aria-invalid", "true");
+        // Everything typed stays in the form, so a retry is one tap.
+        msg(out, (res && res.message) || "That did not go through. Your details are still here, so try again, or text " + C.phoneDisplay + " and we will take it from there.", "err");
+        out.focus({ preventScroll: true });
+      }).then(function () { iqBusy = false; btn.disabled = false; btn.removeAttribute("aria-busy"); });
+    });
   }
 
   /* ---------- Demo availability (preview only) ---------- */
@@ -311,12 +429,13 @@
             S.svc.name + " on " + when + " at " + payload.address + ". " +
             (payload.email ? "A confirmation is on its way to " + payload.email + ". " : "") +
             "We will reach out before the visit. Need to change it? Call or text " + C.phoneDisplay + ".";
-          go(4);
+          go(4); track("booking_success", S.svc.id);
           booker.scrollIntoView({ behavior: "smooth", block: "start" });
         } else if (res && res.error === "taken") {
           msg(out, "");
           go(2); loadSlots("That time was just taken. Please pick another.");
         } else {
+          track("booking_error", (res && res.error) || "server");
           msg(out, (res && res.message) || "Something went wrong saving your booking. Call or text " + C.phoneDisplay + " and we will book it for you.", "err");
         }
       }).catch(function () {
@@ -326,26 +445,54 @@
     });
   }
 
-  /* ---------- Snow contract ---------- */
+  /* ---------- Snow contract: reserve, then sign online ---------- */
   var sf = $("#snow-form");
+  if (sf && sf.plan) {
+    var walksOpt = $("[data-walks-opt]", sf);
+    var syncWalks = function () { if (walksOpt) walksOpt.hidden = sf.plan.value === "full"; };
+    sf.plan.addEventListener("change", syncWalks); syncWalks();
+  }
   if (sf) sf.addEventListener("submit", function (e) {
     e.preventDefault();
     var out = $(".form-msg", sf);
     var err = requiredCheck(sf, ["name", "address"]) || contactCheck(sf);
     if (err) { msg(out, err, "err"); return; }
     if (sf.website.value) return;
-    var btn = $('button[type="submit"]', sf); btn.disabled = true; msg(out, "Sending...");
-    var payload = {
+    var btn = $('button[type="submit"]', sf); btn.disabled = true; msg(out, "Saving your spot...");
+    var d = {
       action: "snow", name: sf.name.value.trim(), address: sf.address.value.trim(), phone: sf.phone.value.trim(),
-      email: sf.email.value.trim(), plan: sf.plan.value, driveway: sf.driveway.value, walks: sf.walks.checked, notes: ("[2027 WAITLIST] " + sf.notes.value.trim()).trim(), website: sf.website.value
+      email: sf.email.value.trim(), plan: sf.plan.value, driveway: sf.driveway.value, walks: sf.walks.checked, notes: sf.notes.value.trim(), website: sf.website.value
     };
-    var req = LIVE ? api(payload) : new Promise(function (r) { setTimeout(function () { r({ ok: true, preview: true }); }, 600); });
-    req.then(function (res) {
-      btn.disabled = false;
-      if (res && res.ok) { sf.reset(); msg(out, (res.preview ? "Preview only, nothing was sent. " : "") + "You are on the 2027 snow waitlist. We will reach out before next season.", "ok"); }
-      else msg(out, (res && res.message) || "That did not go through. Text " + C.phoneDisplay + ".", "err");
-    }).catch(function () { btn.disabled = false; msg(out, "That did not go through. Text " + C.phoneDisplay + ".", "err"); });
+    var season = d.plan === "driveway" || d.plan === "full";
+    if (d.plan === "full") d.walks = true;
+    var planName = { driveway: "Driveway Season $800", full: "Full Clear Season $1,450", "per-push": "On call $125" }[d.plan] || d.plan;
+    var canSign = season && d.driveway === "standard";
+    var signUrl = "/contract/?t=snow&plan=" + d.plan + "&" + ["name", "address", "phone", "email", "notes"].map(function (k) { return k + "=" + encodeURIComponent(d[k]); }).join("&") + (d.walks && d.plan === "driveway" ? "&walks=1" : "");
+    d.notes = ("[" + planName + "] " + d.notes).trim();
+    if (season) d.plan = "season";
+    var done = function (ok) {
+      btn.disabled = false; if (ok) track("snow_success", d.plan);
+      if (canSign) {
+        msg(out, "Spot held. Taking you to your contract...", "ok");
+        setTimeout(function () { location.href = signUrl; }, 700);
+      } else if (ok) {
+        sf.reset(); msg(out, "Got it. Rowan will text you a price, then send your contract to sign.", "ok");
+      } else msg(out, "That did not go through. Text " + C.phoneDisplay + " and we will set you up.", "err");
+    };
+    var req = LIVE ? api(d) : new Promise(function (r) { setTimeout(function () { r({ ok: true, preview: true }); }, 600); });
+    req.then(function (res) { done(!!(res && res.ok)); }).catch(function () { done(false); });
   });
+
+  /* ---------- Care plans ---------- */
+  var pg = $("#plan-grid");
+  if (pg && C.plans) {
+    pg.innerHTML = C.plans.map(function (p) {
+      return '<article class="plan' + (p.tag ? " plan-main" : "") + '">' + (p.tag ? '<p class="plan-tag">' + esc(p.tag) + "</p>" : "") +
+        "<h3>" + esc(p.name) + '</h3><p class="plan-price">' + esc(p.price) + "</p>" +
+        '<p class="plan-blurb">' + esc(p.blurb) + '</p><ul class="plan-list">' + p.visits.map(function (v) { return "<li>" + esc(v) + "</li>"; }).join("") + "</ul>" +
+        '<p class="plan-bill">' + esc(p.billing) + '</p><a class="btn ' + (p.tag ? "btn-gold" : "btn-line") + '" href="/contract/?t=plan&p=' + encodeURIComponent(p.id) + '">Start this plan</a></article>';
+    }).join("");
+  }
 
   /* ---------- Price from photos ---------- */
   var ef = $("#estimate");
@@ -405,9 +552,9 @@
       req.then(function (res) {
         btn.disabled = false;
         if (res && res.ok) {
-          var texted = !!payload.phone;
+          track("photo_estimate_success", payload.service);
           ef.reset(); shots = []; drawThumbs();
-          msg(out, (res.preview ? "Preview only, nothing was sent. " : "") + "Got it. Your price is on its way" + (texted ? " by text and email" : " to your email") + ", usually within 10 minutes. Want it locked in? Book a free visit below.", "ok");
+          msg(out, (res.preview ? "Preview only, nothing was sent. " : "") + "Got it. Your ballpark price will come to your email. If we need anything else to price it, Rowan will reach out.", "ok");
         } else msg(out, (res && res.message) || "That did not go through. Text " + C.phoneDisplay + " and we will price it for you.", "err");
       }).catch(function () { btn.disabled = false; msg(out, "That did not go through. Text " + C.phoneDisplay + " and we will price it for you.", "err"); });
     });
@@ -485,7 +632,7 @@
           pf.reset(); pShots = []; pDraw();
           if (follow) { $("[data-plant-replies]", pf).hidden = true; $("[data-plant-ask]", pf).hidden = true; btn.hidden = true; }
           msg(pOut, (res.preview ? "Preview only, nothing was sent. " : "") + (follow ? "Got it, thanks. Your answer is on its way." :
-            "Got it. Your answer is on its way" + (texted ? " by text and email" : " to your email") + ", usually within the hour."), "ok");
+            "Got it. We will send your answer as soon as we have looked at your photos" + (texted ? ", by text or email." : ", by email.")), "ok");
         } else msg(pOut, (res && res.message) || "That did not go through. Text your photos to " + C.phoneDisplay + ".", "err");
       }).catch(function () { btn.disabled = false; msg(pOut, "That did not go through. Text your photos to " + C.phoneDisplay + ".", "err"); });
     });

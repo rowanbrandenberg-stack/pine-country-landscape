@@ -1,0 +1,51 @@
+/* Online agreements: readable on a phone, prints clean on letter paper. */
+.ct-body { background: var(--tint); }
+.ct-wrap { max-width: 880px; padding-block: 28px 64px; display: grid; gap: 20px; }
+.ct-intro { display: grid; gap: 10px; }
+.ct-intro h1 { font-size: clamp(1.8rem, 1.3rem + 2vw, 2.6rem); }
+.ct-intro a { font-weight: 600; }
+.ct-doc { padding: clamp(18px, 4vw, 40px); display: grid; gap: 18px; font-size: .98rem; }
+.ct-doc h2 { font-size: clamp(1.4rem, 1.1rem + 1vw, 1.9rem); }
+.ct-doc h3 { font: 700 1rem/1.3 var(--f-body); margin-bottom: 6px; }
+.ct-doc p + p { margin-top: 8px; }
+.ct-doc ul, .ct-doc ol { margin: 6px 0 0; padding-left: 1.3em; display: grid; gap: 4px; }
+.ct-head { display: flex; align-items: center; gap: 14px; padding-bottom: 14px; border-bottom: 2px solid var(--pine); }
+.ct-head img { width: 56px; height: 56px; }
+.ct-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin: 0; }
+.ct-summary div { background: var(--tint); border-radius: 10px; padding: 10px 12px; }
+.ct-summary dt, .ct-parties dt { font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.ct-summary dd { margin: 2px 0 0; font-weight: 600; }
+.ct-parties { display: grid; grid-template-columns: 1.1fr 1.1fr .8fr; gap: 16px; margin: 0; font-size: .92rem; }
+.ct-parties dd { margin: 4px 0 0; }
+.ct-pay { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: .92rem; }
+.ct-pay th, .ct-pay td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+.ct-terms li { color: var(--ink); }
+.ct-roc { font-weight: 700; font-size: 10.5pt; border: 2px solid var(--ink); border-radius: 8px; padding: 12px 14px; line-height: 1.45; }
+.ct-sigs { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding-top: 8px; }
+.ct-sig-k { font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.ct-sig-img { min-height: 70px; border-bottom: 1.5px solid var(--ink); display: flex; align-items: flex-end; margin: 6px 0; }
+.ct-sig-img img { max-height: 80px; width: auto; }
+.ct-sig-pending { color: var(--muted); font-size: .85rem; font-style: italic; padding-bottom: 6px; }
+.ct-sig-d { font-size: .82rem; color: var(--muted); }
+.ct-sign { padding: clamp(18px, 4vw, 32px); display: grid; gap: 14px; }
+.ct-sign h2 { font-size: 1.35rem; margin-top: 4px; }
+.sig-box { position: relative; border: 2px dashed var(--line); border-radius: 12px; background: #fff; }
+.sig-box canvas { display: block; width: 100%; height: auto; aspect-ratio: 900 / 260; touch-action: none; cursor: crosshair; border-radius: 10px; }
+.sig-line { position: absolute; left: 18px; right: 18px; bottom: 26%; border-top: 1px solid #c9cfc4; font-size: .75rem; color: #8a958c; padding-top: 4px; pointer-events: none; }
+.sig-box canvas.inked + .sig-line { color: transparent; }
+.sig-clear { position: absolute; top: 8px; right: 8px; border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 6px 12px; font: 600 .82rem var(--f-body); cursor: pointer; color: #15231c; min-height: 34px; }
+.ct-check { align-items: flex-start; }
+.ct-check input { margin-top: 2px; flex: none; }
+.ct-done { padding: clamp(18px, 4vw, 32px); display: grid; gap: 12px; justify-items: start; }
+.ct-done svg { width: 48px; height: 48px; color: var(--ok); }
+.ct-done-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.ct-foot .foot-base { padding-block: 18px; }
+@media (max-width: 640px) { .ct-parties, .ct-sigs { grid-template-columns: 1fr; } }
+@media print {
+  @page { size: letter; margin: 0.6in; }
+  .site-head, .ct-intro, .ct-sign, .ct-done, .ct-foot, .action-bar { display: none !important; }
+  .ct-body, .ct-wrap { background: #fff; padding: 0; }
+  .ct-doc { box-shadow: none; border: 0; padding: 0; font-size: 10.5pt; }
+  .ct-summary div { background: #fff; border: 1px solid #ccc; }
+  section { break-inside: avoid; }
+}

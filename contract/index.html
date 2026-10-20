@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Review and Sign | Pine Country Landscape</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1c3328">
+<link rel="icon" href="/img/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Young+Serif&display=swap">
+<link rel="stylesheet" href="/styles.css?v=20261020a">
+<link rel="stylesheet" href="/contract/contract.css?v=20261020a">
+</head>
+<body class="ct-body">
+
+<header class="site-head scrolled">
+  <div class="wrap head-in">
+    <a class="brand" href="/" aria-label="Pine Country Landscape home">
+      <img class="brand-mark" src="/img/logo-badge.png" alt="" width="44" height="44">
+      <span class="brand-name">Pine Country<small>Landscape &middot; Flagstaff</small></span>
+    </a>
+    <div class="head-cta"><a class="phone" href="tel:+19288638198" data-phone>(928) 863-8198</a></div>
+  </div>
+</header>
+
+<main class="wrap ct-wrap" id="main">
+  <div class="ct-intro" data-intro>
+    <p class="eyebrow">Review and sign</p>
+    <h1 data-title>Your agreement</h1>
+    <p class="lede">Read it over, fill in your details, and sign with your finger or mouse. You get a copy by email right away. Questions first? Text Rowan at <a data-sms href="sms:+19288638198">(928) 863-8198</a>.</p>
+  </div>
+
+  <article class="ct-doc card" id="doc" aria-live="polite"></article>
+
+  <form class="ct-sign card" id="sign" novalidate>
+    <h2>Your details</h2>
+    <div class="row2">
+      <div class="field"><label for="c-name">Full name (property owner)</label><input id="c-name" name="name" autocomplete="name" required></div>
+      <div class="field"><label for="c-phone">Mobile</label><input id="c-phone" name="phone" type="tel" autocomplete="tel"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="c-email">Email (your signed copy goes here)</label><input id="c-email" name="email" type="email" autocomplete="email" required></div>
+      <div class="field"><label for="c-address">Service address</label><input id="c-address" name="address" autocomplete="street-address" placeholder="Street, city" required></div>
+    </div>
+    <div class="field"><label for="c-mail">Mailing address, if different</label><input id="c-mail" name="mailing" placeholder="Leave blank if it is the service address"></div>
+    <div class="field" data-walks-row hidden><label class="check"><input id="c-walks" name="walks" type="checkbox"> Add walks and steps by hand (<span data-walks-price>$35</span> per visit)</label></div>
+    <div class="field"><label for="c-notes">Notes for the crew</label><textarea id="c-notes" name="notes" rows="2" placeholder="Gate code, dogs, where to pile snow, anything we should know"></textarea></div>
+
+    <h2>Sign</h2>
+    <div class="sig-box">
+      <canvas id="sig" width="900" height="260" aria-label="Signature pad. Draw your signature here."></canvas>
+      <span class="sig-line" aria-hidden="true">Sign here</span>
+      <button type="button" class="sig-clear" id="sig-clear">Clear</button>
+    </div>
+    <div class="field"><label for="c-typed">Type your full name to confirm</label><input id="c-typed" name="typed" autocomplete="name" required></div>
+    <label class="check ct-check"><input id="c-agree" name="agree" type="checkbox"> I have read this agreement, I am the owner of the property or authorized to sign for them, and I agree to sign electronically.</label>
+    <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <button class="btn btn-gold btn-lg btn-block" type="submit">Sign agreement</button>
+    <p class="form-msg" role="status" aria-live="polite"></p>
+  </form>
+
+  <section class="ct-done card" id="done" hidden>
+    <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="m14 25 7 7 13-15" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <h2>Signed. Thank you!</h2>
+    <p data-done-text></p>
+    <div class="ct-done-actions">
+      <button class="btn btn-pine" type="button" id="print">Save or print a copy</button>
+      <a class="btn btn-line" href="/">Back to the site</a>
+    </div>
+  </section>
+</main>
+
+<footer class="foot ct-foot">
+  <div class="wrap foot-base">&copy; <span id="yr">2026</span> Pine Country Landscape LLC &middot; Licensed AZ contractor <span data-roc-number>ROC 368709</span></div>
+</footer>
+
+<script src="/config.js?v=20261020a"></script>
+<script src="/contract/contract.js?v=20261020a"></script>
+</body>
+</html>
