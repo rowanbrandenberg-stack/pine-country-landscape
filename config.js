@@ -50,7 +50,7 @@ window.PCL_CONFIG = {
     { id: "consult", name: "Design consultation", minutes: 90, price: "$150", note: "For bigger projects like pavers, hardscape and full yard installs. 90 minutes on site, and the $150 is credited toward your project." },
     { id: "cleanup", name: "Yard cleanup", minutes: 180, price: "From $450", note: "Needles, cones, leaves, weeds and debris, hauled away." },
     { id: "pruning", name: "Pruning and shrub shaping", minutes: 120, price: "From $295", note: "Shrubs, small trees and hedges shaped for health and form." },
-    { id: "mowing", name: "Mowing, first cut", minutes: 120, price: "From $350", note: "Reset cut, trim and edge. Recurring visits from $170." },
+    { id: "mowing", name: "Mowing", minutes: 120, price: "From $150", note: "$200 up to 1 acre, $275 up to 2 acres, $150 minimum. Mow, trim, edge and blow off. Grass over 8 inches adds $100. Small area haul away $145." },
     { id: "irrigation", name: "Irrigation repair", minutes: 120, price: "From $185", note: "Leaks, heads, drip lines and zones. Includes the first hour." },
     { id: "winterize", name: "Irrigation winterization", minutes: 60, price: "From $165", note: "Blow out lines before the hard freeze." },
     { id: "watering", name: "Winter watering", minutes: 60, price: "$95 / visit", note: "Deep watering for trees and shrubs through dry winter months." },
