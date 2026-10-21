@@ -189,6 +189,13 @@
       img.src = url;
     });
   }
+  // Which calendar service fits what someone just asked for in the short form.
+  function bookFor(service, desc) {
+    var d = String(desc || "").toLowerCase(), winter = /winteri|blow ?out|blowout|freez|shut ?off|drain/.test(d);
+    if (service === "irrigation") return winter ? "winterize" : "irrigation";
+    var map = { cleanup: "cleanup", pruning: "pruning", mowing: "mowing", hardscape: "consult", planting: "estimate" };
+    return map[service] || (winter ? "winterize" : "estimate");
+  }
   var iq = $("#inq-form");
   if (iq) {
     var iqShots = [], iqThumbs = $("#iq-thumbs"), iqStarted = false, iqBusy = false, iqRid = null;
@@ -231,6 +238,16 @@
         track("inquiry_success", payload.service || "none");
         var done = $("#inq-done");
         $("[data-inq-done-text]", done).textContent = (res.preview ? "Preview only, nothing was sent. " : "") + "Thanks, " + f.name.split(" ")[0] + ". Rowan has your request and will get back to you" + (f.phone ? " by text" : " by email") + (f.phone && f.email ? " or email" : "") + "." + (f.email ? " A confirmation is on its way to " + f.email + "." : "");
+        var bookId = bookFor(payload.service, f.description), bookA = $("[data-inq-book]", done);
+        if (bookA) {
+          if (payload.service === "snow") { bookA.href = "/snow-removal-flagstaff/"; bookA.textContent = "See snow plans and sign up"; }
+          else {
+            bookA.href = "?book=" + bookId + "#book";
+            bookA.addEventListener("click", function (ev) {
+              if (window.pclPickService && window.pclPickService(bookId)) { ev.preventDefault(); track("inquiry_book_click", bookId); var bk = $("#book"); if (bk) bk.scrollIntoView({ behavior: "smooth", block: "start" }); }
+            });
+          }
+        }
         iq.hidden = true; done.hidden = false; done.focus({ preventScroll: true });
         done.scrollIntoView({ behavior: "smooth", block: "center" });
       }).catch(function (err) {
@@ -313,6 +330,15 @@
       go(2);
       loadSlots();
     }
+
+    // Links in texts and emails: ?book=winterize opens the calendar with that service already picked.
+    window.pclPickService = function (id) { if (svcById(id)) { chooseService(id); return true; } return false; };
+    try {
+      var wantSvc = new URLSearchParams(location.search).get("book");
+      if (wantSvc && svcById(wantSvc)) setTimeout(function () {
+        chooseService(wantSvc); var bk = $("#book"); if (bk) bk.scrollIntoView({ block: "start" }); track("book_link", wantSvc);
+      }, 0);
+    } catch (x) {}
 
     // Open times come from Google Calendar through Apps Script. Ask for every service at once
     // as soon as the page opens, so they are usually ready before anyone reaches the booking step.

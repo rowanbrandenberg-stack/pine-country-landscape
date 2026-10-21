@@ -500,6 +500,8 @@ input[aria-invalid="true"] { border-color: var(--err); }
 .inq-form, .inq-done { padding: clamp(18px, 3vw, 28px); display: grid; gap: 14px; min-width: 0; }
 .inq-done { justify-items: start; }
 .inq-done svg { width: 44px; height: 44px; color: var(--ok); }
+.inq-book { margin: 4px 0 0; }
+.inq-book-note { margin: 0; font-size: .9rem; color: var(--muted, #5f6b61); }
 .opt-tag { font-weight: 500; color: var(--muted); text-transform: none; letter-spacing: 0; margin-left: 4px; padding: 1px 7px; border-radius: 999px; background: var(--tint); font-size: .72rem; }
 .inq-form input[type="file"] { padding: 9px; min-height: 46px; background: var(--surface); font-size: .9rem; }
 .inq-fine { margin-top: -4px; }
