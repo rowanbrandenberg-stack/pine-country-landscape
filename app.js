@@ -513,7 +513,7 @@
         msg(out, "Spot held. Taking you to your contract...", "ok");
         setTimeout(function () { location.href = signUrl; }, 700);
       } else if (ok) {
-        sf.reset(); msg(out, "You are on the snow list. Rowan will text you a per snowfall price for your place.", "ok");
+        sf.reset(); msg(out, "You are on the snow list. A standard driveway and walks is $99 a snowfall. Rowan will text you to confirm.", "ok");
       } else msg(out, "That did not go through. Text " + C.phoneDisplay + " and we will set you up.", "err");
     };
     var req = LIVE ? api(d) : new Promise(function (r) { setTimeout(function () { r({ ok: true, preview: true }); }, 600); });
