@@ -48,7 +48,7 @@ window.PCL_CONFIG = {
   // Holiday season: only estimates and cleanups are on the live calendar. Regular landscape work is on the spring waitlist.
   // Tree installs, junk removal and the snow list come in through the short form.
   services: [
-    { id: "estimate", name: "On-site estimate", minutes: 60, price: "Free", note: "Cleanups and junk hauls: we look at it together and you get a written price. No charge." },
+    { id: "estimate", name: "On site estimate", minutes: 60, price: "Free", note: "Cleanups and junk hauls: we look at it together and you get a written price. No charge." },
     { id: "cleanup", name: "Yard cleanup", minutes: 180, price: "From $450", note: "Needles, cones, leaves, weeds and debris, hauled away." }
   ],
 
