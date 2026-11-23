@@ -569,3 +569,9 @@ textarea[aria-invalid="true"], select[aria-invalid="true"] { border-color: var(-
 .snow-tiers { margin-top: 18px; }
 .snow .spots { display: inline-flex; width: fit-content; padding: 6px 12px; border-radius: 999px; background: rgb(214 166 58 / .16); border: 1px solid var(--gold); color: var(--gold-hi); font-weight: 700; font-size: var(--t-sm); text-transform: none; letter-spacing: 0; }
 .snow .spots::before { display: none; }
+
+/* Holiday season: spring waitlist card */
+.waitlist { margin-top: 22px; padding: 24px 26px; background: #fff; border-radius: 16px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 28px; border-left: 4px solid var(--gold); }
+.waitlist > div { flex: 1 1 420px; }
+.waitlist h3 { margin: 4px 0 8px; }
+.waitlist p:last-child { margin: 0; }
