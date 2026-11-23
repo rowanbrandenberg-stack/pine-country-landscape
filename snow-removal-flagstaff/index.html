@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="xmas">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -18,8 +18,9 @@
 <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Young+Serif&display=swap">
-<link rel="stylesheet" href="/styles.css?v=20261122a">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600;700&family=Young+Serif&display=swap">
+<link rel="stylesheet" href="/styles.css?v=20261123a">
+<link rel="stylesheet" href="/christmas.css?v=20261123a">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Service", "name": "On call snow removal in Flagstaff", "serviceType": "Snow removal", "url": "https://pinecountrylandscape.com/snow-removal-flagstaff/", "provider": {"@id": "https://pinecountrylandscape.com/#business"}, "areaServed": {"@type": "Place", "name": "Flagstaff, AZ"}, "description": "On call driveway and walkway snow clearing with a snow blower. No season contract.", "offers": {"@type": "Offer", "name": "Standard driveway and walks, per snowfall", "price": "99", "priceCurrency": "USD"}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Do you sell season snow contracts?", "acceptedAnswer": {"@type": "Answer", "text": "Not this winter. Flagstaff gets too much snow for a flat season price to make sense, so we work on call from a snow list and price each snowfall."}}, {"@type": "Question", "name": "How does the snow list work?", "acceptedAnswer": {"@type": "Answer", "text": "Send your address and driveway details with the form on this page. A standard driveway (2 car, up to 60 ft) plus walks and steps is $99 a snowfall. Long or rural drives get a price by text. When a storm hits, people on the list get cleared first, in the order they joined."}}, {"@type": "Question", "name": "What do you clear?", "acceptedAnswer": {"@type": "Answer", "text": "Driveways, walks, steps and entries, cleared with a snow blower and shovels."}}, {"@type": "Question", "name": "Do I have to commit to anything?", "acceptedAnswer": {"@type": "Answer", "text": "No. Being on the list is free and you only pay for the snowfalls we clear. Text us any time to come off the list."}}]}</script>
 </head>
@@ -32,18 +33,20 @@
       <span class="brand-name">Pine Country<small>Landscape &middot; Flagstaff</small></span>
     </a>
     <nav class="nav" aria-label="Main">
-      <a href="/#work">Our work</a>
-      <a href="/#holiday">Holiday services</a>
-      <a href="/#reviews">Reviews</a>
-      <a href="/snow-removal-flagstaff/">Snow list</a>
-      <a href="/#book">Calendar</a>
+      <a href="/#trees">Christmas trees</a>
+      <a href="/#how">How it works</a>
+      <a href="/#faq">FAQs</a>
+      <a href="/#about">About</a>
+      <a class="nav-quiet" href="/#holiday">Other services</a>
     </nav>
     <div class="head-cta">
       <a class="phone" href="tel:+19288638198" data-phone>(928) 863-8198</a>
-      <a class="btn btn-gold" href="/#inquiry" data-track="cta_click" data-label="header_sub">Book an estimate</a>
+      <a class="btn btn-gold" href="/#inquiry" data-track="cta_click" data-label="header_sub">Request a tree install</a>
     </div>
   </div>
 </header>
+
+<div class="season-bar" data-season hidden></div>
 <main id="main">
 <section class="snow" id="snow" aria-labelledby="snow-h">
   <div class="snow-flakes" aria-hidden="true"></div>
@@ -104,7 +107,7 @@
     </div>
     <div>
       <p class="foot-h">Contact</p>
-      <p><a href="tel:+19288638198" data-phone data-track="call_click" data-label="footer">(928) 863-8198</a><br>Texting is fastest. Calls during jobs go to voicemail.<br><a href="/#inquiry" data-track="cta_click" data-label="footer">Book an estimate</a> &middot; <a href="/#book">Live calendar</a></p>
+      <p><a href="tel:+19288638198" data-phone data-track="call_click" data-label="footer">(928) 863-8198</a><br>Texting is fastest. Calls during jobs go to voicemail.<br><a href="/?pick=snow#inquiry" data-track="cta_click" data-label="footer">Book an estimate</a> &middot; <a href="/#book">Live calendar</a></p>
     </div>
     <div>
       <p class="foot-h">Services</p>
@@ -112,11 +115,11 @@
     </div>
     <div>
       <p class="foot-h">Tools</p>
-      <p><a href="/price-from-photos/">Price from photos</a><br><a href="/plant-doctor/">Plant doctor</a><br><a href="/#book">Book on the calendar</a></p>
+      <p><a href="/price-from-photos/">Price from photos</a><br><a href="/plant-doctor/">Plant doctor</a><br><a href="/#book">Estimate and cleanup calendar</a></p>
     </div>
     <div>
       <p class="foot-h">Hours and area</p>
-      <p>Sun, Mon, Wed, Fri, Sat, 8am to 5pm<br>Flagstaff, Doney Park, Kachina Village, Mountainaire, Fort Valley, Continental, Cheshire, Timberline, Williams, Bellemont, Parks</p>
+      <p>Sun, Mon, Wed, Fri, Sat, 8am to 5pm<br>Calls, texts and email answered 9am to 5pm<br>Flagstaff, Doney Park, Kachina Village, Mountainaire, Fort Valley, Continental, Cheshire, Timberline, Williams, Bellemont, Parks</p>
     </div>
   </div>
   <div class="wrap foot-base">&copy; <span id="yr">2026</span> Pine Country Landscape LLC</div>
@@ -124,10 +127,10 @@
 
 <nav class="action-bar" aria-label="Quick actions">
   <a data-sms href="sms:+19288638198" data-track="text_click" data-label="action_bar">Text us</a>
-  <a class="ab-main" href="/#inquiry" data-track="cta_click" data-label="action_bar">Book an estimate</a>
+  <a class="ab-main" href="/?pick=snow#inquiry" data-track="cta_click" data-label="action_bar">Book an estimate</a>
   <a href="tel:+19288638198" data-track="call_click" data-label="action_bar">Call</a>
 </nav>
-<script src="/config.js?v=20261122a"></script>
-<script src="/app.js?v=20261122a"></script>
+<script src="/config.js?v=20261123a"></script>
+<script src="/app.js?v=20261123a"></script>
 </body>
 </html>

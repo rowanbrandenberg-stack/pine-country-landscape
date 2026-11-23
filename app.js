@@ -54,11 +54,18 @@
   (function () {
     var base = location.pathname === "/" || /index\.html$/.test(location.pathname) || location.protocol === "file:" ? "" : "/";
     var smsBody = C.smsBody || "Hi Rowan, I need a price on ";
-    Array.prototype.forEach.call(document.querySelectorAll("[data-sms]"), function (a) { a.href = "sms:" + (C.phoneHref || "+19288638198") + "?&body=" + encodeURIComponent(smsBody); });
+    var X = xmasState();
+    // Season off: drop the Christmas look everywhere. Season over: drop it on service pages (the homepage is restored by hand).
+    if (!X.enabled || (!X.inWindow && document.body.classList.contains("sub"))) document.documentElement.classList.remove("xmas");
+    Array.prototype.forEach.call(document.querySelectorAll("[data-sms]"), function (a) {
+      var body = a.getAttribute("data-sms") === "tree" && X.inWindow && X.cfg.smsBody ? X.cfg.smsBody : smsBody;
+      a.href = "sms:" + (C.phoneHref || "+19288638198") + "?&body=" + encodeURIComponent(body);
+    });
     var bar = document.querySelector("[data-season]");
     if (bar) {
       var d = new Date(), m = d.getMonth() + 1, day = d.getDate(), t = null;
-      if (m === 11 || m === 12) t = 'Holiday season is here: Christmas tree installs, and the cookies are on us. <a href="/#inquiry">Book yours</a>';
+      if (X.inWindow && X.cfg.announcement) t = esc(X.cfg.announcement) + ' <a href="' + esc(X.cfg.announcementLink || "/#inquiry") + '" data-holiday-pick="tree">' + esc(X.cfg.announcementCta || "Request a tree install") + "</a>";
+      else if (!C.christmas && (m === 11 || m === 12)) t = 'Holiday season is here: Christmas tree installs, and the cookies are on us. <a href="/#inquiry">Book yours</a>';
       else if (m === 10) t = 'Fall cleanup spots are filling up. <a href="/#inquiry">Book an estimate</a>';
       else if (m === 9 && day >= 15) t = 'Hard freeze is coming. Winterize sprinklers from $165 before it hits. <a href="/#inquiry">Book an estimate</a>';
       else if (m <= 2) t = 'Dry winter? New trees still need water. Winter watering visits $95. <a href="/#inquiry">Book an estimate</a>';
@@ -150,6 +157,31 @@
     return o;
   }
   function addDays(ds, n) { var d = parseDay(ds); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); }
+  // Today's calendar date in Flagstaff (America/Phoenix), as YYYY-MM-DD.
+  function phxToday() { var t = todayParts(); return t.year + "-" + t.month + "-" + t.day; }
+  // Christmas by Pine Country season settings from config.js, resolved against today's Phoenix date.
+  function xmasState() {
+    var cfg = C.christmas || {}, today = phxToday();
+    var enabled = !!cfg.enabled;
+    var inWindow = enabled && (!cfg.showFrom || today >= cfg.showFrom) && (!cfg.showUntil || today <= cfg.showUntil);
+    var soonest = addDays(today, cfg.minNoticeDays || 0);
+    var from = cfg.requestFrom && cfg.requestFrom > soonest ? cfg.requestFrom : soonest;
+    var until = cfg.requestUntil || "";
+    return { cfg: cfg, enabled: enabled, inWindow: inWindow, today: today, reqFrom: from, reqUntil: until, datesOpen: enabled && !!until && from <= until };
+  }
+  // Weekends a customer can ask for, between the request dates. Never a day before today.
+  function xmasWeekends(from, until) {
+    var out = [], d = from, dow = parseDay(d).getUTCDay();
+    var sat = dow === 6 ? d : dow === 0 ? addDays(d, -1) : addDays(d, 6 - dow);
+    for (; sat <= until; sat = addDays(sat, 7)) {
+      var sun = addDays(sat, 1), days = [];
+      if (sat >= from) days.push(sat);
+      if (sun >= from && sun <= until) days.push(sun);
+      if (!days.length) continue;
+      out.push({ value: days.join(" or "), label: days.map(function (x) { return fmtDay(x, { weekday: "short", month: "short", day: "numeric" }); }).join(" or ") });
+    }
+    return out;
+  }
   function validEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v); }
   function validPhone(v) { return v.replace(/\D/g, "").length >= 10; }
   function msg(el, text, kind) { el.textContent = text || ""; el.className = "form-msg" + (kind ? " " + kind : ""); }
@@ -199,14 +231,56 @@
     return (C.services || []).some(function (s) { return s.id === id; }) ? id : "estimate";
   }
   var iq = $("#inq-form");
+  // Pick a request type on the form: from a button (data-holiday-pick) or a link like /?pick=cleanup#inquiry.
+  function pickKind(k) {
+    if (!iq || !k) return false;
+    var hit = false;
+    Array.prototype.forEach.call(iq.service.options, function (o, i) { if (!hit && o.getAttribute("data-key") === k) { iq.service.selectedIndex = i; hit = true; } });
+    if (hit) iq.service.dispatchEvent(new Event("change", { bubbles: true }));
+    return hit;
+  }
   if (iq) $$("[data-holiday-pick]").forEach(function (b) {
-    b.addEventListener("click", function () {
-      var k = b.getAttribute("data-holiday-pick");
-      Array.prototype.forEach.call(iq.service.options, function (o, i) { if (o.getAttribute("data-key") === k) iq.service.selectedIndex = i; });
-    });
+    b.addEventListener("click", function () { pickKind(b.getAttribute("data-holiday-pick")); });
   });
+  if (iq) { try { pickKind(new URLSearchParams(location.search).get("pick")); } catch (x) {} }
+
   if (iq) {
     var iqShots = [], iqThumbs = $("#iq-thumbs"), iqStarted = false, iqBusy = false, iqRid = null;
+    var treeBox = $("[data-tree-fields]", iq), XS = xmasState();
+    var kindNow = function () { var o = iq.service.options[iq.service.selectedIndex]; return (o && o.getAttribute("data-key")) || ""; };
+    var radioVal = function (name) { var r = iq.querySelector('input[name="' + name + '"]:checked'); return r ? r.value : ""; };
+
+    // Preferred date choices: only today onward (Phoenix time) and inside the request dates from config.js.
+    if (treeBox) {
+      var dIn = iq.treeDate, wSel = iq.treeWeekend;
+      if (XS.datesOpen) {
+        dIn.min = XS.reqFrom; dIn.max = XS.reqUntil;
+        xmasWeekends(XS.reqFrom, XS.reqUntil).forEach(function (w) { var o = document.createElement("option"); o.value = w.value; o.textContent = w.label; wSel.appendChild(o); });
+        if (wSel.options.length < 2) { var wr = iq.querySelector('input[name="when"][value="weekend"]'); if (wr) wr.closest("label").hidden = true; }
+      } else {
+        ["date", "weekend"].forEach(function (v) { var r = iq.querySelector('input[name="when"][value="' + v + '"]'); if (r) r.closest("label").hidden = true; });
+        var closed = $("[data-dates-closed]", iq); if (closed) closed.hidden = false;
+      }
+    }
+
+    // Show the fields that matter for what was picked. Hidden fields are disabled so they are never sent or checked.
+    var syncForm = function () {
+      var tree = kindNow() === "tree";
+      if (treeBox) { treeBox.hidden = !tree; $$("input, select, textarea", treeBox).forEach(function (el) { el.disabled = !tree; }); }
+      $$("[data-show]", iq).forEach(function (el) {
+        var p = el.getAttribute("data-show").split("="), on = tree && (iq[p[0]] && iq[p[0]].tagName === "SELECT" ? iq[p[0]].value : radioVal(p[0])) === p[1];
+        el.hidden = !on; $$("input, select, textarea", el).forEach(function (f) { f.disabled = !on; });
+      });
+      var lab = $("[data-desc-label]", iq);
+      if (lab) lab.innerHTML = tree ? 'Anything else? <span class="opt-tag">optional</span>' : "What do you need done?";
+      iq.description.placeholder = tree ? "The room it goes in, the kind of tree you like, questions for Rowan" : "Example: pine needle cleanup in the front and side yard, and an old couch to haul off";
+      var sb = $("[data-submit-label]", iq); if (sb) sb.textContent = tree ? "Send my tree request" : "Send my request";
+      var pref = radioVal("prefer") || "Text", wantsEmail = pref === "Email";
+      var po = $('[data-opt="phone"]', iq), eo = $('[data-opt="email"]', iq);
+      if (po) po.hidden = !wantsEmail; if (eo) eo.hidden = wantsEmail;
+    };
+    iq.addEventListener("change", syncForm); syncForm();
+
     var drawIq = function () {
       iqThumbs.innerHTML = iqShots.map(function (src, i) { return '<figure><img src="' + src + '" alt="Photo ' + (i + 1) + '"><button type="button" data-rm="' + i + '" aria-label="Remove photo ' + (i + 1) + '">&times;</button></figure>'; }).join("");
       $$("[data-rm]", iqThumbs).forEach(function (b) { b.addEventListener("click", function () { iqShots.splice(+b.getAttribute("data-rm"), 1); drawIq(); }); });
@@ -218,36 +292,104 @@
       });
     });
     iq.addEventListener("input", function () { if (!iqStarted) { iqStarted = true; track("inquiry_start"); } iqRid = null; }, { once: false });
+    iq.addEventListener("change", function () { iqRid = null; });
+
+    // Field level errors: the message sits under the field and is read with it. Everything typed stays put.
+    var clearErrs = function () {
+      $$("[aria-invalid]", iq).forEach(function (el) { el.removeAttribute("aria-invalid"); });
+      $$(".field-err", iq).forEach(function (el) { el.textContent = ""; el.hidden = true; });
+      $$("[data-invalid]", iq).forEach(function (el) { el.removeAttribute("data-invalid"); });
+    };
+    var fieldErr = function (el, errId, text) {
+      var e = errId && document.getElementById(errId);
+      if (e) { e.textContent = text; e.hidden = false; }
+      if (el) {
+        if (el.tagName === "FIELDSET") { el.setAttribute("data-invalid", ""); var first = el.querySelector("input:not([disabled])"); if (first) first.focus(); }
+        else { el.setAttribute("aria-invalid", "true"); el.focus(); }
+      }
+    };
+
+    // Every tree answer goes into the description the backend already saves and emails to Rowan,
+    // and also as a separate "tree" object for when the Apps Script learns the new columns.
+    var treeDetails = function () {
+      var when = radioVal("when"), d = {
+        hasTree: radioVal("hasTree"), treeWhere: iq.treeWhere.disabled ? "" : iq.treeWhere.value.trim(),
+        height: iq.treeHeight.value, ceiling: iq.ceiling.disabled ? "" : iq.ceiling.value.trim(), stand: iq.treeStand.value,
+        when: when, date: when === "date" ? iq.treeDate.value : "", weekend: when === "weekend" ? iq.treeWeekend.value : "",
+        stairs: iq.stairs.value, access: iq.access.value.trim()
+      };
+      var whenText = when === "date" && d.date ? fmtDay(d.date, { weekday: "long", month: "long", day: "numeric", year: "numeric" })
+        : when === "weekend" && d.weekend ? "Weekend of " + d.weekend.split(" or ").map(function (x) { return fmtDay(x, { weekday: "short", month: "short", day: "numeric" }); }).join(" or ")
+        : "Flexible";
+      d.whenText = whenText + " (requested, not confirmed)";
+      d.lines = [
+        "Christmas tree install request",
+        "Has a tree: " + d.hasTree + (d.treeWhere ? " (now at: " + d.treeWhere + ")" : ""),
+        "Tree height: " + d.height + (d.ceiling ? ", ceiling " + d.ceiling : ""),
+        "Stand: " + (d.stand || "not said"),
+        "Preferred date: " + d.whenText,
+        "Stairs: " + (d.stairs || "not said"),
+        "Access notes: " + (d.access || "none")
+      ];
+      return d;
+    };
+
     iq.addEventListener("submit", function (e) {
       e.preventDefault();
       if (iqBusy) return;
-      var out = $(".form-msg", iq);
+      var out = $(".form-msg", iq), tree = kindNow() === "tree";
       var f = { name: iq.name.value.trim(), phone: iq.phone.value.trim(), email: iq.email.value.trim(), area: iq.area.value.trim(), description: iq.description.value.trim() };
-      $$("[aria-invalid]", iq).forEach(function (el) { el.removeAttribute("aria-invalid"); });
-      var bad = function (el, text) { if (el) { el.setAttribute("aria-invalid", "true"); el.focus(); } msg(out, text, "err"); };
-      if (!f.name) return bad(iq.name, "Please add your name.");
-      if (!f.phone && !f.email) { iq.email.setAttribute("aria-invalid", "true"); return bad(iq.phone, "Add a phone number or an email so we can reach you."); }
-      if (f.phone && !validPhone(f.phone)) return bad(iq.phone, "That phone number looks short. Include the area code.");
-      if (f.email && !validEmail(f.email)) return bad(iq.email, "That email address looks incomplete.");
-      if (!f.area) return bad(iq.area, "Please add your neighborhood or ZIP code.");
-      if (!f.description) return bad(iq.description, "Tell us a little about the work.");
+      var prefer = radioVal("prefer") || "Text";
+      clearErrs(); msg(out, "");
+      var bad = function (el, errId, text) { fieldErr(el, errId, text); msg(out, text, "err"); };
+      if (!f.name) return bad(iq.name, "iq-name-err", "Please add your name.");
+      if (!f.area) return bad(iq.area, "iq-area-err", "Please add your neighborhood or ZIP code.");
+      if (prefer === "Email" && !f.email) return bad(iq.email, "iq-email-err", "Add your email, since that is how you would like to hear back.");
+      if (prefer !== "Email" && !f.phone) return bad(iq.phone, "iq-phone-err", "Add a mobile number so Rowan can " + (prefer === "Call" ? "call" : "text") + " you.");
+      if (f.phone && !validPhone(f.phone)) return bad(iq.phone, "iq-phone-err", "That phone number looks short. Include the area code.");
+      if (f.email && !validEmail(f.email)) return bad(iq.email, "iq-email-err", "That email address looks incomplete.");
+      var td = null;
+      if (tree) {
+        if (!radioVal("hasTree")) return bad(iq.querySelector('input[name="hasTree"]').closest("fieldset"), "iq-has-err", "Let us know if you already have your tree.");
+        if (!iq.treeHeight.value) return bad(iq.treeHeight, "iq-height-err", "Pick a height, or choose Not sure, help me choose.");
+        var when = radioVal("when");
+        if (!when) return bad(iq.querySelector('input[name="when"]').closest("fieldset"), "iq-when-err", "Pick a day, a weekend, or I'm flexible.");
+        if (when === "date") {
+          var dv = iq.treeDate.value;
+          if (!dv) return bad(iq.treeDate, "iq-date-err", "Pick the day you would like.");
+          if (dv < XS.reqFrom || dv > XS.reqUntil) return bad(iq.treeDate, "iq-date-err", "Pick a day between " + fmtDay(XS.reqFrom, { month: "short", day: "numeric" }) + " and " + fmtDay(XS.reqUntil, { month: "short", day: "numeric" }) + ".");
+        }
+        if (when === "weekend" && !iq.treeWeekend.value) return bad(iq.treeWeekend, "iq-weekend-err", "Pick the weekend you would like.");
+        td = treeDetails();
+        f.description = (td.lines.join("\n") + (f.description ? "\nNotes: " + f.description : "")).slice(0, 1450);
+      } else if (!f.description) return bad(iq.description, "iq-desc-err", "Tell us a little about the work.");
       if (iq.website.value) return;
       // One request id per filled out form: a retry after a timeout or a double tap cannot create a second lead.
       if (!iqRid) iqRid = "iq-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8);
       iqBusy = true;
-      var btn = $('button[type="submit"]', iq); btn.disabled = true; btn.setAttribute("aria-busy", "true");
+      var btn = $('button[type="submit"]', iq), btnText = btn.textContent;
+      btn.disabled = true; btn.setAttribute("aria-busy", "true"); btn.textContent = "Sending...";
       msg(out, iqShots.length ? "Sending your request and photos..." : "Sending your request...");
       var utm = ""; try { var u = JSON.parse(sessionStorage.getItem("pcl_utm") || "null"); if (u) utm = [u.src, u.med, u.cmp].filter(Boolean).join(" / "); } catch (x) {}
       var opt = iq.service.options[iq.service.selectedIndex], tag = opt && opt.getAttribute("data-tag");
       if (tag) f.description = "[" + tag + "] " + f.description;
-      var payload = Object.assign({ action: "inquiry", rid: iqRid, service: iq.service.value, kind: (opt && opt.getAttribute("data-key")) || "", photos: iqShots, page: location.pathname, ref: document.referrer.slice(0, 200), utm: utm, website: iq.website.value }, f);
+      var payload = Object.assign({ action: "inquiry", rid: iqRid, service: iq.service.value, kind: (opt && opt.getAttribute("data-key")) || "", prefer: prefer, photos: iqShots, page: location.pathname, ref: document.referrer.slice(0, 200), utm: utm, website: iq.website.value }, f);
+      if (td) payload.tree = { hasTree: td.hasTree, treeWhere: td.treeWhere, height: td.height, ceiling: td.ceiling, stand: td.stand, when: td.when, date: td.date, weekend: td.weekend, stairs: td.stairs, access: td.access };
       var timeout = new Promise(function (_, rej) { setTimeout(function () { rej(new Error("timeout")); }, 45000); });
       var req = LIVE ? Promise.race([api(payload), timeout]) : new Promise(function (r) { setTimeout(function () { r({ ok: true, preview: true }); }, 700); });
       req.then(function (res) {
         if (!res || !res.ok) throw Object.assign(new Error("rejected"), { res: res });
-        track("inquiry_success", payload.service || "none");
-        var done = $("#inq-done");
-        $("[data-inq-done-text]", done).textContent = (res.preview ? "Preview only, nothing was sent. " : "") + "Thanks, " + f.name.split(" ")[0] + ". Rowan has your request and will get back to you" + (f.phone ? " by text" : " by email") + (f.phone && f.email ? " or email" : "") + "." + (f.email ? " A confirmation is on its way to " + f.email + "." : "");
+        track("inquiry_success", payload.kind || payload.service || "none");
+        var done = $("#inq-done"), first = f.name.split(" ")[0];
+        var how = prefer === "Email" ? "by email" : prefer === "Call" ? "with a call" : "by text";
+        var title = $("[data-inq-done-title]", done), next = $("[data-inq-next]", done);
+        if (tree) {
+          if (title) title.textContent = "Your tree request is in.";
+          $("[data-inq-done-text]", done).textContent = (res.preview ? "Preview only, nothing was sent. " : "") + "Thanks, " + first + ". Rowan will reply " + how + " to confirm the tree, the price and the date. Your date is not reserved until Rowan confirms it with you." + (f.email ? " A confirmation email is on its way to " + f.email + "." : "");
+          if (next) next.hidden = false;
+        } else {
+          $("[data-inq-done-text]", done).textContent = (res.preview ? "Preview only, nothing was sent. " : "") + "Thanks, " + first + ". Rowan has your request and will get back to you " + how + "." + (f.email ? " A confirmation is on its way to " + f.email + "." : "");
+        }
         var bookId = bookFor(payload.service, f.description), bookA = $("[data-inq-book]", done);
         if (payload.kind === "tree" || payload.kind === "waitlist" || payload.kind === "junk") { if (bookA) bookA.parentNode.hidden = true; var bn = $(".inq-book-note", done); if (bn) bn.hidden = true; bookA = null; }
         if (bookA) {
@@ -264,11 +406,12 @@
       }).catch(function (err) {
         var res = err && err.res;
         track("inquiry_error", res ? (res.field || "rejected") : (err && err.message === "timeout" ? "timeout" : "network"));
-        if (res && res.field && iq[res.field]) iq[res.field].setAttribute("aria-invalid", "true");
+        var fld = res && res.field && (res.field === "contact" ? iq.phone : iq[res.field]);
+        if (fld && fld.setAttribute) fld.setAttribute("aria-invalid", "true");
         // Everything typed stays in the form, so a retry is one tap.
         msg(out, (res && res.message) || "That did not go through. Your details are still here, so try again, or text " + C.phoneDisplay + " and we will take it from there.", "err");
         out.focus({ preventScroll: true });
-      }).then(function () { iqBusy = false; btn.disabled = false; btn.removeAttribute("aria-busy"); });
+      }).then(function () { iqBusy = false; btn.disabled = false; btn.removeAttribute("aria-busy"); btn.textContent = btnText; });
     });
   }
 
