@@ -502,7 +502,7 @@
     };
     var season = d.plan === "driveway" || d.plan === "full";
     if (d.plan === "full") d.walks = true;
-    var planName = { driveway: "Driveway Season $800", full: "Full Clear Season $1,450", "per-push": "Snow list, on call" }[d.plan] || d.plan;
+    var planName = { "per-push": "Snow list, on call" }[d.plan] || d.plan;
     var canSign = season && d.driveway === "standard";
     var signUrl = "/contract/?t=snow&plan=" + d.plan + "&" + ["name", "address", "phone", "email", "notes"].map(function (k) { return k + "=" + encodeURIComponent(d[k]); }).join("&") + (d.walks && d.plan === "driveway" ? "&walks=1" : "");
     d.notes = ("[" + planName + "] " + d.notes).trim();
