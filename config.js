@@ -83,5 +83,30 @@ window.PCL_CONFIG = {
     { name: "Paver patios and walkways", price: "From $12,000" },
     { name: "Paver driveways", price: "By proposal" },
     { name: "New irrigation and drip systems", price: "By proposal" }
-  ]
+  ],
+
+  // Christmas by Pine Country: seasonal campaign settings.
+  // To retire the season: set enabled to false. That turns off the seasonal strip, the Christmas text
+  // message wording and the Christmas look on service pages. Then restore the year round homepage
+  // (see the note at the top of index.html).
+  // All dates are calendar dates in America/Phoenix.
+  christmas: {
+    enabled: true,
+    campaign: "Christmas by Pine Country",
+    // The strip and Christmas text wording only show between these dates.
+    showFrom: "2026-11-01",
+    showUntil: "2026-12-25",
+    // The tree form only offers preferred dates and weekends in this range, and never a date before today.
+    // These are dates a customer can ASK for. They are not availability and nothing is reserved.
+    requestFrom: "2026-11-22",
+    requestUntil: "2026-12-24",
+    // Earliest preferred day offered, in days after today. 1 means tomorrow at the soonest.
+    minNoticeDays: 1,
+    // Slim strip under the header. Keep it to verified facts: the cookies offer is confirmed.
+    announcement: "Christmas tree installs are open, and every install comes with cookies on us.",
+    announcementLink: "/#inquiry",
+    announcementCta: "Request a tree install",
+    // Text links marked data-sms="tree" open messages with this already typed.
+    smsBody: "Hi Rowan, I'd like a Christmas tree install. My area: "
+  }
 };
