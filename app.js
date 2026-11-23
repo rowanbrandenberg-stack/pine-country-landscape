@@ -58,9 +58,10 @@
     var bar = document.querySelector("[data-season]");
     if (bar) {
       var d = new Date(), m = d.getMonth() + 1, day = d.getDate(), t = null;
-      if (m === 10 || m === 11) t = 'Snow removal season contracts are open for this winter. <a href="/snow-removal-flagstaff/">See details</a>';
+      if (m === 11 || m === 12) t = 'Holiday season is here: Christmas tree installs, and the cookies are on us. <a href="/#inquiry">Book yours</a>';
+      else if (m === 10) t = 'Fall cleanup spots are filling up. <a href="/#inquiry">Book an estimate</a>';
       else if (m === 9 && day >= 15) t = 'Hard freeze is coming. Winterize sprinklers from $165 before it hits. <a href="/#inquiry">Book an estimate</a>';
-      else if (m === 12 || m <= 2) t = 'Dry winter? New trees still need water. Winter watering visits $95. <a href="/#inquiry">Book an estimate</a>';
+      else if (m <= 2) t = 'Dry winter? New trees still need water. Winter watering visits $95. <a href="/#inquiry">Book an estimate</a>';
       else if (m <= 5) t = 'Spring cleanup season is here. <a href="/#inquiry">Book an estimate</a>';
       else if (m <= 8) t = 'Monsoon season: cleanups and irrigation fixes. <a href="/#inquiry">Book an estimate</a>';
       else t = 'Fall cleanup spots are filling up. <a href="/#inquiry">Book an estimate</a>';
@@ -194,9 +195,16 @@
     var d = String(desc || "").toLowerCase(), winter = /winteri|blow ?out|blowout|freez|shut ?off|drain/.test(d);
     if (service === "irrigation") return winter ? "winterize" : "irrigation";
     var map = { cleanup: "cleanup", pruning: "pruning", mowing: "mowing", hardscape: "consult", planting: "estimate" };
-    return map[service] || (winter ? "winterize" : "estimate");
+    var id = map[service] || (winter ? "winterize" : "estimate");
+    return (C.services || []).some(function (s) { return s.id === id; }) ? id : "estimate";
   }
   var iq = $("#inq-form");
+  if (iq) $$("[data-holiday-pick]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var k = b.getAttribute("data-holiday-pick");
+      Array.prototype.forEach.call(iq.service.options, function (o, i) { if (o.getAttribute("data-key") === k) iq.service.selectedIndex = i; });
+    });
+  });
   if (iq) {
     var iqShots = [], iqThumbs = $("#iq-thumbs"), iqStarted = false, iqBusy = false, iqRid = null;
     var drawIq = function () {
@@ -230,7 +238,9 @@
       var btn = $('button[type="submit"]', iq); btn.disabled = true; btn.setAttribute("aria-busy", "true");
       msg(out, iqShots.length ? "Sending your request and photos..." : "Sending your request...");
       var utm = ""; try { var u = JSON.parse(sessionStorage.getItem("pcl_utm") || "null"); if (u) utm = [u.src, u.med, u.cmp].filter(Boolean).join(" / "); } catch (x) {}
-      var payload = Object.assign({ action: "inquiry", rid: iqRid, service: iq.service.value, photos: iqShots, page: location.pathname, ref: document.referrer.slice(0, 200), utm: utm, website: iq.website.value }, f);
+      var opt = iq.service.options[iq.service.selectedIndex], tag = opt && opt.getAttribute("data-tag");
+      if (tag) f.description = "[" + tag + "] " + f.description;
+      var payload = Object.assign({ action: "inquiry", rid: iqRid, service: iq.service.value, kind: (opt && opt.getAttribute("data-key")) || "", photos: iqShots, page: location.pathname, ref: document.referrer.slice(0, 200), utm: utm, website: iq.website.value }, f);
       var timeout = new Promise(function (_, rej) { setTimeout(function () { rej(new Error("timeout")); }, 45000); });
       var req = LIVE ? Promise.race([api(payload), timeout]) : new Promise(function (r) { setTimeout(function () { r({ ok: true, preview: true }); }, 700); });
       req.then(function (res) {
@@ -239,8 +249,9 @@
         var done = $("#inq-done");
         $("[data-inq-done-text]", done).textContent = (res.preview ? "Preview only, nothing was sent. " : "") + "Thanks, " + f.name.split(" ")[0] + ". Rowan has your request and will get back to you" + (f.phone ? " by text" : " by email") + (f.phone && f.email ? " or email" : "") + "." + (f.email ? " A confirmation is on its way to " + f.email + "." : "");
         var bookId = bookFor(payload.service, f.description), bookA = $("[data-inq-book]", done);
+        if (payload.kind === "tree" || payload.kind === "waitlist" || payload.kind === "junk") { if (bookA) bookA.parentNode.hidden = true; var bn = $(".inq-book-note", done); if (bn) bn.hidden = true; bookA = null; }
         if (bookA) {
-          if (payload.service === "snow") { bookA.href = "/snow-removal-flagstaff/"; bookA.textContent = "See snow plans and sign up"; }
+          if (payload.service === "snow") { bookA.href = "/snow-removal-flagstaff/"; bookA.textContent = "See how the snow list works"; }
           else {
             bookA.href = "?book=" + bookId + "#book";
             bookA.addEventListener("click", function (ev) {
@@ -491,7 +502,7 @@
     };
     var season = d.plan === "driveway" || d.plan === "full";
     if (d.plan === "full") d.walks = true;
-    var planName = { driveway: "Driveway Season $800", full: "Full Clear Season $1,450", "per-push": "On call $125" }[d.plan] || d.plan;
+    var planName = { driveway: "Driveway Season $800", full: "Full Clear Season $1,450", "per-push": "Snow list, on call" }[d.plan] || d.plan;
     var canSign = season && d.driveway === "standard";
     var signUrl = "/contract/?t=snow&plan=" + d.plan + "&" + ["name", "address", "phone", "email", "notes"].map(function (k) { return k + "=" + encodeURIComponent(d[k]); }).join("&") + (d.walks && d.plan === "driveway" ? "&walks=1" : "");
     d.notes = ("[" + planName + "] " + d.notes).trim();
@@ -502,7 +513,7 @@
         msg(out, "Spot held. Taking you to your contract...", "ok");
         setTimeout(function () { location.href = signUrl; }, 700);
       } else if (ok) {
-        sf.reset(); msg(out, "Got it. Rowan will text you a price, then send your contract to sign.", "ok");
+        sf.reset(); msg(out, "You are on the snow list. Rowan will text you a per snowfall price for your place.", "ok");
       } else msg(out, "That did not go through. Text " + C.phoneDisplay + " and we will set you up.", "err");
     };
     var req = LIVE ? api(d) : new Promise(function (r) { setTimeout(function () { r({ ok: true, preview: true }); }, 600); });
