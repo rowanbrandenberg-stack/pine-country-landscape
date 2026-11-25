@@ -272,6 +272,12 @@
 
     // Preferred date choices: only today onward (Phoenix time) and inside the request dates from config.js.
     var dIn = iq.treeDate, wSel = iq.treeWeekend;
+    // Weekend installs only: no single weekday picker, and "flexible" means any weekend.
+    if (XS.cfg.weekendsOnly) {
+      var dr = iq.querySelector('input[name="when"][value="date"]'); if (dr) dr.closest("label").hidden = true;
+      var fr = iq.querySelector('input[name="when"][value="flexible"]'); if (fr) fr.nextElementSibling.textContent = "Any weekend works";
+      var wr0 = iq.querySelector('input[name="when"][value="weekend"]'); if (wr0) wr0.nextElementSibling.textContent = "A specific weekend";
+    }
     if (XS.datesOpen) {
       dIn.min = XS.reqFrom; dIn.max = XS.reqUntil;
       xmasWeekends(XS.reqFrom, XS.reqUntil).forEach(function (w) { var o = document.createElement("option"); o.value = w.value; o.textContent = w.label; wSel.appendChild(o); });
@@ -515,7 +521,7 @@
       };
       var whenText = when === "date" && d.date ? fmtDay(d.date, { weekday: "long", month: "long", day: "numeric", year: "numeric" })
         : when === "weekend" && d.weekend ? "Weekend of " + d.weekend.split(" or ").map(function (x) { return fmtDay(x, { weekday: "short", month: "short", day: "numeric" }); }).join(" or ")
-        : "Flexible";
+        : (XS.cfg.weekendsOnly ? "Any weekend" : "Flexible");
       d.whenText = whenText + " (requested, not confirmed)";
       var q = estimateNow();
       d.estimate = q ? { label: q.label, kind: q.kind, knownCents: q.knownCents, lines: q.lines.map(function (l) { return { key: l.key, label: l.label, cents: l.cents, status: l.status }; }), notice: TPC.notice } : null;

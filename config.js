@@ -102,8 +102,10 @@ window.PCL_CONFIG = {
     requestUntil: "2026-12-24",
     // Earliest preferred day offered, in days after today. 1 means tomorrow at the soonest.
     minNoticeDays: 1,
+    // true: tree installs are only offered on Saturdays and Sundays (the form only lists weekends).
+    weekendsOnly: true,
     // Slim strip under the header. Keep it to verified facts: the cookies offer is confirmed.
-    announcement: "Christmas tree installs are open, and every install comes with cookies on us.",
+    announcement: "Weekend Christmas tree installs are open, and every install comes with cookies on us.",
     announcementLink: "/#inquiry",
     announcementCta: "Request a tree install",
     // Text links marked data-sms="tree" open messages with this already typed.
