@@ -93,16 +93,16 @@
 .x-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 4px; }
 .x-hero-note { font-size: var(--t-sm); color: var(--x-muted); max-width: 48ch; }
 .x-hero-art { margin: 0; display: grid; gap: 8px; min-width: 0; }
-.x-hero-art svg { width: 100%; height: auto; aspect-ratio: 560 / 520; border-radius: 18px; box-shadow: var(--shadow); display: block; }
+.x-hero-art img { width: 100%; height: auto; aspect-ratio: 560 / 520; object-fit: cover; object-position: 50% 55%; border-radius: 18px; box-shadow: var(--shadow); display: block; }
 .x-hero-art figcaption { font-size: var(--t-xs); color: var(--x-muted); }
 @media (max-width: 860px) {
   .x-hero-in { grid-template-columns: 1fr; padding-top: 22px; gap: 22px; }
-  .x-hero-art svg { aspect-ratio: 4 / 3; }
+  .x-hero-art img { aspect-ratio: 4 / 3; object-position: 50% 60%; }
   .x-actions .btn { flex: 1 1 auto; }
 }
 @media (max-width: 400px) { .x-actions .btn { flex: 1 1 100%; } }
 @media (prefers-reduced-motion: no-preference) {
-  .x-hero-art svg { animation: x-rise .8s cubic-bezier(.2,.7,.2,1) both; }
+  .x-hero-art img { animation: x-rise .8s cubic-bezier(.2,.7,.2,1) both; }
   @keyframes x-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 }
 
@@ -139,11 +139,11 @@
 
 /* About and trust */
 .x-about { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 64px); align-items: center; }
-.x-about-photos { position: relative; padding-bottom: 64px; min-width: 0; }
+.x-about-photos { position: relative; min-width: 0; }
 .x-photo { margin: 0; display: grid; gap: 6px; }
 .x-photo img { width: 100%; height: auto; border-radius: 14px; box-shadow: var(--shadow); object-fit: cover; }
 .x-photo figcaption { font-size: var(--t-xs); color: var(--x-muted); }
-.x-photo-main { width: 84%; }
+.x-photo-main { width: 100%; }
 .x-photo-main img { aspect-ratio: 5 / 4; object-position: 40% 40%; }
 .x-photo-alt { position: absolute; right: 0; bottom: 0; width: 42%; }
 .x-photo-alt img { aspect-ratio: 1; object-position: 55% 70%; border: 5px solid var(--x-ivory); }
