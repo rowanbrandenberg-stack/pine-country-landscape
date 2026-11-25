@@ -102,11 +102,58 @@ window.PCL_CONFIG = {
     requestUntil: "2026-12-24",
     // Earliest preferred day offered, in days after today. 1 means tomorrow at the soonest.
     minNoticeDays: 1,
+    // true: tree installs are only offered on Saturdays and Sundays (the form only lists weekends).
+    weekendsOnly: true,
     // Slim strip under the header. Keep it to verified facts: the cookies offer is confirmed.
-    announcement: "Christmas tree installs are open, and every install comes with cookies on us.",
+    announcement: "Weekend Christmas tree installs are open, and every install comes with cookies on us.",
     announcementLink: "/#inquiry",
     announcementCta: "Request a tree install",
     // Text links marked data-sms="tree" open messages with this already typed.
-    smsBody: "Hi Rowan, I'd like a Christmas tree install. My area: "
+    smsBody: "Hi Rowan, I'd like a Christmas tree install. My area: ",
+
+    // Christmas tree pricing. THE one place to change tree service rates.
+    // pricing.js, the tree form estimate and the /tree-quote/ builder all read from here.
+    // These are initial proposed rates, not measured profitability. Edit freely.
+    // Rule: quote total = tree + stand (if needed) + install service + optional removal + reviewed extras + configured tax.
+    // Tree and stand prices are never fixed here. They are verified per customer in /tree-quote/.
+    pricing: {
+      // Bands are by ACTUAL tree height. upToFt is inclusive: a 6.0 ft tree is in the "up to 6" band, 6.1 ft is in the next.
+      // service = pickup from one supplier, standard local delivery and install. removal = optional later removal.
+      // custom: true means no set price, Rowan quotes it. accessReview: true means the price holds only after an access review.
+      bands: [
+        { id: "to4",    label: "Up to 4 ft",               upToFt: 4,    service: 99,  removal: 59 },
+        { id: "to6",    label: "Over 4 ft, up to 6 ft",    upToFt: 6,    service: 149, removal: 79 },
+        { id: "to8",    label: "Over 6 ft, up to 8 ft",    upToFt: 8,    service: 199, removal: 99 },
+        { id: "to10",   label: "Over 8 ft, up to 10 ft",   upToFt: 10,   service: 299, removal: 149 },
+        { id: "to11",   label: "Over 10 ft, up to 11 ft",  upToFt: 11,   service: 399, removal: 199, accessReview: true },
+        { id: "over11", label: "Over 11 ft",               upToFt: null, custom: true }
+      ],
+      // Shown to customers as what the install service covers.
+      includes: [
+        "One supplier pickup and standard local delivery",
+        "Carrying the tree inside",
+        "A fresh cut if needed",
+        "Securing and straightening it in a suitable stand",
+        "Needle cleanup"
+      ],
+      notIncluded: ["The tree", "The stand", "Decorating", "Lights"],
+      // Things Rowan reviews before quoting. They are NEVER priced automatically. Rowan adds a reviewed amount in /tree-quote/.
+      reviewedExtras: ["Stairs", "Difficult access", "Extra stops", "Delivery outside the standard local area", "Unusually heavy or wide tree"],
+      // Delivery only (no install) has no set rate yet: always a custom quote.
+      deliveryOnlyCustom: true,
+      // A supplier or stand price older than this many hours must be checked again before a final quote.
+      verifyMaxAgeHours: 48,
+      // Customer facing line shown above the estimate.
+      notice: "Service pricing shown below. Your tree and stand are priced individually. We confirm the exact total before purchase.",
+      // Tax. Not reviewed yet, so every quote stays an estimate until this is set up.
+      // When reviewed: set reviewed to true and list each tax with its rate (0.0915 means 9.15%)
+      // and which line types it applies to: "tree", "stand", "service", "removal", "extra".
+      // reviewed: true with an empty list means no tax is charged.
+      // Supplier purchase costs are separate: tax paid TO a supplier is part of their price, not this.
+      tax: {
+        reviewed: false,
+        lines: []
+      }
+    }
   }
 };

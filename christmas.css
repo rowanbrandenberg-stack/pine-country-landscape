@@ -253,3 +253,50 @@
 
 /* The base sheet adds its own offset to #book; the header offset already comes from scroll-padding-top. */
 .xmas #book { scroll-margin-top: 0; }
+
+/* Tree request: one question at a time */
+.qz { display: grid; gap: 18px; }
+.qz-top { display: grid; gap: 8px; }
+.qz-count { font-size: var(--t-xs); font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--x-muted); }
+.qz-bar { display: block; height: 6px; border-radius: 99px; background: var(--x-line); overflow: hidden; }
+.qz-bar span { display: block; height: 100%; width: 0; background: var(--x-cran); border-radius: inherit; transition: width .3s ease; }
+.qs { display: grid; gap: 12px; min-height: 120px; outline: none; }
+.qs-q, .xmas .qs .qs-q, .xmas .choice legend.qs-q { font-family: var(--f-display); font-weight: 500; font-size: clamp(1.35rem, 1.1rem + 1vw, 1.75rem); line-height: 1.2; color: var(--x-green); margin: 0 0 4px; padding: 0; }
+.qs-help { font-size: var(--t-sm); color: var(--x-muted); margin: 0; }
+.qs input:not([type=radio]):not([type=file]), .qs select, .qs textarea { font-size: 1.05rem; }
+.seg-list { grid-template-columns: 1fr; }
+.seg-list span { justify-content: flex-start; text-align: left; padding: 12px 16px; min-height: 52px; font-size: 1rem; }
+.qs-price { font-weight: 600; margin-left: 6px; color: var(--x-cran); }
+.qz-nav { display: flex; gap: 10px; align-items: center; }
+.qz-nav [data-qz-back] { margin-right: auto; }
+.qz-nav [data-qz-next], .qz-nav [data-qz-skip] { margin-left: auto; min-width: 120px; }
+.qz-nav [data-qz-back][hidden] + * { margin-left: auto; }
+@media (prefers-reduced-motion: no-preference) {
+  .qs:not([hidden]) { animation: qs-in .25s ease both; }
+  @keyframes qs-in { from { opacity: 0; transform: translateX(14px); } to { opacity: 1; transform: none; } }
+}
+
+/* Live estimate */
+.est-box { border: 1.5px solid var(--x-line); border-radius: 12px; padding: 16px 18px; background: var(--x-ivory); display: grid; gap: 10px; }
+.est-kind { font-size: var(--t-xs); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--x-cran); margin: 0; }
+.est-notice { font-weight: 600; color: var(--x-ink); margin: 0; }
+.est-lines { list-style: none; margin: 0; padding: 0; display: grid; }
+.est-lines li { display: flex; justify-content: space-between; gap: 14px; padding: 9px 0; border-bottom: 1px solid var(--x-line); font-size: var(--t-sm); }
+.est-lines li span { display: grid; }
+.est-lines small { color: var(--x-muted); font-size: var(--t-xs); }
+.est-lines b { white-space: nowrap; color: var(--x-green); text-align: right; }
+.est-known { font-weight: 700; color: var(--x-green); margin: 0; }
+.est-fine { font-size: var(--t-xs); color: var(--x-muted); margin: 0; }
+
+/* Rate card */
+.x-rates { max-width: 860px; }
+.x-rate-note { font-weight: 600; color: var(--x-ink) !important; font-size: var(--t-base, 1rem) !important; }
+.x-rate-wrap { overflow-x: auto; }
+.x-rate-table { width: 100%; border-collapse: collapse; font-size: var(--t-sm); background: #fff; border-radius: 10px; overflow: hidden; }
+.x-rate-table th, .x-rate-table td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--x-line); }
+.x-rate-table thead th { font-size: var(--t-xs); text-transform: uppercase; letter-spacing: .04em; color: var(--x-muted); font-weight: 700; }
+.x-rate-table tbody th { font-weight: 600; color: var(--x-green); }
+.x-rate-table tbody tr:last-child th, .x-rate-table tbody tr:last-child td { border-bottom: 0; }
+.x-rate-fine { font-size: var(--t-xs) !important; }
+.x-rate-table small { display: block; font-size: var(--t-xs); color: var(--x-muted); font-weight: 500; text-transform: none; letter-spacing: 0; }
+@media (max-width: 520px) { .x-rate-table th, .x-rate-table td { padding: 9px 8px; } }

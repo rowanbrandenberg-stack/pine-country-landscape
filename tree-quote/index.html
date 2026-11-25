@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tree Quote Builder | Pine Country Landscape</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#1c3328">
+<link rel="icon" href="/img/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="stylesheet" href="/styles.css?v=20261124a">
+<style>
+  body { background: #eef1ea; }
+  .tq { max-width: 1080px; margin: 0 auto; padding: 24px 16px 80px; display: grid; gap: 18px; }
+  .tq h1 { font-size: 1.8rem; color: #1c3328; margin: 0; }
+  .tq-note { color: #4a554e; font-size: .95rem; margin: 0; }
+  .tq-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 18px; align-items: start; }
+  @media (max-width: 860px) { .tq-grid { grid-template-columns: 1fr; } }
+  .tq fieldset { border: 1px solid #cfd6cc; border-radius: 12px; background: #fff; padding: 14px 16px 16px; margin: 0; display: grid; gap: 10px; }
+  .tq legend { font-weight: 700; color: #1c3328; padding: 0 6px; }
+  .tq label { display: grid; gap: 4px; font-size: .9rem; font-weight: 600; color: #2b332e; }
+  .tq .row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+  .tq input, .tq select { font: inherit; padding: 9px 10px; border: 1.5px solid #b9c2b6; border-radius: 8px; background: #fff; width: 100%; box-sizing: border-box; }
+  .tq .chk { display: flex; gap: 8px; align-items: center; font-weight: 500; }
+  .tq .chk input { width: auto; }
+  .tq [data-if] { display: grid; gap: 10px; }
+  .tq .x-row { display: grid; grid-template-columns: 1fr 110px auto auto; gap: 8px; align-items: center; }
+  .tq button { font: inherit; font-weight: 600; padding: 9px 14px; border-radius: 8px; border: 1.5px solid #1c3328; background: #fff; color: #1c3328; cursor: pointer; }
+  .tq button.pri { background: #1c3328; color: #eef1ea; }
+  .tq-out { position: sticky; top: 12px; background: #fff; border: 1px solid #cfd6cc; border-top: 5px solid #d6a63a; border-radius: 12px; padding: 16px; display: grid; gap: 12px; }
+  .tq-kind { font-size: .8rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; margin: 0; }
+  .tq-kind.final { color: #1f7a45; } .tq-kind.estimate { color: #a5662a; } .tq-kind.custom { color: #8a2b3a; }
+  .tq-lines { list-style: none; padding: 0; margin: 0; }
+  .tq-lines li { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-bottom: 1px solid #e3e8e0; font-size: .92rem; }
+  .tq-lines b { white-space: nowrap; }
+  .tq-total { font-size: 1.25rem; font-weight: 800; color: #1c3328; margin: 0; }
+  .tq-gaps { margin: 0; padding-left: 1.2em; color: #8a2b3a; font-size: .88rem; display: grid; gap: 4px; }
+  .tq textarea { width: 100%; min-height: 170px; font: .85rem/1.45 ui-monospace, Menlo, monospace; border: 1.5px solid #b9c2b6; border-radius: 8px; padding: 10px; box-sizing: border-box; }
+  .tq-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<main class="tq" id="tq">
+  <h1>Christmas tree quote builder</h1>
+  <p class="tq-note">For Rowan only. Rates come from config.js. This page never buys, charges, books or messages anyone: it builds the quote text for you to send yourself. It only says <b>Final quote</b> once the tree, stand, extras, access and tax are all verified. Your draft is saved in this browser only.</p>
+
+  <div class="tq-grid">
+    <form id="tq-form" autocomplete="off">
+      <div style="display:grid;gap:14px">
+        <fieldset><legend>Customer and size</legend>
+          <div class="row">
+            <label>Customer name <input name="customer"></label>
+            <label>Size range they picked
+              <select name="bandId" data-bands><option value="">Not picked</option></select></label>
+            <label>Actual tree height (ft) <input name="heightFt" type="number" step="0.1" min="0" placeholder="7.5"></label>
+          </div>
+          <label class="chk"><input type="checkbox" name="deliveryOnly"> Delivery only (custom quote)</label>
+        </fieldset>
+
+        <fieldset><legend>Tree</legend>
+          <label>Who sources the tree?
+            <select name="sourcing"><option value="unsure">Not decided</option><option value="pine">Pine sources the customer approved tree</option><option value="customer">Customer supplies their own</option></select></label>
+          <div data-if="sourcing=pine">
+            <div class="row">
+              <label>Supplier <input name="t_supplier" placeholder="Lot or store name"></label>
+              <label>Species <input name="t_species" placeholder="Noble fir"></label>
+              <label>Actual height (ft) <input name="t_heightFt" type="number" step="0.1" min="0"></label>
+              <label>Customer price ($) <input name="t_price" type="number" step="0.01" min="0"></label>
+            </div>
+            <div class="row">
+              <label>Availability <select name="t_availability"><option value="unknown">Unknown</option><option value="available">Available, checked</option><option value="unavailable">Not available</option></select></label>
+              <label>Verified at <input name="t_verifiedAt" type="datetime-local"></label>
+            </div>
+            <div class="tq-btns"><button type="button" data-now="t_verifiedAt">Verified just now</button></div>
+            <label class="chk"><input type="checkbox" name="t_customerApproved"> Customer approved this exact tree and price (no substitutions without approval)</label>
+          </div>
+          <div data-if="sourcing=customer">
+            <label>Pickup needed?
+              <select name="pickupNeeded"><option value="">Not checked yet</option><option value="yes">Yes, we pick it up</option><option value="no">No, tree is already on site</option></select></label>
+          </div>
+        </fieldset>
+
+        <fieldset><legend>Stand</legend>
+          <label>Stand <select name="s_mode"><option value="unsure">Not decided</option><option value="pine">Pine provides a stand</option><option value="customer">Customer's own stand</option></select></label>
+          <div data-if="s_mode=pine">
+            <div class="row">
+              <label>Stand model <input name="s_model"></label>
+              <label>Customer price ($) <input name="s_price" type="number" step="0.01" min="0"></label>
+              <label>Availability <select name="s_availability"><option value="unknown">Unknown</option><option value="available">Available, checked</option><option value="unavailable">Not available</option></select></label>
+              <label>Verified at <input name="s_verifiedAt" type="datetime-local"></label>
+            </div>
+            <div class="tq-btns"><button type="button" data-now="s_verifiedAt">Verified just now</button></div>
+          </div>
+          <div data-if="s_mode=customer">
+            <label class="chk"><input type="checkbox" name="s_okHeight"> Rated for this tree height</label>
+            <label class="chk"><input type="checkbox" name="s_okTrunk"> Fits the trunk diameter</label>
+            <label class="chk"><input type="checkbox" name="s_okSpec"> Within the stand maker's specs</label>
+            <label class="chk"><input type="checkbox" name="s_bad"> Checked and NOT suitable (quote a stand instead)</label>
+            <label>Stand notes <input name="s_notes" placeholder="Model, max trunk size..."></label>
+          </div>
+        </fieldset>
+
+        <fieldset><legend>Removal, access and extras</legend>
+          <label class="chk"><input type="checkbox" name="removal"> Add optional later removal (scheduled separately)</label>
+          <label>Access items needing review <input name="accessFlags" placeholder="One flight of stairs; narrow hallway"></label>
+          <label class="chk"><input type="checkbox" name="accessReviewed"> Access reviewed (photos or site visit)</label>
+          <div style="display:grid;gap:8px" data-extras></div>
+          <div class="tq-btns"><button type="button" data-add-extra>Add reviewed extra</button></div>
+        </fieldset>
+      </div>
+    </form>
+
+    <aside class="tq-out" aria-live="polite">
+      <p class="tq-kind" data-kind></p>
+      <ul class="tq-lines" data-lines></ul>
+      <p class="tq-total" data-total></p>
+      <div data-gaps-wrap><p style="margin:0;font-weight:700;color:#8a2b3a">Before this can be final</p><ul class="tq-gaps" data-gaps></ul></div>
+      <label style="font-weight:700">Text for the customer <textarea readonly data-text></textarea></label>
+      <div class="tq-btns">
+        <button type="button" class="pri" data-copy="text">Copy quote text</button>
+        <button type="button" data-copy="record">Copy record (JSON)</button>
+        <button type="button" data-reset>Start over</button>
+      </div>
+      <p class="tq-note" data-copied></p>
+    </aside>
+  </div>
+</main>
+<script src="/config.js?v=20261124a"></script>
+<script src="/pricing.js?v=20261124a"></script>
+<script src="/tree-quote/tree-quote.js?v=20261124a"></script>
+</body>
+</html>
