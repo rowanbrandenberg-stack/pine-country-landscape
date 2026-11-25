@@ -35,5 +35,6 @@ Allow: /
 User-agent: *
 Allow: /
 Disallow: /contract/
+Disallow: /tree-quote/
 
 Sitemap: https://pinecountrylandscape.com/sitemap.xml
